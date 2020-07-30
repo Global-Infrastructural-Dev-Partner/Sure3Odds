@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -31,6 +32,9 @@ public class Payments {
 	private String type;
 	
 	private String platform;
+	
+	@Lob
+	private String referenceCode;
 
 	/**
 	 * 
@@ -124,22 +128,38 @@ public class Payments {
 		this.platform = platform;
 	}
 
+	/**
+	 * @return the referenceCode
+	 */
+	public String getReferenceCode() {
+		return referenceCode;
+	}
+
+	/**
+	 * @param referenceCode the referenceCode to set
+	 */
+	public void setReferenceCode(String referenceCode) {
+		this.referenceCode = referenceCode;
+	}
+
 	@Override
 	public String toString() {
 		return "Payments [id=" + id + ", userID=" + userID + ", planTypeID=" + planTypeID + ", date=" + date + ", type="
-				+ type + ", platform=" + platform + "]";
+				+ type + ", platform=" + platform + ", referenceCode=" + referenceCode + "]";
 	}
 
 	/**
 	 * @param date
 	 * @param type
 	 * @param platform
+	 * @param referenceCode
 	 */
-	public Payments(Date date, String type, String platform) {
+	public Payments(Date date, String type, String platform, String referenceCode) {
 		super();
 		this.date = date;
 		this.type = type;
 		this.platform = platform;
+		this.referenceCode = referenceCode;
 	}
 
 	/**
@@ -147,15 +167,19 @@ public class Payments {
 	 * @param date
 	 * @param type
 	 * @param platform
+	 * @param referenceCode
 	 */
-	public Payments(Long id, Date date, String type, String platform) {
+	public Payments(Long id, Date date, String type, String platform, String referenceCode) {
 		super();
 		this.id = id;
 		this.date = date;
 		this.type = type;
 		this.platform = platform;
+		this.referenceCode = referenceCode;
 	}
+
 	
+
 	
 	
 }

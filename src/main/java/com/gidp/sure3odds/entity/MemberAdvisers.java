@@ -8,8 +8,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "sure_user_advisers")
-public class UserAdvisers {
+@Table(name = "sure_member_advisers")
+public class MemberAdvisers {
 
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)

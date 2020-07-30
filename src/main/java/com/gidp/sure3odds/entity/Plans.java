@@ -1,0 +1,142 @@
+package com.gidp.sure3odds.entity;
+
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table (name = "sure_plans")
+public class Plans {
+
+	@Id
+	@GeneratedValue (strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@ManyToOne
+	private Users userID;
+	
+	@ManyToOne
+	private PlanTypes planTypeID;
+	
+	@Temporal (TemporalType.DATE)
+	private Date startDate;
+	
+	@Temporal (TemporalType.DATE)
+	private Date endDate;
+
+	/**
+	 * 
+	 */
+	public Plans() {
+		super();
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the userID
+	 */
+	public Users getUserID() {
+		return userID;
+	}
+
+	/**
+	 * @param userID the userID to set
+	 */
+	public void setUserID(Users userID) {
+		this.userID = userID;
+	}
+
+	/**
+	 * @return the planTypeID
+	 */
+	public PlanTypes getPlanTypeID() {
+		return planTypeID;
+	}
+
+	/**
+	 * @param planTypeID the planTypeID to set
+	 */
+	public void setPlanTypeID(PlanTypes planTypeID) {
+		this.planTypeID = planTypeID;
+	}
+
+	/**
+	 * @return the startDate
+	 */
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	/**
+	 * @param startDate the startDate to set
+	 */
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	/**
+	 * @return the endDate
+	 */
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	/**
+	 * @param endDate the endDate to set
+	 */
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	@Override
+	public String toString() {
+		return "Plans [id=" + id + ", userID=" + userID + ", planTypeID=" + planTypeID + ", startDate=" + startDate
+				+ ", endDate=" + endDate + "]";
+	}
+
+	/**
+	 * @param startDate
+	 * @param endDate
+	 */
+	public Plans(Date startDate, Date endDate) {
+		super();
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+
+	/**
+	 * @param id
+	 * @param startDate
+	 * @param endDate
+	 */
+	public Plans(Long id, Date startDate, Date endDate) {
+		super();
+		this.id = id;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+	
+	
+	
+	
+}

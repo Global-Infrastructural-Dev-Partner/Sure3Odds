@@ -3,6 +3,9 @@ package com.gidp.sure3odds.entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -12,6 +15,8 @@ import javax.persistence.TemporalType;
 @Table (name = "sure_predictions")
 public class Predictions {
 
+	@Id
+	@GeneratedValue (strategy = GenerationType.AUTO)
 	private Long id;
 	
 	@ManyToOne

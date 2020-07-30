@@ -14,7 +14,7 @@ public class Votes {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String id;
+	private Long id;
 
 	@ManyToOne
 	private Games gameID;
@@ -40,14 +40,14 @@ public class Votes {
 	/**
 	 * @return the id
 	 */
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -148,7 +148,7 @@ public class Votes {
 	 * @param awayVote
 	 * @param drawVote
 	 */
-	public Votes(String id, int userVote, int homeVote, int awayVote, int drawVote) {
+	public Votes(Long id, int userVote, int homeVote, int awayVote, int drawVote) {
 		super();
 		this.id = id;
 		this.userVote = userVote;

@@ -1,6 +1,7 @@
 package com.gidp.sure3odds.entity;
 
-import javax.persistence.Column;
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,8 +18,7 @@ public class Users {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private String ID;
+	private Long id;
 
 	@ManyToOne
 	private UserTypes userTypeID;
@@ -30,7 +30,7 @@ public class Users {
 	private String password;
 
 	@Temporal(TemporalType.DATE)
-	private String datejoined;
+	private Date datejoined;
 
 	private String status;
 
@@ -39,17 +39,25 @@ public class Users {
 	private String assigned;
 
 	/**
-	 * @return the iD
+	 * 
 	 */
-	public String getID() {
-		return ID;
+	public Users() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param iD the iD to set
+	 * @return the id
 	 */
-	public void setID(String iD) {
-		ID = iD;
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	/**
@@ -111,14 +119,14 @@ public class Users {
 	/**
 	 * @return the datejoined
 	 */
-	public String getDatejoined() {
+	public Date getDatejoined() {
 		return datejoined;
 	}
 
 	/**
 	 * @param datejoined the datejoined to set
 	 */
-	public void setDatejoined(String datejoined) {
+	public void setDatejoined(Date datejoined) {
 		this.datejoined = datejoined;
 	}
 
@@ -164,13 +172,6 @@ public class Users {
 		this.assigned = assigned;
 	}
 
-	@Override
-	public String toString() {
-		return "Users [ID=" + ID + ", userTypeID=" + userTypeID + ", email=" + email + ", phone=" + phone
-				+ ", password=" + password + ", datejoined=" + datejoined + ", status=" + status + ", device_token="
-				+ device_token + ", assigned=" + assigned + "]";
-	}
-
 	/**
 	 * @param email
 	 * @param phone
@@ -180,7 +181,7 @@ public class Users {
 	 * @param device_token
 	 * @param assigned
 	 */
-	public Users(String email, String phone, String password, String datejoined, String status, String device_token,
+	public Users(String email, String phone, String password, Date datejoined, String status, String device_token,
 			String assigned) {
 		super();
 		this.email = email;
@@ -193,7 +194,7 @@ public class Users {
 	}
 
 	/**
-	 * @param iD
+	 * @param id
 	 * @param email
 	 * @param phone
 	 * @param password
@@ -202,10 +203,10 @@ public class Users {
 	 * @param device_token
 	 * @param assigned
 	 */
-	public Users(String iD, String email, String phone, String password, String datejoined, String status,
+	public Users(Long id, String email, String phone, String password, Date datejoined, String status,
 			String device_token, String assigned) {
 		super();
-		ID = iD;
+		this.id = id;
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
@@ -215,10 +216,11 @@ public class Users {
 		this.assigned = assigned;
 	}
 
-	
-
-	
-	
-	
+	@Override
+	public String toString() {
+		return "Users [id=" + id + ", userTypeID=" + userTypeID + ", email=" + email + ", phone=" + phone
+				+ ", password=" + password + ", datejoined=" + datejoined + ", status=" + status + ", device_token="
+				+ device_token + ", assigned=" + assigned + "]";
+	}
 
 }

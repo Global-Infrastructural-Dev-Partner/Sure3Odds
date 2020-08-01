@@ -1,32 +1,36 @@
 /**
- * 
+ *
  */
 package com.gidp.sure3odds.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 /**
  * @author mac
  *
  */
 @Entity
-@Table (name = "sure_admins")
+@Table(name = "sure_admins")
 public class Admins {
 
-	
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@GeneratedValue(generator = "admin-generator")
+	@GenericGenerator(name = "admin-generator", parameters = @Parameter(name = "prefix", value = "admin"), strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator")
+	@Column(name = "id", nullable = false, updatable = false)
 	private Long id;
-	
+
 	private String firstname;
-	
+
 	private String lastname;
-	
+
 	@OneToOne
 	private Users userID;
 
@@ -72,7 +76,6 @@ public class Admins {
 		this.lastname = lastname;
 	}
 
-	
 	/**
 	 * @return the userID
 	 */
@@ -93,7 +96,7 @@ public class Admins {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public Admins() {
 		super();
@@ -120,6 +123,5 @@ public class Admins {
 		this.firstname = firstname;
 		this.lastname = lastname;
 	}
-	
-	
+
 }

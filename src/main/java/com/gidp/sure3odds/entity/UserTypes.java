@@ -1,26 +1,26 @@
 package com.gidp.sure3odds.entity;
 
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
 
 @Entity
 @Table(name = "sure_user_types")
 
 public class UserTypes {
-	
+
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_user_types_seq")
+	@SequenceGenerator(name = "sure_user_types_seq", sequenceName = "sure_user_types_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
-	
 
 	private String name;
 
-	
 	/**
 	 * @return the id
 	 */
@@ -49,15 +49,13 @@ public class UserTypes {
 		this.name = name;
 	}
 
-	
-
 	@Override
 	public String toString() {
 		return "UserTypes [id=" + id + ", name=" + name + "]";
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public UserTypes() {
 		super();
@@ -80,6 +78,5 @@ public class UserTypes {
 		super();
 		this.name = name;
 	}
-	
-	
+
 }

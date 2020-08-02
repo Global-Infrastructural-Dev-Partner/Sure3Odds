@@ -1,23 +1,27 @@
 package com.gidp.sure3odds.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table (name = "sure_plan_types")
+@Table(name = "sure_plan_types")
 public class PlanTypes {
 
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_plan_types_seq")
+	@SequenceGenerator(name = "sure_plan_types_seq", sequenceName = "sure_plan_types_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
-	
+
 	private String name;
 
 	/**
-	 * 
+	 *
 	 */
 	public PlanTypes() {
 		super();
@@ -73,6 +77,5 @@ public class PlanTypes {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
 }

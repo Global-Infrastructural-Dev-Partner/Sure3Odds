@@ -6,12 +6,11 @@ package com.gidp.sure3odds.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 /**
  * @author mac
@@ -22,9 +21,10 @@ import org.hibernate.annotations.Parameter;
 public class Admins {
 
 	@Id
-	@GeneratedValue(generator = "admin-generator")
-	@GenericGenerator(name = "admin-generator", parameters = @Parameter(name = "prefix", value = "admin"), strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator")
 	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_admins_seq")
+	@SequenceGenerator(name = "sure_admins_seq", sequenceName = "sure_admins_seq", initialValue = 1, allocationSize = 1)
+
 	private Long id;
 
 	private String firstname;

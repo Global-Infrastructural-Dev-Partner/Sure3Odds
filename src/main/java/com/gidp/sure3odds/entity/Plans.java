@@ -2,37 +2,41 @@ package com.gidp.sure3odds.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table (name = "sure_plans")
+@Table(name = "sure_plans")
 public class Plans {
 
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_plans_seq")
+	@SequenceGenerator(name = "sure_plans_seq", sequenceName = "sure_plans_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
-	
+
 	@ManyToOne
 	private Users userID;
-	
+
 	@ManyToOne
 	private PlanTypes planTypeID;
-	
-	@Temporal (TemporalType.DATE)
+
+	@Temporal(TemporalType.DATE)
 	private Date startDate;
-	
-	@Temporal (TemporalType.DATE)
+
+	@Temporal(TemporalType.DATE)
 	private Date endDate;
 
 	/**
-	 * 
+	 *
 	 */
 	public Plans() {
 		super();
@@ -135,8 +139,5 @@ public class Plans {
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
-	
-	
-	
-	
+
 }

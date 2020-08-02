@@ -1,21 +1,25 @@
 package com.gidp.sure3odds.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table (name = "sure_paremeters")
+@Table(name = "sure_paremeters")
 public class Parameters {
 
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_paremeters_seq")
+	@SequenceGenerator(name = "sure_paremeters_seq", sequenceName = "sure_paremeters_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
-	
+
 	private String name;
-	
+
 	private String value;
 
 	/**
@@ -61,7 +65,7 @@ public class Parameters {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public Parameters() {
 		super();
@@ -94,7 +98,5 @@ public class Parameters {
 		this.name = name;
 		this.value = value;
 	}
-	
-	
-	
+
 }

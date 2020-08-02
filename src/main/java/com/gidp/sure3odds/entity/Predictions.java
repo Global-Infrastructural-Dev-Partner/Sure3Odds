@@ -2,51 +2,55 @@ package com.gidp.sure3odds.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table (name = "sure_predictions")
+@Table(name = "sure_predictions")
 public class Predictions {
 
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_predictions_seq")
+	@SequenceGenerator(name = "sure_predictions_seq", sequenceName = "sure_predictions_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
-	
+
 	@ManyToOne
 	private Leagues leagueID;
-	
+
 	@ManyToOne
 	private Teams homeTeamID;
-	
+
 	@ManyToOne
 	private Teams awayTeamID;
-	
+
 	@ManyToOne
 	private Sets setID;
-	
-	@Temporal (TemporalType.DATE)
+
+	@Temporal(TemporalType.DATE)
 	private Date matchDate;
-	
-	@Temporal (TemporalType.TIME)
+
+	@Temporal(TemporalType.TIME)
 	private Date matchTime;
 
 	private String prediction;
-	
+
 	private double odds;
-	
+
 	private String status;
-	
+
 	private int confidenceLevel;
 
 	/**
-	 * 
+	 *
 	 */
 	public Predictions() {
 		super();
@@ -135,7 +139,6 @@ public class Predictions {
 	public void setMatchDate(Date matchDate) {
 		this.matchDate = matchDate;
 	}
-
 
 	/**
 	 * @return the matchTime
@@ -255,11 +258,4 @@ public class Predictions {
 		this.confidenceLevel = confidenceLevel;
 	}
 
-
-
-	
-	
-	
-	
-	
 }

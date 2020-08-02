@@ -2,11 +2,13 @@ package com.gidp.sure3odds.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,7 +18,9 @@ import javax.persistence.TemporalType;
 public class Games {
 
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_games_seq")
+	@SequenceGenerator(name = "sure_games_seq", sequenceName = "sure_games_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
 
 	@ManyToOne
@@ -27,12 +31,12 @@ public class Games {
 
 	@ManyToOne
 	private Teams awayTeamID;
-	
+
 	@ManyToOne
 	private Sets setID;
 
 	private int homeTeamScore;
-	
+
 	private int awayTeamScore;
 
 	private String prediction;
@@ -50,7 +54,7 @@ public class Games {
 	private Date matchTime;
 
 	/**
-	 * 
+	 *
 	 */
 	public Games() {
 		super();
@@ -295,7 +299,5 @@ public class Games {
 		this.matchDate = matchDate;
 		this.matchTime = matchTime;
 	}
-
-	
 
 }

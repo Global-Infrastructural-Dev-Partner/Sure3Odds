@@ -2,40 +2,42 @@ package com.gidp.sure3odds.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table (name = "sure_comments")
+@Table(name = "sure_comments")
 public class Comments {
 
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_comments_seq")
+	@SequenceGenerator(name = "sure_comments_seq", sequenceName = "sure_comments_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
-	
+
 	@Lob
 	private String comments;
-	
-	@Temporal (TemporalType.DATE)
+
+	@Temporal(TemporalType.DATE)
 	private Date date;
-	
-	@Temporal (TemporalType.TIME)
+
+	@Temporal(TemporalType.TIME)
 	private Date time;
-	
+
 	@ManyToOne
 	private Users userID;
-	
+
 	@ManyToOne
 	private Games gameID;
-
-	
 
 	/**
 	 * @return the id
@@ -93,9 +95,6 @@ public class Comments {
 		this.time = time;
 	}
 
-	
-
-
 	/**
 	 * @return the userID
 	 */
@@ -131,7 +130,7 @@ public class Comments {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public Comments() {
 		super();
@@ -163,7 +162,4 @@ public class Comments {
 		this.time = time;
 	}
 
-	
-	
-	
 }

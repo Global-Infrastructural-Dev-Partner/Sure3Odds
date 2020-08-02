@@ -1,13 +1,15 @@
 /**
- * 
+ *
  */
 package com.gidp.sure3odds.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -15,18 +17,19 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table (name = "sure_advisers")
+@Table(name = "sure_advisers")
 public class Advisers {
 
-	
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_advisers_seq")
+	@SequenceGenerator(name = "sure_advisers_seq", sequenceName = "sure_advisers_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
-	
+
 	private String firstname;
-	
+
 	private String lastname;
-	
+
 	@OneToOne
 	private Users userID;
 
@@ -72,9 +75,6 @@ public class Advisers {
 		this.lastname = lastname;
 	}
 
-
-
-
 	/**
 	 * @return the userID
 	 */
@@ -96,7 +96,7 @@ public class Advisers {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public Advisers() {
 		super();
@@ -123,6 +123,5 @@ public class Advisers {
 		this.firstname = firstname;
 		this.lastname = lastname;
 	}
-	
-	
+
 }

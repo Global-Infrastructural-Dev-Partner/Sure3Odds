@@ -1,19 +1,22 @@
 package com.gidp.sure3odds.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
 
 @Entity
 @Table(name = "sure_votes")
 public class Votes {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_votes_seq")
+	@SequenceGenerator(name = "sure_votes_seq", sequenceName = "sure_votes_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
 
 	@ManyToOne
@@ -31,7 +34,7 @@ public class Votes {
 	private int drawVote;
 
 	/**
-	 * 
+	 *
 	 */
 	public Votes() {
 		super();
@@ -171,10 +174,4 @@ public class Votes {
 		this.drawVote = drawVote;
 	}
 
-	
-	
-	
-	
-	
-	
 }

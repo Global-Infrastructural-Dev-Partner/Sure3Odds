@@ -1,20 +1,24 @@
 package com.gidp.sure3odds.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-
 @Entity
-@Table (name = "sure_sets")
+@Table(name = "sure_sets")
 public class Sets {
 
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_sets_seq")
+	@SequenceGenerator(name = "sure_sets_seq", sequenceName = "sure_sets_seq", initialValue = 1, allocationSize = 1)
+
 	private Long id;
-	
+
 	private String name;
 
 	@Override
@@ -69,14 +73,11 @@ public class Sets {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public Sets() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	
-	
+
 }

@@ -2,11 +2,13 @@ package com.gidp.sure3odds.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,7 +19,9 @@ import javax.persistence.TemporalType;
 public class Users {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_users_seq")
+	@SequenceGenerator(name = "sure_users_seq", sequenceName = "sure_users_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
 
 	@ManyToOne
@@ -36,10 +40,10 @@ public class Users {
 
 	private String device_token;
 
-	private String assigned;
+	private String assigned = "Pending";
 
 	/**
-	 * 
+	 *
 	 */
 	public Users() {
 		super();

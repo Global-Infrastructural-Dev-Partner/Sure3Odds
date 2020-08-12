@@ -9,13 +9,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "sure_paremeters")
+@Table(name = "sure_parameters")
 public class Parameters {
 
 	@Id
 	@Column(name = "id", nullable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_paremeters_seq")
-	@SequenceGenerator(name = "sure_paremeters_seq", sequenceName = "sure_paremeters_seq", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_parameters_seq")
+	@SequenceGenerator(name = "sure_parameters_seq", sequenceName = "sure_parameters_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
 
 	private String name;

@@ -1,8 +1,10 @@
 package com.gidp.sure3odds;
 
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
@@ -14,7 +16,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
 public class Sure3oddsApplication {
-
+	 OkHttp3ClientHttpRequestFactory client = new OkHttp3ClientHttpRequestFactory();
+	 
+	 
 	public static void main(String[] args) {
 		SpringApplication.run(Sure3oddsApplication.class, args);
 	}
@@ -29,5 +33,12 @@ public class Sure3oddsApplication {
 		return new ApiInfoBuilder().title("Sure3Odds API").license("").licenseUrl("").termsOfServiceUrl("")
 				.version("1.0").build();
 	}
+
+	
+	@Bean
+	  ApplicationRunner init() {
+
+		return null;
+	  }
 
 }

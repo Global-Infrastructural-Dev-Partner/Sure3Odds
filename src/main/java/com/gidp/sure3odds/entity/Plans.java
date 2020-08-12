@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -24,9 +25,11 @@ public class Plans {
 	private Long id;
 
 	@ManyToOne
+	@JoinColumn(name ="userid")
 	private Users userID;
 
 	@ManyToOne
+	@JoinColumn(name ="plantypeid")
 	private PlanTypes planTypeID;
 
 	@Temporal(TemporalType.DATE)

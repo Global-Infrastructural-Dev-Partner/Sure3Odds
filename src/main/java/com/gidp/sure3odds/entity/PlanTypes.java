@@ -1,5 +1,7 @@
 package com.gidp.sure3odds.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +21,8 @@ public class PlanTypes {
 	private Long id;
 
 	private String name;
+	
+	private BigDecimal  amount;
 
 	/**
 	 *
@@ -77,5 +81,39 @@ public class PlanTypes {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+
+	/**
+	 * @param id
+	 * @param name
+	 * @param amount
+	 */
+	public PlanTypes(Long id, String name, BigDecimal amount) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.amount = amount;
+	}
+
+	/**
+	 * @param name
+	 * @param amount
+	 */
+	public PlanTypes(String name, BigDecimal amount) {
+		super();
+		this.name = name;
+		this.amount = amount;
+	}
+
+
+	
+	
 
 }

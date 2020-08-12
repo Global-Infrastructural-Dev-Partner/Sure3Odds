@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -24,15 +25,19 @@ public class Predictions {
 	private Long id;
 
 	@ManyToOne
+	@JoinColumn(name ="leagueid")
 	private Leagues leagueID;
 
 	@ManyToOne
+	@JoinColumn(name ="hometeamid")
 	private Teams homeTeamID;
 
 	@ManyToOne
+	@JoinColumn(name ="awayteamid")
 	private Teams awayTeamID;
 
 	@ManyToOne
+	@JoinColumn(name ="setid")
 	private Sets setID;
 
 	@Temporal(TemporalType.DATE)

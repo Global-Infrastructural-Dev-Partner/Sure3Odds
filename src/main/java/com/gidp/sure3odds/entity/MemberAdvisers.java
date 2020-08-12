@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -20,10 +21,12 @@ public class MemberAdvisers {
 	private Long id;
 
 	@ManyToOne
-	private Members memberUserID;
+	@JoinColumn(name ="memberuserid")
+	private Users memberUserID;
 
 	@ManyToOne
-	private Advisers adviserUserID;
+	@JoinColumn(name ="adviseruserid")
+	private Users adviserUserID;
 
 	/**
 	 * @return the id
@@ -39,32 +42,21 @@ public class MemberAdvisers {
 		this.id = id;
 	}
 
-	/**
-	 * @return the memberUserID
-	 */
-	public Members getMemberUserID() {
+	public Users getMemberUserID() {
 		return memberUserID;
 	}
 
-	/**
-	 * @param memberUserID the memberUserID to set
-	 */
-	public void setMemberUserID(Members memberUserID) {
+	public void setMemberUserID(Users memberUserID) {
 		this.memberUserID = memberUserID;
 	}
 
-	/**
-	 * @return the adviserUserID
-	 */
-	public Advisers getAdviserUserID() {
+	public Users getAdviserUserID() {
 		return adviserUserID;
 	}
 
-	/**
-	 * @param adviserUserID the adviserUserID to set
-	 */
-	public void setAdviserUserID(Advisers adviserUserID) {
+	public void setAdviserUserID(Users adviserUserID) {
 		this.adviserUserID = adviserUserID;
 	}
 
+	
 }

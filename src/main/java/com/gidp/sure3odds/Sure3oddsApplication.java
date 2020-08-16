@@ -51,9 +51,9 @@ public class Sure3oddsApplication {
     @Bean
     ApplicationRunner init() {
 
-//        String url = "https://footystats.org/zimbabwe/premier-soccer-league";
+//        String url = "https://.../zimbabwe/premier-soccer-league";
 //        try {
-//            Document page = Jsoup.connect(url).userAgent("https://footystats.org/").get();
+//            Document page = Jsoup.connect(url).userAgent("https://.../").get();
 ////            Elements teamElements = page.select(".cf.mt1e.rmt0.row .table-wrapper  .full-league-table.table-sort.col-sm-12.mobify-table .team.borderRightContent");//country 170
 //            Elements teamElements = page.select(/**/".cf.mt1e .cf.section .table-wrapper .full-league-table.table-sort.col-sm-12.mobify-table .team.borderRightContent");//country 170
 ////            Elements teamElements = page.select(".cf.mt1e .cf.section .cf .table-wrapper .full-league-table.table-sort.col-sm-12.mobify-table .team.borderRightContent");//country 170
@@ -82,10 +82,10 @@ public class Sure3oddsApplication {
 //        }
 
 
-//        String url = "https://footystats.org/api";
+//        String url = "https://.../api";
 //        try {
 //
-//            Document page = Jsoup.connect(url).userAgent("https://footystats.org/").get();
+//            Document page = Jsoup.connect(url).userAgent("https://.../").get();
 //            Elements countryElements = page.select(".leagues-offered .col-lg-8.col-sm-12.pb2e .league-data");
 //            List<Element> countries = new ArrayList<>();
 //            for (Element e : countryElements) {

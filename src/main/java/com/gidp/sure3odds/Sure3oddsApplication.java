@@ -33,7 +33,7 @@ public class Sure3oddsApplication {
         SpringApplication.run(Sure3oddsApplication.class, args);
 
 
-//
+//http://localhost:8080/swagger-ui.html
     }
 
     @Bean

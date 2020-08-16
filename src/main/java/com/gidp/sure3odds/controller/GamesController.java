@@ -1,10 +1,7 @@
 package com.gidp.sure3odds.controller;
 
 import com.gidp.sure3odds.entity.*;
-import com.gidp.sure3odds.service.CountriesService;
-import com.gidp.sure3odds.service.LeaguesService;
-import com.gidp.sure3odds.service.SetsService;
-import com.gidp.sure3odds.service.TeamsService;
+import com.gidp.sure3odds.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +24,9 @@ public class GamesController {
 
     @Autowired
     TeamsService teamsService;
+
+    @Autowired
+    PredictionsService predictionsService;
 
 
 
@@ -222,6 +222,16 @@ public class GamesController {
         }
     }
 
+    @GetMapping(value = "/games/league/search_by_name")
+    ResponseEntity<?> searchLeagueByName(@RequestParam String name) {
+        BaseResponse response = leaguesService.SearchLeaguesByName(name);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping(value = "/games/league/delete/{id}")
     ResponseEntity<?> deleteLeague(@RequestParam Long id) {
         BaseResponse response = leaguesService.DeleteLeague(id);
@@ -343,8 +353,8 @@ public class GamesController {
 
 
     @PostMapping(value = "/games/prediction/create")
-    ResponseEntity<?> CreatePrediction(@RequestParam Predictions predictions) {
-        BaseResponse response = null;
+    ResponseEntity<?> CreatePrediction(@RequestBody NewGameAndPrediction newGameAndPrediction) {
+        BaseResponse response =  predictionsService.CreatePrediction(newGameAndPrediction);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {

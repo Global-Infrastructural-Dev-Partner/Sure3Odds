@@ -120,33 +120,6 @@ public class GamesService {
 
     }
 
-//    public BaseResponse searchByFirstNameOrLastName(Long usertypeid, String searchValue) {
-//        BaseResponse response = new BaseResponse();
-//        List<Users> users = usersRepository.searchByFirstNameOrLastName(searchValue);
-//        ArrayList<Object> data = new ArrayList<>();
-//        if (!users.isEmpty()) {
-//            for (Users user : users) {
-//                Long usertypeID = user.getUserTypeID().getId();
-//                if (usertypeID == usertypeid) {
-//                    data.add(user);
-//                }
-//            }
-//            if (!data.isEmpty()) {
-//                response.setData(data);
-//                response.setDescription("usertypes found succesfully.");
-//                response.setStatusCode(HttpServletResponse.SC_OK);
-//            } else {
-//                response.setDescription("No result found.");
-//                response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-//            }
-//
-//        } else {
-//            response.setDescription("No result found.");
-//            response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-//        }
-//        return response;
-//
-//    }
 
 
 }

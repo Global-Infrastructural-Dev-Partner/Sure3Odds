@@ -2,6 +2,7 @@ package com.gidp.sure3odds.entity;
 
 public class NewGameAndPrediction {
 
+    private Countries countryID;
 
     private Leagues leagueID;
 
@@ -83,5 +84,11 @@ public class NewGameAndPrediction {
         this.status = status;
     }
 
+    public Countries getCountryID() {
+        return countryID;
+    }
 
+    public void setCountryID(Countries countryID) {
+        this.countryID = countryID;
+    }
 }

@@ -1,18 +1,8 @@
 package com.gidp.sure3odds.entity;
 
+import javax.persistence.*;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "sure_predictions")
@@ -25,7 +15,11 @@ public class Predictions {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name ="leagueid")
+	@JoinColumn(name = "countryid")
+	private Countries countryID;
+
+	@ManyToOne
+	@JoinColumn(name = "leagueid")
 	private Leagues leagueID;
 
 	@ManyToOne
@@ -215,45 +209,7 @@ public class Predictions {
 		this.confidenceLevel = confidenceLevel;
 	}
 
-	@Override
-	public String toString() {
-		return "Predictions [id=" + id + ", leagueID=" + leagueID + ", homeTeamID=" + homeTeamID + ", awayTeamID="
-				+ awayTeamID + ", setID=" + setID + ", matchDate=" + matchDate + ", matchTime=" + matchTime
-				+ ", prediction=" + prediction + ", odds=" + odds + ", status=" + status + ", confidenceLevel="
-				+ confidenceLevel + "]";
-	}
-
-	/**
-	 * @param matchDate
-	 * @param matchTime
-	 * @param prediction
-	 * @param odds
-	 * @param status
-	 * @param confidenceLevel
-	 */
-	public Predictions(Date matchDate, Date matchTime, String prediction, double odds, String status,
-			int confidenceLevel) {
-		super();
-		this.matchDate = matchDate;
-		this.matchTime = matchTime;
-		this.prediction = prediction;
-		this.odds = odds;
-		this.status = status;
-		this.confidenceLevel = confidenceLevel;
-	}
-
-	/**
-	 * @param id
-	 * @param matchDate
-	 * @param matchTime
-	 * @param prediction
-	 * @param odds
-	 * @param status
-	 * @param confidenceLevel
-	 */
-	public Predictions(Long id, Date matchDate, Date matchTime, String prediction, double odds, String status,
-			int confidenceLevel) {
-		super();
+	public Predictions(Long id, Date matchDate, Date matchTime, String prediction, double odds, String status, int confidenceLevel) {
 		this.id = id;
 		this.matchDate = matchDate;
 		this.matchTime = matchTime;
@@ -263,4 +219,38 @@ public class Predictions {
 		this.confidenceLevel = confidenceLevel;
 	}
 
+	public Predictions(Date matchDate, Date matchTime, String prediction, double odds, String status, int confidenceLevel) {
+		this.matchDate = matchDate;
+		this.matchTime = matchTime;
+		this.prediction = prediction;
+		this.odds = odds;
+		this.status = status;
+		this.confidenceLevel = confidenceLevel;
+	}
+
+	public Countries getCountryID() {
+		return countryID;
+	}
+
+	public void setCountryID(Countries countryID) {
+		this.countryID = countryID;
+	}
+
+	@Override
+	public String toString() {
+		return "Predictions{" +
+				"id=" + id +
+				", countryID=" + countryID +
+				", leagueID=" + leagueID +
+				", homeTeamID=" + homeTeamID +
+				", awayTeamID=" + awayTeamID +
+				", setID=" + setID +
+				", matchDate=" + matchDate +
+				", matchTime=" + matchTime +
+				", prediction='" + prediction + '\'' +
+				", odds=" + odds +
+				", status='" + status + '\'' +
+				", confidenceLevel=" + confidenceLevel +
+				'}';
+	}
 }

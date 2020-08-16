@@ -1,18 +1,7 @@
 package com.gidp.sure3odds.entity;
 
+import javax.persistence.*;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "sure_games")
@@ -23,6 +12,10 @@ public class Games {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_games_seq")
 	@SequenceGenerator(name = "sure_games_seq", sequenceName = "sure_games_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
+
+	@ManyToOne
+	@JoinColumn(name = "countryid")
+	private Countries countryID;
 
 	@ManyToOne
 	@JoinColumn(name ="leagueid")
@@ -248,28 +241,7 @@ public class Games {
 		this.matchTime = matchTime;
 	}
 
-	@Override
-	public String toString() {
-		return "Games [id=" + id + ", leagueID=" + leagueID + ", homeTeamID=" + homeTeamID + ", awayTeamID="
-				+ awayTeamID + ", setID=" + setID + ", homeTeamScore=" + homeTeamScore + ", awayTeamScore="
-				+ awayTeamScore + ", prediction=" + prediction + ", odds=" + odds + ", confidenceLevel="
-				+ confidenceLevel + ", status=" + status + ", matchDate=" + matchDate + ", matchTime=" + matchTime
-				+ "]";
-	}
-
-	/**
-	 * @param homeTeamScore
-	 * @param awayTeamScore
-	 * @param prediction
-	 * @param odds
-	 * @param confidenceLevel
-	 * @param status
-	 * @param matchDate
-	 * @param matchTime
-	 */
-	public Games(int homeTeamScore, int awayTeamScore, String prediction, double odds, int confidenceLevel,
-			String status, Date matchDate, Date matchTime) {
-		super();
+	public Games(int homeTeamScore, int awayTeamScore, String prediction, double odds, int confidenceLevel, String status, Date matchDate, Date matchTime) {
 		this.homeTeamScore = homeTeamScore;
 		this.awayTeamScore = awayTeamScore;
 		this.prediction = prediction;
@@ -280,20 +252,15 @@ public class Games {
 		this.matchTime = matchTime;
 	}
 
-	/**
-	 * @param id
-	 * @param homeTeamScore
-	 * @param awayTeamScore
-	 * @param prediction
-	 * @param odds
-	 * @param confidenceLevel
-	 * @param status
-	 * @param matchDate
-	 * @param matchTime
-	 */
-	public Games(Long id, int homeTeamScore, int awayTeamScore, String prediction, double odds, int confidenceLevel,
-			String status, Date matchDate, Date matchTime) {
-		super();
+	public Countries getCountryID() {
+		return countryID;
+	}
+
+	public void setCountryID(Countries countryID) {
+		this.countryID = countryID;
+	}
+
+	public Games(Long id, int homeTeamScore, int awayTeamScore, String prediction, double odds, int confidenceLevel, String status, Date matchDate, Date matchTime) {
 		this.id = id;
 		this.homeTeamScore = homeTeamScore;
 		this.awayTeamScore = awayTeamScore;
@@ -305,4 +272,23 @@ public class Games {
 		this.matchTime = matchTime;
 	}
 
+	@Override
+	public String toString() {
+		return "Games{" +
+				"id=" + id +
+				", countryID=" + countryID +
+				", leagueID=" + leagueID +
+				", homeTeamID=" + homeTeamID +
+				", awayTeamID=" + awayTeamID +
+				", setID=" + setID +
+				", homeTeamScore=" + homeTeamScore +
+				", awayTeamScore=" + awayTeamScore +
+				", prediction='" + prediction + '\'' +
+				", odds=" + odds +
+				", confidenceLevel=" + confidenceLevel +
+				", status='" + status + '\'' +
+				", matchDate=" + matchDate +
+				", matchTime=" + matchTime +
+				'}';
+	}
 }

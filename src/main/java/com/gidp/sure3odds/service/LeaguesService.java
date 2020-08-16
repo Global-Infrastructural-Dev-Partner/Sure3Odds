@@ -110,4 +110,18 @@ public class LeaguesService {
 
 	}
 
+	public BaseResponse SearchLeaguesByName(String name) {
+		BaseResponse response = new BaseResponse();
+		List<Leagues> leagues = leaguesRepository.findLeaguesByNameContainingOrderByName(name);
+		if (!leagues.isEmpty()) {
+			response.setData(leagues);
+			response.setDescription("Teams found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No result found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+
 }

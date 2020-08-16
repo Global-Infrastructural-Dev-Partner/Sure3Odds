@@ -1,7 +1,6 @@
 package com.gidp.sure3odds.service;
 
 import com.gidp.sure3odds.entity.BaseResponse;
-import com.gidp.sure3odds.entity.Leagues;
 import com.gidp.sure3odds.entity.Teams;
 import com.gidp.sure3odds.repository.LeaguesRepository;
 import com.gidp.sure3odds.repository.TeamsRepository;
@@ -166,7 +165,7 @@ public class TeamsService {
 
 	public BaseResponse SearchTeamsByName(String name) {
 		BaseResponse response = new BaseResponse();
-		List<Teams> teams = teamsRepository.findTeamsByNameContaining(name);
+		List<Teams> teams = teamsRepository.findTeamsByNameContainingOrderByName(name);
 		if (!teams.isEmpty()) {
 			response.setData(teams);
 			response.setDescription("Teams found succesfully.");

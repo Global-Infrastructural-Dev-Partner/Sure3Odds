@@ -10,6 +10,5 @@ import java.util.List;
 public interface CountriesRepository extends JpaRepository<Countries, Long> {
 
 
-//    @Query(value = "SELECT * FROM sure_users WHERE firstname like ?1 or lastname like ?1", nativeQuery = true)
-    List<Countries> findByName(String name);
+    List<Countries> findCountriesByNameContainingOrderByName(String name);
 }

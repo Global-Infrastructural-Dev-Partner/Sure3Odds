@@ -125,7 +125,7 @@ public class CountriesService {
 
     public BaseResponse SearchCountries(String name) {
         BaseResponse response = new BaseResponse();
-        List<Countries> countries = countriesRepository.findByName(name);
+        List<Countries> countries = countriesRepository.findCountriesByNameContainingOrderByName(name);
         if (!countries.isEmpty()) {
             response.setData(countries);
             response.setDescription("Countries found succesfully.");

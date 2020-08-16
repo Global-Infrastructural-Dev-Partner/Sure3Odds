@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+/**
+ *
+ */
 @Entity
 @Table(name = "sure_sets")
 public class Sets {
@@ -21,10 +24,7 @@ public class Sets {
 
 	private String name;
 
-	@Override
-	public String toString() {
-		return "Sets [id=" + id + ", name=" + name + "]";
-	}
+	private String value;
 
 	/**
 	 * @return the id
@@ -55,24 +55,6 @@ public class Sets {
 	}
 
 	/**
-	 * @param id
-	 * @param name
-	 */
-	public Sets(Long id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
-	}
-
-	/**
-	 * @param name
-	 */
-	public Sets(String name) {
-		super();
-		this.name = name;
-	}
-
-	/**
 	 *
 	 */
 	public Sets() {
@@ -80,4 +62,26 @@ public class Sets {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * @param name
+	 * @param value
+	 */
+	public Sets(String name, String value) {
+		this.name = name;
+		this.value = value;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getValue() {
+		return value;
+	}
+
+	/**
+	 * @param value
+	 */
+	public void setValue(String value) {
+		this.value = value;
+	}
 }

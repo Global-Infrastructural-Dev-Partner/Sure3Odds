@@ -1,12 +1,6 @@
 package com.gidp.sure3odds.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "sure_leagues")
@@ -20,6 +14,12 @@ public class Leagues {
 
 	private String name;
 
+	private String imageurl;
+
+	@ManyToOne
+	@JoinColumn(name ="countryid")
+	private Countries countryID;
+
 	/**
 	 *
 	 */
@@ -28,55 +28,40 @@ public class Leagues {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String toString() {
-		return "Leagues [id=" + id + ", name=" + name + "]";
-	}
-
-	/**
-	 * @param id
-	 * @param name
-	 */
-	public Leagues(Long id, String name) {
-		super();
-		this.id = id;
+	public Leagues(String name, String imageurl) {
 		this.name = name;
+		this.imageurl = imageurl;
 	}
 
-	/**
-	 * @param name
-	 */
-	public Leagues(String name) {
-		super();
-		this.name = name;
-	}
-
-	/**
-	 * @return the id
-	 */
 	public Long getId() {
 		return id;
 	}
 
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	/**
-	 * @return the name
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * @param name the name to set
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	public Countries getCountryID() {
+		return countryID;
+	}
+
+	public void setCountryID(Countries countryID) {
+		this.countryID = countryID;
+	}
+
+	public String getImageurl() {
+		return imageurl;
+	}
+
+	public void setImageurl(String imageurl) {
+		this.imageurl = imageurl;
+	}
 }

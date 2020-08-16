@@ -26,76 +26,58 @@ public class Teams {
 	@JoinColumn(name ="leagueid")
 	private Leagues leagueID;
 
-	/**
-	 * @return the id
-	 */
+	@ManyToOne
+	@JoinColumn(name ="countryid")
+	private Countries countryID;
+
+
+	private String imageurl;
+
+	public Teams() {
+	}
+
+	public Teams(String name, String imageurl) {
+		this.name = name;
+		this.imageurl = imageurl;
+	}
+
 	public Long getId() {
 		return id;
 	}
 
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	/**
-	 * @return the name
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * @param name the name to set
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	@Override
-	public String toString() {
-		return "Teams [id=" + id + ", name=" + name + ", leagueID=" + leagueID + "]";
-	}
-
-	/**
-	 * @return the leagueID
-	 */
 	public Leagues getLeagueID() {
 		return leagueID;
 	}
 
-	/**
-	 * @param leagueID the leagueID to set
-	 */
 	public void setLeagueID(Leagues leagueID) {
 		this.leagueID = leagueID;
 	}
 
-	/**
-	 *
-	 */
-	public Teams() {
-		super();
+	public Countries getCountryID() {
+		return countryID;
 	}
 
-	/**
-	 * @param id
-	 * @param name
-	 */
-	public Teams(Long id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
+	public void setCountryID(Countries countryID) {
+		this.countryID = countryID;
 	}
 
-	/**
-	 * @param name
-	 */
-	public Teams(String name) {
-		super();
-		this.name = name;
+	public String getImageurl() {
+		return imageurl;
 	}
 
+	public void setImageurl(String imageurl) {
+		this.imageurl = imageurl;
+	}
 }

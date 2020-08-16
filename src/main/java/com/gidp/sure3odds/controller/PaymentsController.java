@@ -1,7 +1,9 @@
 package com.gidp.sure3odds.controller;
 
 import com.gidp.sure3odds.entity.BaseResponse;
+import com.gidp.sure3odds.entity.Parameters;
 import com.gidp.sure3odds.entity.PlanTypes;
+import com.gidp.sure3odds.service.ParametersService;
 import com.gidp.sure3odds.service.PaymentsService;
 import com.gidp.sure3odds.service.PlanTypesService;
 import com.gidp.sure3odds.service.PlansService;
@@ -25,6 +27,9 @@ public class PaymentsController {
 	@Autowired
 	PlansService plansService;
 
+	@Autowired
+	ParametersService parametersService;
+
 	@PostMapping(value = "/payments/plantype/create")
 	ResponseEntity<?> createPlanTypes(@RequestBody PlanTypes plantype) {
 		BaseResponse response = planTypesService.CreatePlanTypes(plantype);
@@ -36,7 +41,7 @@ public class PaymentsController {
 	}
 
 	@DeleteMapping(value = "/payments/plantype/delete/{id}")
-	ResponseEntity<?> deletePlantype(@PathVariable long id) {
+	ResponseEntity<?> deletePlanTypes(@PathVariable long id) {
 		BaseResponse response = planTypesService.DeletePlanTypes(id);
 		if (response.getStatusCode() == 200) {
 			return new ResponseEntity<>(response, HttpStatus.OK);
@@ -46,7 +51,7 @@ public class PaymentsController {
 	}
 
 	@PutMapping(value = "/payments/plantype/update")
-	ResponseEntity<?> updatePlantype(@RequestBody PlanTypes plantype) {
+	ResponseEntity<?> updatePlanTypes(@RequestBody PlanTypes plantype) {
 		BaseResponse response = planTypesService.UpdatePlantype(plantype);
 		if (response.getStatusCode() == 200) {
 			return new ResponseEntity<>(response, HttpStatus.OK);
@@ -66,7 +71,7 @@ public class PaymentsController {
 	}
 
 	@GetMapping(value = "/payments/plantype/get_by_id/{id}")
-	ResponseEntity<?> getPermission(@PathVariable Long id) {
+	ResponseEntity<?> GetPlanTypesByID(@PathVariable Long id) {
 		BaseResponse response = planTypesService.GetPlantype(id);
 		if (response.getStatusCode() == 200) {
 			return new ResponseEntity<>(response, HttpStatus.OK);
@@ -76,7 +81,14 @@ public class PaymentsController {
 	}
 
 
-	@GetMapping(value = "/payments/get_by_userid/{id}")
+
+
+
+
+
+
+
+	@GetMapping(value = "/payments/payment/get_by_userid/{id}")
 	ResponseEntity<?> GetPaymentsByUserID(@RequestParam Long id) {
 		BaseResponse response = paymentsService.GetPaymentsByUserID(id);
 		if (response.getStatusCode() == 200) {
@@ -86,9 +98,73 @@ public class PaymentsController {
 		}
 	}
 
+
+
+
+
+
+
+
+
 	@PostMapping(value = "/payments/plan/update")
 	ResponseEntity<?> UpdatePlan(@RequestParam Long UserID, @RequestParam Long PlanTypeID, @RequestParam String Platform, @RequestParam String TransactionObject) throws IOException {
 		BaseResponse response = plansService.UpdatePlan(UserID, PlanTypeID, Platform, TransactionObject);
+		if (response.getStatusCode() == 200) {
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+
+
+
+
+
+
+	@PostMapping(value = "/payments/parameter/create")
+	ResponseEntity<?> createParameter(@RequestBody Parameters parameters) {
+		BaseResponse response = parametersService.CreateParameter(parameters);
+		if (response.getStatusCode() == 200) {
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@DeleteMapping(value = "/payments/parameter/delete/{id}")
+	ResponseEntity<?> deleteParameter(@PathVariable long id) {
+		BaseResponse response = parametersService.DeleteParameter(id);
+		if (response.getStatusCode() == 200) {
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PutMapping(value = "/payments/parameter/update")
+	ResponseEntity<?> updateParameter(@RequestBody Parameters parameters) {
+		BaseResponse response = parametersService.UpdateParametere(parameters);
+		if (response.getStatusCode() == 200) {
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping(value = "/payments/parameter/getall")
+	ResponseEntity<?> getAllParameters() {
+		BaseResponse response = parametersService.GetAllParameters();
+		if (response.getStatusCode() == 200) {
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping(value = "/payments/parameter/get_by_id/{id}")
+	ResponseEntity<?> getParameterByID(@PathVariable Long id) {
+		BaseResponse response = parametersService.GetParameterByID(id);
 		if (response.getStatusCode() == 200) {
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {

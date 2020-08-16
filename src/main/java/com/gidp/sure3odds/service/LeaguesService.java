@@ -95,4 +95,19 @@ public class LeaguesService {
 
 	}
 
+	public BaseResponse GetLeagueByCountryID(Long countryid) {
+		BaseResponse response = new BaseResponse();
+		List<Leagues> leagues = leaguesRepository.findLeaguesByCountryID(countryid);
+		if (!leagues.isEmpty()) {
+			response.setData(leagues);
+			response.setDescription("League found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No result found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+
+	}
+
 }

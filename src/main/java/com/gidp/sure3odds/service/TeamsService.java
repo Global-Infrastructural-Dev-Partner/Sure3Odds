@@ -39,13 +39,8 @@ public class TeamsService {
 
 
 			for (Teams team : listTeams) {
-				Optional<Leagues> leagues = leaguesRepository.findById(team.getLeagueID().getId());
-
-				team.setLeagueID(leagues.get());
-				team.setCountryID(leagues.get().getCountryID());
 				Teams saved_team = teamsRepository.save(team);
 				saved_teams.add(saved_team);
-
 			}
 		} catch (Exception e) {
 
@@ -61,34 +56,126 @@ public class TeamsService {
 		return response;
 
 	}
-	public BaseResponse CreateLeagueTeams(List<Teams> listTeams) {
+
+	public BaseResponse CreateTeam(Teams teams) {
 		BaseResponse response = new BaseResponse();
-		ArrayList<Object> saved_teams = new ArrayList<>();
-		try {
-
-			Optional<Leagues> leagues = leaguesRepository.findById(796l);
-
-			for (Teams teams : listTeams) {
-                if (!checkTeamExist(leagues.get().getId(), teams.getName())) {
-					teams.setLeagueID(leagues.get());
-					teams.setCountryID(leagues.get().getCountryID());
-					Teams saved_team = teamsRepository.save(teams);
-					saved_teams.add(saved_team);
-                }
-
-			}
-		} catch (Exception e) {
-
-		}
-		if (saved_teams != null) {
-			response.setData(saved_teams);
-			response.setDescription("New Leagues created successfully");
+		Teams saved_team = teamsRepository.save(teams);
+		if(saved_team != null) {
+			response.setData(saved_team);
+			response.setDescription("New Team created successfully");
 			response.setStatusCode(HttpServletResponse.SC_OK);
-		} else {
-			response.setDescription("New Leagues was not created.");
+		}else {
+			response.setDescription("New Team was not created.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
 
 	}
+
+
+	public BaseResponse DeleteTeam(long teamID) {
+		BaseResponse response = new BaseResponse();
+		Optional<Teams> team = teamsRepository.findById(teamID);
+		if(team.isPresent()) {
+			leaguesRepository.deleteById(teamID);
+			response.setDescription("Team deleted successfully");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		}else {
+			response.setDescription("No Team found");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+
+	}
+
+
+	public BaseResponse UpdateTeam(Teams teams) {
+		BaseResponse response = new BaseResponse();
+		Teams updated_team = teamsRepository.save(teams);
+		if (updated_team != null) {
+			response.setData(updated_team);
+			response.setDescription("Team has been updated succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("Team was not updated.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+
+
+	public BaseResponse GetAllTeams() {
+		BaseResponse response = new BaseResponse();
+		List<Teams> teams = teamsRepository.findAll();
+		if (!teams.isEmpty()) {
+			response.setData(teams);
+			response.setDescription("Team found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No result found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+
+	}
+
+	public BaseResponse GetTeamByID(Long id) {
+		BaseResponse response = new BaseResponse();
+		Optional<Teams> team = teamsRepository.findById(id);
+		if (team.isPresent()) {
+			response.setData(team);
+			response.setDescription("Team found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No result found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+
+	}
+
+	public BaseResponse GetTeamsByCountryID(Long countryid) {
+		BaseResponse response = new BaseResponse();
+		List<Teams> teams = teamsRepository.findTeamsByCountryID(countryid);
+		if (!teams.isEmpty()) {
+			response.setData(teams);
+			response.setDescription("Teams found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No result found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+
+
+	public BaseResponse GetTeamsByLeagueID(Long leagueid) {
+		BaseResponse response = new BaseResponse();
+		List<Teams> teams = teamsRepository.findTeamsByLeagueID(leagueid);
+		if (!teams.isEmpty()) {
+			response.setData(teams);
+			response.setDescription("Teams found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No result found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+
+
+	public BaseResponse SearchTeamsByName(String name) {
+		BaseResponse response = new BaseResponse();
+		List<Teams> teams = teamsRepository.findTeamsByNameContaining(name);
+		if (!teams.isEmpty()) {
+			response.setData(teams);
+			response.setDescription("Teams found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No result found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+
 }

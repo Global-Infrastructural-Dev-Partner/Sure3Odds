@@ -1,12 +1,12 @@
 package com.gidp.sure3odds.controller;
 
-import com.gidp.sure3odds.entity.BaseResponse;
-import com.gidp.sure3odds.entity.Parameters;
-import com.gidp.sure3odds.entity.PlanTypes;
-import com.gidp.sure3odds.service.ParametersService;
-import com.gidp.sure3odds.service.PaymentsService;
-import com.gidp.sure3odds.service.PlanTypesService;
-import com.gidp.sure3odds.service.PlansService;
+import com.gidp.sure3odds.entity.response.BaseResponse;
+import com.gidp.sure3odds.entity.users.Parameters;
+import com.gidp.sure3odds.entity.payments.PlanTypes;
+import com.gidp.sure3odds.service.users.ParametersService;
+import com.gidp.sure3odds.service.payments.PaymentsService;
+import com.gidp.sure3odds.service.payments.PlanTypesService;
+import com.gidp.sure3odds.service.payments.PlansService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

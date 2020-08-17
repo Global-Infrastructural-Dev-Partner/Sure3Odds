@@ -1,9 +1,14 @@
 package com.gidp.sure3odds.controller;
 
-import com.gidp.sure3odds.entity.*;
-import com.gidp.sure3odds.service.MemberAdvisersService;
-import com.gidp.sure3odds.service.UserTypesService;
-import com.gidp.sure3odds.service.UsersService;
+import com.gidp.sure3odds.entity.response.BaseResponse;
+import com.gidp.sure3odds.entity.users.MemberAdvisers;
+import com.gidp.sure3odds.entity.users.NewUser;
+import com.gidp.sure3odds.entity.users.UserTypes;
+import com.gidp.sure3odds.entity.users.Users;
+import com.gidp.sure3odds.service.users.AuthenticationService;
+import com.gidp.sure3odds.service.users.MemberAdvisersService;
+import com.gidp.sure3odds.service.users.UserTypesService;
+import com.gidp.sure3odds.service.users.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +29,7 @@ public class UsersController {
 	@Autowired
 	MemberAdvisersService memberAdvisersService;
 
+
 	@PostMapping(value = "/users/usertype/create")
 	ResponseEntity<?> createUserTypes(@RequestBody UserTypes userType) {
 		BaseResponse response = userTypesService.CreateUserType(userType);
@@ -33,7 +39,6 @@ public class UsersController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
-
 	@GetMapping(value = "/users/usertype/getall")
 	ResponseEntity<?> getUserTypes() {
 		BaseResponse response = userTypesService.getUserTypes();
@@ -43,7 +48,6 @@ public class UsersController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
-
 	@GetMapping(value = "/users/getall")
 	ResponseEntity<?> getAllUsers() {
 		BaseResponse response = usersService.GetAllUsers();
@@ -62,8 +66,6 @@ public class UsersController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
-	
-	
 	@GetMapping(value = "/users/get_by_usertypeid/{id}")
 	ResponseEntity<?> getUsersByUserTypeID(@PathVariable Long id) {
 		BaseResponse response = usersService.GetUsersByUserTypID(id);
@@ -73,8 +75,7 @@ public class UsersController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
-
-	@GetMapping(value = "/users/get_by_id/{id}")
+	@GetMapping(value = "/users/user/get_by_id/{id}")
 	ResponseEntity<?> getUserID(@PathVariable Long id) {
 		BaseResponse response = usersService.GetUserDetailsByID(id);
 		if (response.getStatusCode() == 200) {
@@ -83,8 +84,7 @@ public class UsersController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
-
-	@PutMapping(value = "/users/update")
+	@PutMapping(value = "/users/user/update")
 	ResponseEntity<?> updateUser(@RequestBody Users users) {
 		BaseResponse response = usersService.UpdateUser(users);
 		if (response.getStatusCode() == 200) {
@@ -93,18 +93,20 @@ public class UsersController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
-
-	@PostMapping(value = "/users/authenticate")
-	ResponseEntity<?> authenticate(@RequestParam String Email, @RequestParam String Password) {
-		BaseResponse response = null;
-		//check the user duedate
-		//update the user status
+	@GetMapping(value = "users/user/search")
+	ResponseEntity<?> searchUser(@RequestParam String searchvalue, @RequestParam Long usertypeid) {
+		BaseResponse response = usersService.searchByFirstNameOrLastName(usertypeid, searchvalue);
 		if (response.getStatusCode() == 200) {
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
+
+
+
+
+
 
 
 	@PostMapping(value = "/users/members/create")
@@ -116,18 +118,34 @@ public class UsersController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
-
-	@GetMapping(value = "users/search")
-	ResponseEntity<?> searchUser(@RequestParam String searchvalue, @RequestParam Long usertypeid) {
-		BaseResponse response = usersService.searchByFirstNameOrLastName(usertypeid, searchvalue);
+	@PostMapping(value = "/users/member/authenticate")
+	ResponseEntity<?> authenticate(@RequestParam String Email, @RequestParam String Password) {
+		BaseResponse response = null;
+		//check the user duedate
+		//update the user status
 		if (response.getStatusCode() == 200) {
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
+
+//	@PostMapping("/auth/login")
+//	ResponseEntity<?> userLogin(@RequestParam String username_email, @RequestParam String password) {
+//		BaseResponse response = authenticationService.userLogin(username_email, password);
+//		return new ResponseEntity<>(response, HttpStatus.OK);
+//	}
+
+
+
+
+
+
+
+
+
 	@PostMapping(value = "users/advisers/create")
-	ResponseEntity<?> createAdviserr(@RequestBody NewUser user) {
+	ResponseEntity<?> createAdviser(@RequestBody NewUser user) {
 		BaseResponse response = usersService.CreateAdviser(user);
 		if (response.getStatusCode() == 200) {
 			return new ResponseEntity<>(response, HttpStatus.OK);
@@ -135,7 +153,6 @@ public class UsersController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
-
 	@PostMapping(value = "/users/member_advisers/assign")
 	ResponseEntity<?> assignMemberAdviser(@RequestBody MemberAdvisers memberAdvisers) {
 		BaseResponse response = memberAdvisersService.AssignMemberAdviser(memberAdvisers);
@@ -145,7 +162,6 @@ public class UsersController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
-
 	@DeleteMapping(value = "/users/member_advisers/delete/{id}")
 	ResponseEntity<?> deleteMemberAdviser(@PathVariable Long id) {
 		BaseResponse response = memberAdvisersService.DeleteMemberAdviser(id);
@@ -155,7 +171,6 @@ public class UsersController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
-	
 	@PutMapping(value = "/users/member_advisers/update")
 	ResponseEntity<?> updateMemberAdviser(@RequestBody MemberAdvisers memberAdvisers) {
 		BaseResponse response = memberAdvisersService.UpdateMemberAdviser(memberAdvisers);
@@ -165,7 +180,6 @@ public class UsersController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
-
 	@GetMapping(value = "/users/members/adviserdetails_by_memeruserid/{id}")
 	ResponseEntity<?> getAdviserDetailsByMemberUserID(@PathVariable Long id) {
 		BaseResponse response = memberAdvisersService.GetAdviserDetailsByMemberID(id);
@@ -175,7 +189,6 @@ public class UsersController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
-
 	@GetMapping(value = "/users/advisers/members/getall/{id}")
 	ResponseEntity<?> getMembersByAdviserUserID(@PathVariable Long id) {
 		BaseResponse response = memberAdvisersService.GetMembersByAdviserUserID(id);

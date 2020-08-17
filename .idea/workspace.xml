@@ -2,13 +2,132 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1949f62f-1d02-454b-9753-1d30d4478a5d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/config/CachingHttpRequestWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/config/RequestFilterConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/users/NewUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/extraction/ExtractFootballData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/filter/RequestFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/filter/sure_token" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/helper/FilterHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/helper/JWTHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/games/GamesService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/users/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_squareup_okhttp3_okhttp_3_14_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_squareup_okio_okio_1_17_2.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/Sure3oddsApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/Sure3oddsApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/controller/GamesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/controller/GamesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/LeaguesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/LeaguesRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/TeamsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/TeamsRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/UsersRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/UsersRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/LeaguesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/LeaguesService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/TeamsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/TeamsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/controller/PaymentsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/controller/PaymentsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/controller/UsersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/controller/UsersController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/BaseResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/response/BaseResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Comments.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Comments.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Countries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Countries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Games.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Games.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Leagues.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Leagues.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/MemberAdvisers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/users/MemberAdvisers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/NewGameAndPrediction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/users/NewGameAndPrediction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/NewUser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Parameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/users/Parameters.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Payments.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/payments/Payments.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/PlanTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/payments/PlanTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Plans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/payments/Plans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Predictions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Predictions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Sets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Sets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Teams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Teams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/UserTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/users/UserTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/users/Users.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Votes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Votes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/helper/Helper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/helper/AppHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/CommentsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/games/CommentsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/CountriesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/games/CountriesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/GamesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/games/GamesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/LeaguesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/games/LeaguesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/MemberAdvisersRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/users/MemberAdvisersRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/ParametersRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/users/ParametersRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/PaymentsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/payments/PaymentsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/PlanTypesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/payments/PlanTypesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/PlansRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/payments/PlansRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/PredictionsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/games/PredictionsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/SetsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/games/SetsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/TeamsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/games/TeamsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/UserTypesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/users/UserTypesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/UsersRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/users/UsersRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/VotesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/games/VotesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/CommentsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/games/CommentsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/CountriesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/games/CountriesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/GamesService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/LeaguesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/games/LeaguesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/MemberAdvisersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/users/MemberAdvisersService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/ParametersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/users/ParametersService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/PaymentsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/payments/PaymentsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/PlanTypesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/payments/PlanTypesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/PlansService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/payments/PlansService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/PredictionsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/games/PredictionsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/SetsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/games/SetsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/TeamsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/games/TeamsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/UserTypesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/users/UserTypesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/UsersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/users/UsersService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/VotesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/games/VotesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sure3odds.iml" beforeDir="false" afterPath="$PROJECT_DIR$/sure3odds.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/Sure3oddsApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/Sure3oddsApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/controller/GamesController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/controller/GamesController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/controller/PaymentsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/controller/PaymentsController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/controller/UsersController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/controller/UsersController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/BaseResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/Comments.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/Countries.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/Games.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/Leagues.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/MemberAdvisers.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/NewGameAndPrediction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/NewUser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/Parameters.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/Payments.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/PlanTypes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/Plans.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/Predictions.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/Sets.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/Teams.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/UserTypes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/Users.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/entity/Votes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/helper/Helper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/CommentsRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/CountriesRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/GamesRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/LeaguesRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/MemberAdvisersRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/ParametersRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/PaymentsRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/PlanTypesRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/PlansRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/PredictionsRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/SetsRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/TeamsRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/UserTypesRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/UsersRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/repository/VotesRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/CommentsService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/CountriesService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/GamesService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/LeaguesService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/MemberAdvisersService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/ParametersService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/PaymentsService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/PlanTypesService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/PlansService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/PredictionsService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/SetsService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/TeamsService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/UserTypesService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/UsersService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gidp/sure3odds/service/VotesService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/config/RequestFilterConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/config/RequestFilterConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/service/authmanager/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/service/authmanager/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/resources/application.properties" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -19,44 +138,30 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
   <component name="DefaultGradleProjectSettings">
-    <option name="testRunner" value="GRADLE" />
-    <option name="delegatedBuild" value="true" />
+    <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/Sure3oddsApplication.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1335">
-              <caret line="103" column="2" selection-start-line="103" selection-start-column="2" selection-end-line="103" selection-end-column="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/controller/GamesController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="247" column="50" lean-forward="true" selection-start-line="247" selection-start-column="50" selection-end-line="247" selection-end-column="50" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/TeamsService.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/config/CachingHttpRequestWrapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="166" column="4" selection-start-line="166" selection-start-column="4" selection-end-line="178" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/TeamsRepository.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="24" selection-start-line="24" selection-end-line="24" />
+            <state relative-caret-position="15">
+              <caret line="26" column="7" lean-forward="true" selection-start-line="26" selection-start-column="7" selection-end-line="26" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -64,22 +169,25 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/UsersRepository.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="20" column="92" selection-start-line="20" selection-start-column="92" selection-end-line="20" selection-end-column="92" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>team</find>
       <find>createallteam</find>
+      <find>searchByFirstNameOrLastName</find>
+      <find>wm.conf</find>
     </findStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -87,13 +195,45 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/Sure3oddsApplication.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/LeaguesService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/LeaguesRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/controller/GamesController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/UsersRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/TeamsService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/TeamsRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/application-dev.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/UsersRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Games.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Predictions.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/NewGameAndPrediction.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/GamesRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/PredictionsRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/PredictionsService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/controller/GamesController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/GamesService.java" />
+        <option value="$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/service/authmanager/AuthenticationService.java" />
+        <option value="$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/config/JWTHelper.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/UsersService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/JwtUserDetailsService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/JwtUserDetailsService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/controller/JWTController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/helper/AppHelper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/SetsService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/extract/ExtractFootballData.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/users/NewUser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/users/UsersService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/extraction/ExtractFootballData.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/config/CachingHttpRequestWrapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/config/RequestFilterConfig.java" />
+        <option value="$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/config/RequestFilterConfig.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/controller/UsersController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/filter/sure_token" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/helper/FilterHelper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/filter/RequestFilter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/Sure3oddsApplication.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/helper/JWTHelper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/users/AuthenticationService.java" />
       </list>
     </option>
   </component>
@@ -106,17 +246,31 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="sure3odds" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
-    <option name="width" value="1440" />
+    <option name="width" value="771" />
     <option name="height" value="835" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -157,6 +311,15 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="sure3odds" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sure3odds" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sure3odds" type="462c0819:PsiDirectoryNode" />
               <item name="controller" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -166,7 +329,25 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="sure3odds" type="462c0819:PsiDirectoryNode" />
-              <item name="repository" type="462c0819:PsiDirectoryNode" />
+              <item name="extraction" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sure3odds" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sure3odds" type="462c0819:PsiDirectoryNode" />
+              <item name="filter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sure3odds" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sure3odds" type="462c0819:PsiDirectoryNode" />
+              <item name="helper" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
@@ -177,16 +358,151 @@
               <item name="sure3odds" type="462c0819:PsiDirectoryNode" />
               <item name="service" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sure3odds" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sure3odds" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="users" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sure3odds" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="META-INF" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sure3odds" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wealthmarket-core-api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wealthmarket-core-api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wealthmarket-core-api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wealthmarket-core-api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wealthmarket-core-api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wealthmarket-core-api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wealthmarket-core-api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wealthmarket-core-api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="ex_handler" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wealthmarket-core-api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="filter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wealthmarket-core-api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="helper" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wealthmarket-core-api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wealthmarket-core-api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="authmanager" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wealthmarket-core-api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="utility" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sure3odds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wealthmarket-core-api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
@@ -199,7 +515,12 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="spring.boot" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.gidp.sure3odds" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -241,17 +562,21 @@
       <updated>1597273406203</updated>
       <workItem from="1597273408901" duration="164000" />
       <workItem from="1597558781469" duration="6617000" />
+      <workItem from="1597584639118" duration="1053000" />
+      <workItem from="1597586417245" duration="8054000" />
+      <workItem from="1597604863505" duration="1177000" />
+      <workItem from="1597617405420" duration="10462000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6781000" />
+    <option name="totallyTimeSpent" value="27527000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="835" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="835" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2532189" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25679544" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -259,10 +584,10 @@
       <window_info id="UI Designer" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info id="Web" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" weight="0.32974428" />
+      <window_info id="Persistence" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.33512786" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32974428" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.07537012" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -274,74 +599,405 @@
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="bottom" id="Version Control" order="13" />
+      <window_info anchor="bottom" id="Messages" order="14" weight="0.32974428" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24964234" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Maven" order="3" />
+      <window_info anchor="right" id="Maven" order="3" weight="0.18884121" />
       <window_info anchor="right" id="Palette" order="4" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
-      <window_info anchor="right" id="Database" order="6" />
+      <window_info anchor="right" id="Database" order="6" weight="0.1695279" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
+      <window_info anchor="right" id="Bean Validation" order="9" weight="0.3297568" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/UsersService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/games/GamesRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/games/LeaguesRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/users/MemberAdvisersRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/users/ParametersRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/payments/PaymentsRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/payments/PlansRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/payments/PlanTypesRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/games/PredictionsRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/games/SetsRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/games/TeamsRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/games/VotesRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/users/UsersRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/users/UserTypesRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/response/BaseResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Comments.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Countries.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Games.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Leagues.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/users/MemberAdvisers.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/users/Parameters.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/payments/PlanTypes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/payments/Payments.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/payments/Plans.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Predictions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Sets.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Teams.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/games/Votes.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/PlansService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/users/UserTypes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="471">
-          <caret line="83" column="32" selection-start-line="83" selection-start-column="22" selection-end-line="83" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/PaymentsService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/GamesService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/UserTypesService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
+        <state relative-caret-position="105">
           <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/CountriesService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/users/NewUser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="18" column="21" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
+        <state relative-caret-position="120">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#673#674#0" expanded="true" />
+            <element signature="e#706#707#0" expanded="true" />
+            <element signature="e#761#762#0" expanded="true" />
+            <element signature="e#805#806#0" expanded="true" />
+            <element signature="e#837#838#0" expanded="true" />
+            <element signature="e#865#866#0" expanded="true" />
+            <element signature="e#907#908#0" expanded="true" />
+            <element signature="e#941#942#0" expanded="true" />
+            <element signature="e#973#974#0" expanded="true" />
+            <element signature="e#1001#1002#0" expanded="true" />
+            <element signature="e#1043#1044#0" expanded="true" />
+            <element signature="e#1077#1078#0" expanded="true" />
+            <element signature="e#1112#1113#0" expanded="true" />
+            <element signature="e#1143#1144#0" expanded="true" />
+            <element signature="e#1191#1192#0" expanded="true" />
+            <element signature="e#1231#1232#0" expanded="true" />
+            <element signature="e#1267#1268#0" expanded="true" />
+            <element signature="e#1299#1300#0" expanded="true" />
+            <element signature="e#1349#1350#0" expanded="true" />
+            <element signature="e#1391#1392#0" expanded="true" />
+            <element signature="e#1426#1427#0" expanded="true" />
+            <element signature="e#1457#1458#0" expanded="true" />
+            <element signature="e#1505#1506#0" expanded="true" />
+            <element signature="e#1545#1546#0" expanded="true" />
+            <element signature="e#1580#1581#0" expanded="true" />
+            <element signature="e#1613#1614#0" expanded="true" />
+            <element signature="e#1663#1664#0" expanded="true" />
+            <element signature="e#1707#1708#0" expanded="true" />
+            <element signature="e#1740#1741#0" expanded="true" />
+            <element signature="e#1769#1770#0" expanded="true" />
+            <element signature="e#1813#1814#0" expanded="true" />
+            <element signature="e#1849#1850#0" expanded="true" />
+            <element signature="e#1888#1889#0" expanded="true" />
+            <element signature="e#1923#1924#0" expanded="true" />
+            <element signature="e#1979#1980#0" expanded="true" />
+            <element signature="e#2027#2028#0" expanded="true" />
+            <element signature="e#2062#2063#0" expanded="true" />
+            <element signature="e#2093#2094#0" expanded="true" />
+            <element signature="e#2141#2142#0" expanded="true" />
+            <element signature="e#2181#2182#0" expanded="true" />
+            <element signature="e#2213#2214#0" expanded="true" />
+            <element signature="e#2242#2243#0" expanded="true" />
+            <element signature="e#2285#2286#0" expanded="true" />
+            <element signature="e#2321#2322#0" expanded="true" />
+            <element signature="e#2361#2362#0" expanded="true" />
+            <element signature="e#2394#2395#0" expanded="true" />
+            <element signature="e#2449#2450#0" expanded="true" />
+            <element signature="e#2493#2494#0" expanded="true" />
+            <element signature="e#2527#2528#0" expanded="true" />
+            <element signature="e#2559#2560#0" expanded="true" />
+            <element signature="e#2607#2608#0" expanded="true" />
+            <element signature="e#2649#2650#0" expanded="true" />
+            <element signature="e#2681#2682#0" expanded="true" />
+            <element signature="e#2711#2712#0" expanded="true" />
+            <element signature="e#2755#2756#0" expanded="true" />
+            <element signature="e#2793#2794#0" expanded="true" />
+            <element signature="e#2829#2830#0" expanded="true" />
+            <element signature="e#2863#2864#0" expanded="true" />
+            <element signature="e#2915#2916#0" expanded="true" />
+            <element signature="e#2961#2962#0" expanded="true" />
+            <element signature="e#2999#3000#0" expanded="true" />
+            <element signature="e#3033#3034#0" expanded="true" />
+            <element signature="e#3087#3088#0" expanded="true" />
+            <element signature="e#3133#3134#0" expanded="true" />
+            <element signature="e#3168#3169#0" expanded="true" />
+            <element signature="e#3199#3200#0" expanded="true" />
+            <element signature="e#3247#3248#0" expanded="true" />
+            <element signature="e#3287#3288#0" expanded="true" />
+            <element signature="e#3327#3328#0" expanded="true" />
+            <element signature="e#3363#3364#0" expanded="true" />
+            <element signature="e#3421#3422#0" expanded="true" />
+            <element signature="e#3471#3472#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/Leagues.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/users/UsersService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="32" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="32" />
+        <state relative-caret-position="-191">
+          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/CountriesRepository.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/extraction/ExtractFootballData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="-796">
+          <caret line="14" column="38" lean-forward="true" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/users/MemberAdvisersService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/entity/users/NewGameAndPrediction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/config/CachingHttpRequestWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="20" column="72" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="72" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1118#1119#0" expanded="true" />
+            <element signature="e#1148#1149#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/config/RequestFilterConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="397">
+          <caret line="37" column="42" lean-forward="true" selection-start-line="37" selection-start-column="42" selection-end-line="37" selection-end-column="42" />
+          <folding>
+            <element signature="e#245#246#0" expanded="true" />
+            <element signature="e#277#278#0" expanded="true" />
+            <element signature="e#333#334#0" expanded="true" />
+            <element signature="e#375#376#0" expanded="true" />
+            <element signature="e#411#412#0" expanded="true" />
+            <element signature="e#442#443#0" expanded="true" />
+            <element signature="e#491#492#0" expanded="true" />
+            <element signature="e#531#532#0" expanded="true" />
+            <element signature="e#580#581#0" expanded="true" />
+            <element signature="e#627#628#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/config/RequestFilterConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="15" column="33" lean-forward="true" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/filter/sure_token">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="69" selection-start-column="69" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/filter/wm-token">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="85" selection-start-column="85" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/helper/FilterHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="42" lean-forward="true" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/filter/RequestFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="56" column="49" lean-forward="true" selection-start-line="56" selection-start-column="49" selection-end-line="56" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -350,56 +1006,93 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/Sure3oddsApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1335">
-          <caret line="103" column="2" selection-start-line="103" selection-start-column="2" selection-end-line="103" selection-end-column="2" />
+        <state relative-caret-position="403">
+          <caret line="39" column="40" lean-forward="true" selection-start-line="39" selection-start-column="40" selection-end-line="39" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/LeaguesService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/users/AuthenticationService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="110" column="5" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="110" selection-end-column="5" />
+        <state relative-caret-position="900">
+          <caret line="60" column="14" selection-start-line="60" selection-start-column="14" selection-end-line="60" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/LeaguesRepository.java">
+    <entry file="file://$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/WealthmarketCoreApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="21" column="164" selection-start-line="21" selection-start-column="143" selection-end-line="21" selection-end-column="164" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/service/authmanager/AuthenticationService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="502">
+          <caret line="119" column="5" lean-forward="true" selection-start-line="31" selection-start-column="4" selection-end-line="119" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/filter/RequestFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="79" column="5" lean-forward="true" selection-start-line="27" selection-start-column="3" selection-end-line="79" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/helper/FilterHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/helper/JWTHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
-          <caret line="15" column="4" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
+          <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/UsersRepository.java">
+    <entry file="file://$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/helper/JWTHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="20" column="92" selection-start-line="20" selection-start-column="92" selection-end-line="20" selection-end-column="92" />
+        <state relative-caret-position="870">
+          <caret line="76" column="34" lean-forward="true" selection-start-line="76" selection-start-column="34" selection-end-line="76" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/controller/GamesController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/controller/UsersController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="247" column="50" lean-forward="true" selection-start-line="247" selection-start-column="50" selection-end-line="247" selection-end-column="50" />
+        <state relative-caret-position="357">
+          <caret line="123" column="32" lean-forward="true" selection-start-line="123" selection-start-column="32" selection-end-line="123" selection-end-column="32" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/repository/TeamsRepository.java">
+    <entry file="file://$PROJECT_DIR$/../../../../../NDFSoftware/MacBook/Web/wealthmarket-core-api/src/main/java/com/wm/core/controller/AuthController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="24" selection-start-line="24" selection-end-line="24" />
+        <state relative-caret-position="270">
+          <caret line="30" column="5" lean-forward="true" selection-start-line="26" selection-start-column="4" selection-end-line="30" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/config/CachingHttpRequestWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="26" column="7" lean-forward="true" selection-start-line="26" selection-start-column="7" selection-end-line="26" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gidp/sure3odds/service/TeamsService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="166" column="4" selection-start-line="166" selection-start-column="4" selection-end-line="178" selection-end-column="5" />
         </state>
       </provider>
     </entry>

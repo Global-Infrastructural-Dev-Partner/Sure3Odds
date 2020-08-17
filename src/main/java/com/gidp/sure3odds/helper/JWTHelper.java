@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.gidp.sure3odds.helper;
 
 import com.auth0.jwt.JWT;
@@ -14,14 +19,19 @@ import org.springframework.stereotype.Component;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ *
+ * @author GOL
+ */
 @Component
 public class JWTHelper {
+
     private static final Logger LOG = LoggerFactory.getLogger(JWTHelper.class.getName());
-    @Value("${wm.conf.param.jwt.enc-key}")
+    @Value("${sure.conf.param.jwt.enc-key}")
     private String ENC_KEY;
-    @Value("${wm.conf.param.jwt.issuer}")
+    @Value("${sure.conf.param.jwt.issuer}")
     private String ISSUER;
-    @Value("${wm.conf.param.jwt.validity}")
+    @Value("${sure.conf.param.jwt.validity}")
     private int validity;
 
     public String createToken(Users user) {
@@ -69,7 +79,8 @@ public class JWTHelper {
             Algorithm algorithm = Algorithm.HMAC256(ENC_KEY);
             JWTVerifier verifier = JWT.require(algorithm)
                     .withIssuer(ISSUER)
-                    .build(); //Reusable verifier instance
+                    .build();
+            //Reusable verifier instance
             DecodedJWT jwt = verifier.verify(token);
             return jwt.getClaim("UserID").asString();
         } catch (Exception exception) {
@@ -79,4 +90,5 @@ public class JWTHelper {
         //Invalid signature/claims
         return null;
     }
+
 }

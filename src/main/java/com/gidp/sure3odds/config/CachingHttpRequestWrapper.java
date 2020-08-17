@@ -1,5 +1,6 @@
 package com.gidp.sure3odds.config;
 
+
 import com.google.common.primitives.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,6 @@ public class CachingHttpRequestWrapper extends HttpServletRequestWrapper {
      - @param request The request to wrap
      - @throws IllegalArgumentException if the request is null
      */
-
     public CachingHttpRequestWrapper(HttpServletRequest request) {
         super(request);
     }
@@ -119,6 +119,7 @@ public class CachingHttpRequestWrapper extends HttpServletRequestWrapper {
             }
         });
     }
+
 
     private static class CustomServletInputStream extends ServletInputStream {
 

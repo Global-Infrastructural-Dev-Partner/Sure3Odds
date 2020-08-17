@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class FilterHelper {
+
     private static final Logger logger = LoggerFactory.getLogger(FilterHelper.class);
 
     /**
@@ -29,5 +30,9 @@ public class FilterHelper {
             return Pattern.compile(wl);
         }).collect(Collectors.toList());
     }
+
+
+
+
 
 }

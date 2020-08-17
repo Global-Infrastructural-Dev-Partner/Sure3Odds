@@ -4,6 +4,7 @@ package com.gidp.sure3odds.service.users;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.entity.users.Users;
+import com.gidp.sure3odds.helper.AppHelper;
 import com.gidp.sure3odds.helper.JWTHelper;
 import com.gidp.sure3odds.repository.users.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class AuthenticationService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    AppHelper helper = new AppHelper();
+
+    @Autowired
+    UsersService usersService;
+
     /**
      * Generate jwt
      *
@@ -40,7 +46,7 @@ public class AuthenticationService {
     public BaseResponse generateToken(Users user) {
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        baseResponse.setDescription("An error has occured ,please try again");
+        baseResponse.setDescription("An error has occured, please try again");
         try {
             String token = jwtHelper.createToken(user);
             baseResponse.setStatusCode(HttpStatus.OK.value());
@@ -65,9 +71,9 @@ public class AuthenticationService {
     public BaseResponse userLogin(String email, String password) {
         BaseResponse baseResponse = new BaseResponse();
         int statusCode = HttpStatus.INTERNAL_SERVER_ERROR.value();
-        String description = "An error has occured ,please try again";
+        String description = "An error has occured, please try again";
         try {
-            Optional<Users> isUser = usersRepository.findUsersByEmailOrPhoneContaining(email, email.toLowerCase());
+            Optional<Users> isUser = usersRepository.findByEmail(email.toLowerCase());
             statusCode = HttpStatus.BAD_REQUEST.value();
             if (!isUser.isPresent()) {
                 baseResponse.setStatusCode(statusCode);

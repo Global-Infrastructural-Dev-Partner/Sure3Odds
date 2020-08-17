@@ -1,12 +1,20 @@
 package com.gidp.sure3odds.config;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+
 import java.util.List;
 
+@Configuration
+@ConfigurationProperties(prefix = "sure.conf.param.filter.request-signature")
 public class RequestFilterConfig {
 
     private List<String> whitelist;
     private Boolean disabled;
     private Long timeBufferInMilliseconds;
+
+    public RequestFilterConfig() {
+    }
 
     public List<String> getWhitelist() {
         return whitelist;
@@ -34,16 +42,11 @@ public class RequestFilterConfig {
 
     @Override
     public String toString() {
-        return "RequestFilterConfig{" +
+        return "RequestSignatureFilterConfig{" +
                 "whitelist=" + whitelist +
                 ", disabled=" + disabled +
                 ", timeBufferInMilliseconds=" + timeBufferInMilliseconds +
                 '}';
     }
-
-    public RequestFilterConfig(List<String> whitelist, Boolean disabled, Long timeBufferInMilliseconds) {
-        this.whitelist = whitelist;
-        this.disabled = disabled;
-        this.timeBufferInMilliseconds = timeBufferInMilliseconds;
-    }
 }
+

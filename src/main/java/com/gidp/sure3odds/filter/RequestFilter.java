@@ -1,5 +1,6 @@
 package com.gidp.sure3odds.filter;
 
+
 import com.gidp.sure3odds.config.CachingHttpRequestWrapper;
 import com.gidp.sure3odds.config.RequestFilterConfig;
 import com.gidp.sure3odds.entity.response.BaseResponse;
@@ -55,16 +56,16 @@ public class RequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         logger.debug("Running Request Filter");
         String authorization = request.getHeader("authorization");
-
+        
         if (StringUtils.isEmpty(authorization) ) {
             response.sendError(HttpStatus.UNAUTHORIZED.value(), "Missing required headers.");
             return;
         }
-
+        
         CachingHttpRequestWrapper cachingRequestWrapper = new CachingHttpRequestWrapper(request);
         authorization= authorization.substring(AUTHENTICATION_SCHEME.length()).trim();
-
-        //validate jwtoken
+        
+        //validate jwtoken 
         BaseResponse authRp =authenticationService.validateToken(authorization);
         if (authRp.getStatusCode()!=HttpStatus.OK.value()) {
             response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid authorization token");

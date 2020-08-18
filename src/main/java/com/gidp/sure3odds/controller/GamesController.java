@@ -116,11 +116,6 @@ public class GamesController {
 
 
 
-
-
-
-
-
     @PostMapping(value = "/games/set/create")
     ResponseEntity<?> createSet(@RequestBody Sets sets) {
         BaseResponse response = setsService.CreateSet(sets);
@@ -170,6 +165,8 @@ public class GamesController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+
+
 
 
 
@@ -452,25 +449,15 @@ public class GamesController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping(value = "/games/game/get_by_userid/{id}")
+    @GetMapping(value = "/games/game/get_by_userid")
         ResponseEntity<?> getUserGames(@RequestParam Long UserID, @RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) Date matchDate) {
-            BaseResponse response = null;
+            BaseResponse response = gamesService.GetUserGames(UserID, matchDate);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
-
-//    @GetMapping(value = "/games/game/get_by_date")
-//    ResponseEntity<?> getUserGames(@RequestParam Long UserID, @RequestParam Date MatchDate) {
-//        BaseResponse response = gamesService.GetAllGamesByDate()
-//        if (response.getStatusCode() == 200) {
-//            return new ResponseEntity<>(response, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-//        }
-//    }
     @GetMapping(value = "/games/game/get_settings")
     ResponseEntity<?> getGamesSettings() {
         BaseResponse response = null;

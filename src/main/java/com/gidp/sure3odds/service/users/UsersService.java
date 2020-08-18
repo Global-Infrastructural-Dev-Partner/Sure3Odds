@@ -256,23 +256,27 @@ public class UsersService {
 
     public BaseResponse searchByFirstNameOrLastName(Long usertypeid, String searchValue) {
         BaseResponse response = new BaseResponse();
-        List<Users> users = usersRepository.findUsersByFirstnameOrLastnameContaining(searchValue, searchValue);
+//        List<Users> users = usersRepository.findUsersByFirstnameOrLastnameContaining(searchValue, searchValue);
+        List<Users> users = usersRepository.findUsersByFirstnameOrLastnameContainingAndUserTypeID(searchValue, searchValue, usertypeid);
         ArrayList<Object> data = new ArrayList<>();
         if (!users.isEmpty()) {
-            for (Users user : users) {
-                Long usertypeID = user.getUserTypeID().getId();
-                if (usertypeID == usertypeid) {
-                    data.add(user);
-                }
-            }
-            if (!data.isEmpty()) {
-                response.setData(data);
-                response.setDescription("usertypes found succesfully.");
-                response.setStatusCode(HttpServletResponse.SC_OK);
-            } else {
-                response.setDescription("No result found.");
-                response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-            }
+//            for (Users user : users) {
+//                Long usertypeID = user.getUserTypeID().getId();
+//                if (usertypeID == usertypeid) {
+//                    data.add(user);
+//                }
+//            }
+            response.setData(users);
+            response.setDescription("usertypes found succesfully.");
+            response.setStatusCode(HttpServletResponse.SC_OK);
+//            if (!data.isEmpty()) {
+//                response.setData(users);
+//                response.setDescription("usertypes found succesfully.");
+//                response.setStatusCode(HttpServletResponse.SC_OK);
+//            } else {
+//                response.setDescription("No result found.");
+//                response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+//            }
 
         } else {
             response.setDescription("No result found.");
@@ -369,4 +373,15 @@ public class UsersService {
         return result;
     }
 
+    public boolean IsUserActive(long UserID) {
+        boolean result = false;
+        Optional<Users> user = usersRepository.findById(UserID);
+        if (user.isPresent()) {
+            String status = user.get().getStatus();
+            if (status.equals("Active")) {
+                result = true;
+            }
+        }
+        return result;
+    }
 }

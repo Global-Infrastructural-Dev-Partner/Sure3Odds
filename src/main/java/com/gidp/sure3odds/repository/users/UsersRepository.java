@@ -21,6 +21,9 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
 	List<Users> findUsersByFirstnameOrLastnameContaining(String searchValue, String searchText);
 
-//	@Query(value = "SELECT * FROM sure_users WHERE email = ?1", nativeQuery = true)
 	Optional<Users> findByEmail(String email);
+
+	List<Users> findUsersByFirstnameOrLastnameContainingAndUserTypeID(String searchValue, String searchText, long userTypeID);
+
+
 }

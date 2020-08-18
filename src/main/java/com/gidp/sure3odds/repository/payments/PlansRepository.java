@@ -12,4 +12,7 @@ public interface PlansRepository extends JpaRepository<Plans, Long> {
 
 	@Query(value = "SELECT * FROM sure_plans WHERE userid = ?1", nativeQuery = true)
 	Plans findPlanByUserID(long userid);
+
+
+
 }

@@ -39,8 +39,6 @@ public class JWTHelper {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, validity);
         Date expiryDate = cal.getTime();
-        // TblBusinesses tokenEntity = new TblBusinesses();
-
         try {
             Algorithm algorithm = Algorithm.HMAC256(ENC_KEY);
             String token = JWT.create()
@@ -50,6 +48,7 @@ public class JWTHelper {
                     .withNotBefore(Calendar.getInstance().getTime())
                     .withJWTId(user.getId().toString())
                     .withClaim("usertype", user.getUserTypeID().getName())
+                    .withClaim("UserID", user.getId())
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException | IllegalArgumentException exception) {
@@ -64,7 +63,8 @@ public class JWTHelper {
             Algorithm algorithm = Algorithm.HMAC256(ENC_KEY);
             JWTVerifier verifier = JWT.require(algorithm)
                     .withIssuer(ISSUER)
-                    .build(); //Reusable verifier instance
+                    .build();
+            //Reusable verifier instance
             DecodedJWT jwt = verifier.verify(token);
             return jwt;
         } catch (Exception exception) {

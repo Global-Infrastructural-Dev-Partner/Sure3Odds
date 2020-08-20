@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,12 +52,32 @@ public class VotesService {
      */
     public BaseResponse GetVotesByGameIDAndUserID(Long userID, Long gameID) {
         BaseResponse response = new BaseResponse();
+        HashMap<String, Object> Votes = new HashMap<>();
         Optional<Users> user = usersRepository.findById(userID);
         Optional<Games> game = gamesRepository.findById(gameID);
 
-        Optional<Votes> votes = votesRepository.findVotesByGameIDAndUserID(game.get(), user.get());
-        if (!votes.isPresent()) {
-            response.setData(votes);
+        Optional<Votes> UserVote = votesRepository.findByGameIDAndUserID(game.get(), user.get());
+        if(UserVote.isPresent()){
+            Votes.put("UserVote", UserVote);
+        }
+        List<Votes> AwayVotes = votesRepository.countVotesByAwayVoteAndGameID(1l, game.get());
+        if(!AwayVotes.isEmpty()){
+            Votes.put("AwayVotes", AwayVotes);
+        }
+
+        List<Votes> HomeVotes = votesRepository.countVotesByHomeVoteAndGameID(1l, game.get());
+        if(!HomeVotes.isEmpty()){
+            Votes.put("HomeVotes", HomeVotes);
+        }
+
+        List<Votes> DrawVotes = votesRepository.countVotesByDrawVoteAndGameID(1l, game.get());
+        if(!DrawVotes.isEmpty()){
+            Votes.put("DrawVotes", DrawVotes);
+        }
+
+
+        if (!Votes.isEmpty()) {
+            response.setData(Votes);
             response.setDescription("Votes found succesfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
@@ -65,4 +87,23 @@ public class VotesService {
         return response;
 
     }
+    /**
+     * @return
+     */
+    public BaseResponse GetVotes() {
+        BaseResponse response = new BaseResponse();
+        List<Votes> Votes = votesRepository.findAll();
+
+        if (!Votes.isEmpty()) {
+            response.setData(Votes);
+            response.setDescription("Votes found succesfully.");
+            response.setStatusCode(HttpServletResponse.SC_OK);
+        } else {
+            response.setDescription("No result found.");
+            response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        return response;
+
+    }
+
 }

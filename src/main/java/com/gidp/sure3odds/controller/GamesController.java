@@ -468,10 +468,18 @@ public class GamesController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
-
     @GetMapping(value = "/games/vote/get_game_votes")
     ResponseEntity<?> getGameVotes(@RequestParam Long GameID, @RequestParam Long UserID) {
         BaseResponse response = votesService.GetVotesByGameIDAndUserID(GameID, UserID);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping(value = "/games/vote/getall")
+    ResponseEntity<?> getGameVotes() {
+        BaseResponse response = votesService.GetVotes();
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {

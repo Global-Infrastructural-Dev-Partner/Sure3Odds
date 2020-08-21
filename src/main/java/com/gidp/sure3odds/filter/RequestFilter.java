@@ -28,6 +28,7 @@ public class RequestFilter extends OncePerRequestFilter {
     private List<Pattern> whiteList = new ArrayList<>();
     private static final String AUTHENTICATION_SCHEME="Bearer ";
     private final AuthenticationService authenticationService;
+    static final String ORIGIN = "Origin";
 
     public RequestFilter(RequestFilterConfig requestSignatureFilterConfig,AuthenticationService authenticationService) {
         this.requestFilterConfig = requestSignatureFilterConfig;
@@ -55,6 +56,22 @@ public class RequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         logger.debug("Running Request Filter");
+
+        //get the request origin to add necessary headers to enable cors
+        request.getHeader(ORIGIN);
+        String origin = request.getHeader(ORIGIN);
+        response.addHeader("Access-Control-Allow-Origin", origin);
+        response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+        response.addHeader("Access-Control-Allow-Credentials", "true");
+        response.addHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));
+
+        //check if request is options (preflight) request, and send ok status
+        if (request.getMethod().equalsIgnoreCase("OPTIONS") ) {
+            response.setStatus(HttpStatus.OK.value());
+            return;
+        }
+
+
         String authorization = request.getHeader("authorization");
         
         if (StringUtils.isEmpty(authorization) ) {
@@ -71,6 +88,20 @@ public class RequestFilter extends OncePerRequestFilter {
             response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid authorization token");
             return;
         }
+
+
+        String userid = authenticationService.getUserID(authorization);
+        //check if the string is empty and return a response
+        if (userid.equals("none")) {
+            response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "could not process token");
+            return;
+        }
+
+        long userId = Long.parseLong(userid);
+
+//		// set the userId in the request so we can get it from the request
+        request.setAttribute("UserID", userId);
+
 
         //otherwise everything went well, let's proceed with the request
         filterChain.doFilter(cachingRequestWrapper, response);

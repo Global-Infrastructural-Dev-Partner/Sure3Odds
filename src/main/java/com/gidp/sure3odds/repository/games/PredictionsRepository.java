@@ -14,5 +14,6 @@ public interface PredictionsRepository extends JpaRepository<Predictions, Long> 
 
     List<Predictions> findPredictionsByMatchDate(Date matchDate);
 
+    List<Predictions> findPredictionsByMatchDateAndUserIDOrderByMatchTime(Date matchDate, long userid);
 
 }

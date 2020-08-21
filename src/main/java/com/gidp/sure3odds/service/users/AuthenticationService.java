@@ -115,4 +115,14 @@ public class AuthenticationService {
 
         return baseResponse;
     }
+
+
+    public String getUserID(String token){
+        DecodedJWT decodedJwt = jwtHelper.getUserId(token);
+        String userid = "none";
+        if(decodedJwt != null){
+            userid =   decodedJwt.getId();
+        }
+        return userid;
+    }
 }

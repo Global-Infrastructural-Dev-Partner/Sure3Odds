@@ -39,7 +39,9 @@ public class Games {
 
 	private int awayTeamScore;
 
-	private String prediction;
+	@ManyToOne
+	@JoinColumn(name ="selectionid")
+	private Selections selectionID;
 
 	private double odds;
 
@@ -160,20 +162,6 @@ public class Games {
 	}
 
 	/**
-	 * @return the prediction
-	 */
-	public String getPrediction() {
-		return prediction;
-	}
-
-	/**
-	 * @param prediction the prediction to set
-	 */
-	public void setPrediction(String prediction) {
-		this.prediction = prediction;
-	}
-
-	/**
 	 * @return the odds
 	 */
 	public double getOdds() {
@@ -243,10 +231,9 @@ public class Games {
 		this.matchTime = matchTime;
 	}
 
-	public Games(int homeTeamScore, int awayTeamScore, String prediction, double odds, int confidenceLevel, String status, Date matchDate, Date matchTime) {
+	public Games(int homeTeamScore, int awayTeamScore, double odds, int confidenceLevel, String status, Date matchDate, Date matchTime) {
 		this.homeTeamScore = homeTeamScore;
 		this.awayTeamScore = awayTeamScore;
-		this.prediction = prediction;
 		this.odds = odds;
 		this.confidenceLevel = confidenceLevel;
 		this.status = status;
@@ -262,11 +249,10 @@ public class Games {
 		this.countryID = countryID;
 	}
 
-	public Games(Long id, int homeTeamScore, int awayTeamScore, String prediction, double odds, int confidenceLevel, String status, Date matchDate, Date matchTime) {
+	public Games(Long id, int homeTeamScore, int awayTeamScore, double odds, int confidenceLevel, String status, Date matchDate, Date matchTime) {
 		this.id = id;
 		this.homeTeamScore = homeTeamScore;
 		this.awayTeamScore = awayTeamScore;
-		this.prediction = prediction;
 		this.odds = odds;
 		this.confidenceLevel = confidenceLevel;
 		this.status = status;
@@ -274,23 +260,11 @@ public class Games {
 		this.matchTime = matchTime;
 	}
 
-	@Override
-	public String toString() {
-		return "Games{" +
-				"id=" + id +
-				", countryID=" + countryID +
-				", leagueID=" + leagueID +
-				", homeTeamID=" + homeTeamID +
-				", awayTeamID=" + awayTeamID +
-				", setID=" + setID +
-				", homeTeamScore=" + homeTeamScore +
-				", awayTeamScore=" + awayTeamScore +
-				", prediction='" + prediction + '\'' +
-				", odds=" + odds +
-				", confidenceLevel=" + confidenceLevel +
-				", status='" + status + '\'' +
-				", matchDate=" + matchDate +
-				", matchTime=" + matchTime +
-				'}';
+	public Selections getSelectionID() {
+		return selectionID;
+	}
+
+	public void setSelectionID(Selections selectionID) {
+		this.selectionID = selectionID;
 	}
 }

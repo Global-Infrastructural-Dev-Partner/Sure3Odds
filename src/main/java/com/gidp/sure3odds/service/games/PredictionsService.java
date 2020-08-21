@@ -3,7 +3,9 @@ package com.gidp.sure3odds.service.games;
 import com.gidp.sure3odds.entity.games.*;
 import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.entity.users.NewGameAndPrediction;
+import com.gidp.sure3odds.entity.users.Users;
 import com.gidp.sure3odds.repository.games.*;
+import com.gidp.sure3odds.repository.users.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +30,13 @@ public class PredictionsService {
     TeamsRepository teamsRepository;
 
     @Autowired
-    SetsRepository setsRepository;
+    UsersRepository usersRepository;
+
+    @Autowired
+    SelectionsRepository selectionsRepository;
 
 
-    public BaseResponse CreatePrediction(NewGameAndPrediction newGameAndPrediction) {
+    public BaseResponse CreatePrediction(Long UserID, NewGameAndPrediction newGameAndPrediction) {
         BaseResponse response = new BaseResponse();
         Long countryid = newGameAndPrediction.getCountryID().getId();
         Optional<Countries> countries = countriesRepository.findById(countryid);
@@ -45,21 +50,28 @@ public class PredictionsService {
                     Long awayteamid = newGameAndPrediction.getAwayTeamID().getId();
                     Optional<Teams> awayteam = teamsRepository.findById(awayteamid);
                     if (awayteam.isPresent()) {
-                        Long setid = newGameAndPrediction.getSetID().getId();
-                        Optional<Sets> sets = setsRepository.findById(setid);
-                        if (sets.isPresent()) {
-                            Predictions newPrediction = new Predictions(newGameAndPrediction.getMatchDate(), newGameAndPrediction.getMatchTime(), newGameAndPrediction.getPrediction(), newGameAndPrediction.getOdds(), "Pending", newGameAndPrediction.getConfidenceLevel());
-                            newPrediction.setAwayTeamID(awayteam.get());
-                            newPrediction.setHomeTeamID(hometeam.get());
-                            newPrediction.setLeagueID(league.get());
-                            newPrediction.setSetID(sets.get());
-                            newPrediction.setCountryID(countries.get());
-                            Predictions savedPrediction = predictionsRepository.save(newPrediction);
-                            response.setData(savedPrediction);
-                            response.setDescription("Prediction created successfully");
-                            response.setStatusCode(HttpServletResponse.SC_OK);
+                        Optional<Users> users = usersRepository.findById(UserID);
+                        if (users.isPresent()) {
+                            Long selectionid = newGameAndPrediction.getSelectionID().getId();
+                            Optional<Selections> selections = selectionsRepository.findById(selectionid);
+                            if (selections.isPresent()) {
+                                Predictions newPrediction = new Predictions(newGameAndPrediction.getMatchDate(), newGameAndPrediction.getMatchTime(), newGameAndPrediction.getOdds(), "Pending", newGameAndPrediction.getConfidenceLevel());
+                                newPrediction.setAwayTeamID(awayteam.get());
+                                newPrediction.setHomeTeamID(hometeam.get());
+                                newPrediction.setLeagueID(league.get());
+                                newPrediction.setUserID(users.get());
+                                newPrediction.setSelectionID(selections.get());
+                                newPrediction.setCountryID(countries.get());
+                                Predictions savedPrediction = predictionsRepository.save(newPrediction);
+                                response.setData(savedPrediction);
+                                response.setDescription("Prediction created successfully");
+                                response.setStatusCode(HttpServletResponse.SC_OK);
+                            } else {
+                                response.setDescription("Ops!, the process was halted, try to login again");
+                                response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+                            }
                         } else {
-                            response.setDescription("Please, select a set to add the game to.");
+                            response.setDescription("Ops!, the process was halted, try to login again");
                             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
                         }
                     } else {
@@ -112,9 +124,10 @@ public class PredictionsService {
 
     }
 
-    public BaseResponse GetAllPredictionByDate(Date matchDate) {
+    public BaseResponse GetPredictionByDateAndUserID(Date matchDate, Long UserID) {
         BaseResponse response = new BaseResponse();
-        List<Predictions> predictions = predictionsRepository.findPredictionsByMatchDate(matchDate);
+        List<Predictions> predictions = predictionsRepository.findPredictionsByMatchDateAndUserIDOrderByMatchTime(matchDate, UserID);
+//        List<Predictions> predictions = predictionsRepository.findPredictionsByMatchDate(matchDate);
         if (!predictions.isEmpty()) {
             response.setData(predictions);
             response.setDescription("Predictions found succesfully.");
@@ -145,18 +158,17 @@ public class PredictionsService {
     public BaseResponse DeletePrediction(long id) {
         BaseResponse response = new BaseResponse();
         Optional<Predictions> prediction = predictionsRepository.findById(id);
-        if(prediction.isPresent()) {
+        if (prediction.isPresent()) {
             predictionsRepository.deleteById(id);
             response.setDescription("Prediction deleted successfully");
             response.setStatusCode(HttpServletResponse.SC_OK);
-        }else {
+        } else {
             response.setDescription("No Set found");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
 
     }
-
 
 
 }

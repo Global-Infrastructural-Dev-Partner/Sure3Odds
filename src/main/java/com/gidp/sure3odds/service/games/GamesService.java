@@ -40,6 +40,9 @@ public class GamesService {
     @Autowired
     PlansRepository plansRepository;
 
+    @Autowired
+    SelectionsRepository selectionsRepository;
+
 
     public BaseResponse addGame(NewGameAndPrediction newGameAndPrediction) {
         BaseResponse response = new BaseResponse();
@@ -58,17 +61,25 @@ public class GamesService {
                         Long setid = newGameAndPrediction.getSetID().getId();
                         Optional<Sets> sets = setsRepository.findById(setid);
                         if (sets.isPresent()) {
-                            Games newGame = new Games(0, 0, newGameAndPrediction.getPrediction(), newGameAndPrediction.getOdds(),
-                                    newGameAndPrediction.getConfidenceLevel(), "Not Started", newGameAndPrediction.getMatchDate(), newGameAndPrediction.getMatchTime());
-                            newGame.setAwayTeamID(awayteam.get());
-                            newGame.setHomeTeamID(hometeam.get());
-                            newGame.setLeagueID(league.get());
-                            newGame.setSetID(sets.get());
-                            newGame.setCountryID(countries.get());
-                            Games savedGame = gamesRepository.save(newGame);
-                            response.setData(savedGame);
-                            response.setDescription("Game created successfully");
-                            response.setStatusCode(HttpServletResponse.SC_OK);
+                            Long selectionid = newGameAndPrediction.getSelectionID().getId();
+                            Optional<Selections> selections = selectionsRepository.findById(selectionid);
+                            if (selections.isPresent()) {
+                                Games newGame = new Games(0, 0, newGameAndPrediction.getOdds(),
+                                        newGameAndPrediction.getConfidenceLevel(), "Not Started", newGameAndPrediction.getMatchDate(), newGameAndPrediction.getMatchTime());
+                                newGame.setAwayTeamID(awayteam.get());
+                                newGame.setHomeTeamID(hometeam.get());
+                                newGame.setLeagueID(league.get());
+                                newGame.setSetID(sets.get());
+                                newGame.setCountryID(countries.get());
+                                newGame.setSelectionID(selections.get());
+                                Games savedGame = gamesRepository.save(newGame);
+                                response.setData(savedGame);
+                                response.setDescription("Game created successfully");
+                                response.setStatusCode(HttpServletResponse.SC_OK);
+                            } else {
+                                response.setDescription("Please, pick a selection to add the game to.");
+                                response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+                            }
                         } else {
                             response.setDescription("Please, select a set to add the game to.");
                             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
@@ -101,13 +112,14 @@ public class GamesService {
         if (prediction.isPresent()) {
             Optional<Sets> set = setsRepository.findById(setID);
             if (set.isPresent()) {
-                Games newGame = new Games(0, 0, prediction.get().getPrediction(), prediction.get().getOdds(),
+                Games newGame = new Games(0, 0, prediction.get().getOdds(),
                         prediction.get().getConfidenceLevel(), "Not Started", prediction.get().getMatchDate(), prediction.get().getMatchTime());
 
                 newGame.setAwayTeamID(prediction.get().getAwayTeamID());
                 newGame.setHomeTeamID(prediction.get().getHomeTeamID());
                 newGame.setLeagueID(prediction.get().getLeagueID());
                 newGame.setSetID(set.get());
+                newGame.setSelectionID(prediction.get().getSelectionID());
                 newGame.setCountryID(prediction.get().getCountryID());
                 Games savedGame = gamesRepository.save(newGame);
                 //update prediction status to approved
@@ -139,76 +151,76 @@ public class GamesService {
 
         Date SearchDate = null;
         Date CurrentDate = new Date();
-        if(CurrentDate.equals(matchDate)){
+        if (CurrentDate.equals(matchDate)) {
             SearchDate = matchDate;
         }
 
         if (usersService.IsUserActive(UserID)) {
             long planTypeID = 0l;
-            if(UserID != 1 ){
+            if (UserID != 1) {
                 Plans plan = plansRepository.findPlanByUserID(UserID);
                 planTypeID = plan.getPlanTypeID().getId();
             }
             if (planTypeID == 1 || UserID == 1) {
                 //Get for VVIP (set 1, set 2, set 3)
                 Optional<Sets> set1 = setsRepository.findById(1l);
-                if(CurrentDate.equals(matchDate)){
+                if (CurrentDate.equals(matchDate)) {
                     Set1Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set1.get());
-                }else{
+                } else {
                     Set1Games = gamesRepository.findGamesByMatchDateAndSetIDAndStatusOrderByMatchTime(matchDate, set1.get(), "Won");
                 }
-                if(!Set1Games.isEmpty()){
+                if (!Set1Games.isEmpty()) {
                     userGames.put(set1.get().getName(), Set1Games);
-                }else{
+                } else {
                     userGames.put(set1.get().getName(), set1.get().getName() + " Games will be available shortly or No Games.");
                 }
 
                 Optional<Sets> set2 = setsRepository.findById(2l);
-                if(CurrentDate.equals(matchDate)){
+                if (CurrentDate.equals(matchDate)) {
                     Set2Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set2.get());
-                }else{
+                } else {
                     Set2Games = gamesRepository.findGamesByMatchDateAndSetIDAndStatusOrderByMatchTime(matchDate, set2.get(), "Won");
                 }
-                if(!Set2Games.isEmpty()){
+                if (!Set2Games.isEmpty()) {
                     userGames.put(set2.get().getName(), Set2Games);
-                }else{
+                } else {
                     userGames.put(set2.get().getName(), set2.get().getName() + " Games will be available shortly or No Games.");
                 }
 
                 Optional<Sets> set3 = setsRepository.findById(3l);
-                if(CurrentDate.equals(matchDate)){
+                if (CurrentDate.equals(matchDate)) {
                     Set3Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set3.get());
-                }else{
+                } else {
                     Set3Games = gamesRepository.findGamesByMatchDateAndSetIDAndStatusOrderByMatchTime(matchDate, set3.get(), "Won");
                 }
-                if(!Set3Games.isEmpty()){
+                if (!Set3Games.isEmpty()) {
                     userGames.put(set3.get().getName(), Set3Games);
-                }else{
+                } else {
                     userGames.put(set3.get().getName(), set3.get().getName() + " Games will be available shortly or No Games.");
                 }
             } else if (planTypeID == 2) {
                 //Get for VIP (set 1, set 2)
                 Optional<Sets> set1 = setsRepository.findById(1l);
-                if(CurrentDate.equals(matchDate)){
+                if (CurrentDate.equals(matchDate)) {
                     Set1Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set1.get());
-                }else{
+                } else {
                     Set1Games = gamesRepository.findGamesByMatchDateAndSetIDAndStatusOrderByMatchTime(matchDate, set1.get(), "Won");
                 }
-                if(!Set1Games.isEmpty()){
+                if (!Set1Games.isEmpty()) {
                     userGames.put(set1.get().getName(), Set1Games);
-                }else{
+                } else {
                     userGames.put(set1.get().getName(), set1.get().getName() + " Games will be available shortly or No Games.");
                 }
 
                 Optional<Sets> set2 = setsRepository.findById(2l);
-                if(CurrentDate.equals(matchDate)){
+                if (CurrentDate.equals(matchDate)) {
                     Set2Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set2.get());
-                }else{
+                } else {
                     Set2Games = gamesRepository.findGamesByMatchDateAndSetIDAndStatusOrderByMatchTime(matchDate, set2.get(), "Won");
                 }
-                if(!Set2Games.isEmpty()){
+                if (!Set2Games.isEmpty()) {
                     userGames.put(set2.get().getName(), Set2Games);
-                }else{
+                } else {
                     userGames.put(set2.get().getName(), set2.get().getName() + " Games will be available shortly or No Games.");
                 }
 
@@ -255,5 +267,18 @@ public class GamesService {
 
     }
 
+    public BaseResponse DeleteGame(long gameid) {
+        BaseResponse response = new BaseResponse();
+        Optional<Games> game = gamesRepository.findById(gameid);
+        if(game.isPresent()) {
+            gamesRepository.deleteById(gameid);
+            response.setDescription("Game deleted successfully");
+            response.setStatusCode(HttpServletResponse.SC_OK);
+        }else {
+            response.setDescription("No result found");
+            response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        return response;
 
+    }
 }

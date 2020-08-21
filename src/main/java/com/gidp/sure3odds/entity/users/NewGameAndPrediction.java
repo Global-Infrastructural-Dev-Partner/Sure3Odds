@@ -1,10 +1,7 @@
 package com.gidp.sure3odds.entity.users;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.gidp.sure3odds.entity.games.Sets;
-import com.gidp.sure3odds.entity.games.Teams;
-import com.gidp.sure3odds.entity.games.Countries;
-import com.gidp.sure3odds.entity.games.Leagues;
+import com.gidp.sure3odds.entity.games.*;
 
 import java.util.Date;
 
@@ -20,7 +17,7 @@ public class NewGameAndPrediction {
 
     private Sets setID;
 
-    private String prediction;
+    private Selections selectionID;
 
     private double odds;
 
@@ -65,12 +62,12 @@ public class NewGameAndPrediction {
         this.setID = setID;
     }
 
-    public String getPrediction() {
-        return prediction;
+    public Selections getSelectionID() {
+        return selectionID;
     }
 
-    public void setPrediction(String prediction) {
-        this.prediction = prediction;
+    public void setSelectionID(Selections selectionID) {
+        this.selectionID = selectionID;
     }
 
     public double getOdds() {

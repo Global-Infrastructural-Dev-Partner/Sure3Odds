@@ -48,7 +48,6 @@ public class JWTHelper {
                     .withNotBefore(Calendar.getInstance().getTime())
                     .withJWTId(user.getId().toString())
                     .withClaim("usertype", user.getUserTypeID().getName())
-                    .withClaim("UserID", user.getId())
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException | IllegalArgumentException exception) {
@@ -74,7 +73,7 @@ public class JWTHelper {
         return null;
     }
 
-    public String getUserId(String token) {
+    public DecodedJWT getUserId(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(ENC_KEY);
             JWTVerifier verifier = JWT.require(algorithm)
@@ -82,7 +81,7 @@ public class JWTHelper {
                     .build();
             //Reusable verifier instance
             DecodedJWT jwt = verifier.verify(token);
-            return jwt.getClaim("UserID").asString();
+            return jwt;
         } catch (Exception exception) {
             //UTF-8 encoding not supported
             LOG.info(exception.getMessage());

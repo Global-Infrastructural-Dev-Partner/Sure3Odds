@@ -181,15 +181,15 @@ public class UsersController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
-//	@PostMapping(value = "/forgot_password")
-//	ResponseEntity<?> ForgotPassword(@RequestParam String Email, @RequestParam String Phone, @RequestParam String NewPassword) {
-//		BaseResponse response = null;
-//		if (response.getStatusCode() == 200) {
-//			return new ResponseEntity<>(response, HttpStatus.OK);
-//		} else {
-//			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-//		}
-//	}
+	@PostMapping(value = "/users/user/forgot_password")
+	ResponseEntity<?> ForgotPassword(@RequestParam String Email, @RequestParam String Phone, @RequestParam String NewPassword) {
+		BaseResponse response = null;
+		if (response.getStatusCode() == 200) {
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+	}
 
 
 	@GetMapping(value = "users/app/get_app_reports")

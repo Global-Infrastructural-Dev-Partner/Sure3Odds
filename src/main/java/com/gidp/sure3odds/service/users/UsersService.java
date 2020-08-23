@@ -21,9 +21,10 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 public class UsersService {
@@ -82,15 +83,19 @@ public class UsersService {
                 Optional<PlanTypes> plantype = planTypesRepository.findById(planttypeid);
                 if (plantype.isPresent()) {
                     String password = passwordEncoder.encode(newUser.getPassword());
-                    newUser.setStatus("Active");
-                    newUser.setAssigned("Pending");
                     Users user = new Users(newUser.getEmail(), newUser.getPhone(), password,
-                            newUser.getFirstname(), newUser.getLastname(), newUser.getDatejoined(), newUser.getStatus(),
-                            newUser.getDevice_token(), newUser.getAssigned());
+                            newUser.getFirstname(), newUser.getLastname(), newUser.getDatejoined(), "Active",
+                            "Pending", "Pending");
                     user.setUserTypeID(usertype.get());
                     Users saved_user = usersRepository.save(user);
 
-                    Plans plan = new Plans(newUser.getStartDate(), newUser.getEndDate());
+                    LocalDate CurrentDate = LocalDate.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    String CurrentDateString = CurrentDate.format(formatter);
+                    LocalDate mDate = LocalDate.parse(CurrentDateString);
+                    Date endDate  = appHelper.convertToDateViaInstant(mDate);
+
+                    Plans plan = new Plans(newUser.getStartDate(), endDate);
                     plan.setUserID(saved_user);
                     plan.setPlanTypeID(plantype.get());
                     Plans saved_plan = plansRepository.save(plan);
@@ -215,17 +220,20 @@ public class UsersService {
         return result;
     }
 
-    public BaseResponse CreateAdviser(NewUser newUser) {
+    public BaseResponse CreateAdviser(Users newUser) {
         BaseResponse response = new BaseResponse();
         Long usertypeid = newUser.getUserTypeID().getId();
         Optional<UserTypes> usertype = userTypesRepository.findById(usertypeid);
         if (usertype.isPresent()) {
+            String password = passwordEncoder.encode(newUser.getPassword());
             newUser.setAssigned("Pending");
             newUser.setStatus("Active");
-            Users user = new Users(newUser.getEmail(), newUser.getPhone(), newUser.getPassword(),
+            newUser.setDevice_token("Pending");
+            Users user = new Users(newUser.getEmail(), newUser.getPhone(), password,
                     newUser.getFirstname(), newUser.getLastname(), newUser.getDatejoined(), newUser.getStatus(),
                     newUser.getDevice_token(), newUser.getAssigned());
             user.setUserTypeID(usertype.get());
+
             Users saved_user = usersRepository.save(user);
             response.setData(saved_user);
             response.setDescription("user created successfully");
@@ -239,45 +247,26 @@ public class UsersService {
 
     }
 
-    public BaseResponse GetAllUsers() {
-        BaseResponse response = new BaseResponse();
-        List<Users> users = usersRepository.findAll();
-        if (!users.isEmpty()) {
-            response.setData(users);
-            response.setDescription("usertypes found succesfully.");
-            response.setStatusCode(HttpServletResponse.SC_OK);
-        } else {
-            response.setDescription("No result found.");
-            response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        return response;
-
-    }
 
     public BaseResponse searchByFirstNameOrLastName(Long usertypeid, String searchValue) {
         BaseResponse response = new BaseResponse();
-//        List<Users> users = usersRepository.findUsersByFirstnameOrLastnameContaining(searchValue, searchValue);
-        List<Users> users = usersRepository.findUsersByFirstnameOrLastnameContainingAndUserTypeID(searchValue, searchValue, usertypeid);
+        List<Users> users = usersRepository.findUsersByFirstnameOrLastnameContaining(searchValue, searchValue);
         ArrayList<Object> data = new ArrayList<>();
         if (!users.isEmpty()) {
-//            for (Users user : users) {
-//                Long usertypeID = user.getUserTypeID().getId();
-//                if (usertypeID == usertypeid) {
-//                    data.add(user);
-//                }
-//            }
-            response.setData(users);
-            response.setDescription("usertypes found succesfully.");
-            response.setStatusCode(HttpServletResponse.SC_OK);
-//            if (!data.isEmpty()) {
-//                response.setData(users);
-//                response.setDescription("usertypes found succesfully.");
-//                response.setStatusCode(HttpServletResponse.SC_OK);
-//            } else {
-//                response.setDescription("No result found.");
-//                response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-//            }
-
+            for (Users user : users) {
+                Long usertypeID = user.getUserTypeID().getId();
+                if (usertypeID == usertypeid) {
+                    data.add(user);
+                }
+            }
+            if (!data.isEmpty()) {
+                response.setData(users);
+                response.setDescription("usertypes found succesfully.");
+                response.setStatusCode(HttpServletResponse.SC_OK);
+            } else {
+                response.setDescription("No result found.");
+                response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+            }
         } else {
             response.setDescription("No result found.");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
@@ -288,7 +277,7 @@ public class UsersService {
 
     public BaseResponse GetUserDetailsByID(Long userid) {
         BaseResponse response = new BaseResponse();
-        Users users = usersRepository.findById(userid).get();
+        Optional<Users> users = usersRepository.findById(userid);
         if (users != null) {
             response.setData(users);
             response.setDescription("user found succesfully.");
@@ -325,6 +314,12 @@ public class UsersService {
         return userPhone;
     }
 
+    public String GetUserPassWord(Long userid) {
+        Users users = usersRepository.findById(userid).get();
+        String userPassword = users.getPassword();
+        return userPassword;
+    }
+
     public BaseResponse UpdateUser(Users users) {
         BaseResponse response = new BaseResponse();
         if (appHelper.isValidEmail(users.getEmail())) {
@@ -332,7 +327,8 @@ public class UsersService {
             String userEmail = GetUserEmail(userid);
             String userPhone = GetUserPhone(userid);
             if (checkEmailAddressOrPhoneNumberExist(users.getEmail(), users.getPhone())) {
-                if (userEmail.equals(users.getEmail()) && userPhone.equals(users.getPhone())) {
+                if (userEmail.equals(users.getEmail()) || userPhone.equals(users.getPhone())) {
+                    users.setPassword(GetUserPassWord(userid));
                     Users updatedusers = usersRepository.save(users);
                     if (updatedusers != null) {
                         response.setData(updatedusers);
@@ -347,6 +343,7 @@ public class UsersService {
                     response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
                 }
             } else {
+                users.setPassword(GetUserPassWord(userid));
                 Users updatedusers = usersRepository.save(users);
                 if (updatedusers != null) {
                     response.setData(updatedusers);
@@ -377,11 +374,135 @@ public class UsersService {
         boolean result = false;
         Optional<Users> user = usersRepository.findById(UserID);
         if (user.isPresent()) {
-            String status = user.get().getStatus();
-            if (status.equals("Active")) {
+            if (UserID == 1l) {
                 result = true;
+            } else {
+                if (user.get().getUserTypeID().getId() == 2l) {//members
+                    Plans plans = plansRepository.findPlanByUserID(UserID);
+                    Date dueDate = plans.getEndDate();
+                    Date currentDate = new Date();
+                    if (currentDate.after(dueDate)) {
+                        user.get().setStatus("Inactive");
+                        usersRepository.save(user.get());
+                        result = false;
+                    } else {
+                        result = true;
+                    }
+                } else {
+                    result = true;
+                }
             }
         }
         return result;
     }
+
+
+    public BaseResponse GetAppReports() {
+        BaseResponse response = new BaseResponse();
+        HashMap<String, Object> result = new HashMap<String, Object>();
+
+        Optional<UserTypes> userTypes = userTypesRepository.findById(2l);
+        List<Users> allUser = usersRepository.findUsersByUserTypeIDEquals(userTypes.get());
+        result.put("totalusers", allUser.size());
+
+        List<Users> allActiveUsers = usersRepository.findUsersByStatusEqualsAndUserTypeIDEquals("Active", userTypes.get());
+        result.put("totalactiveusers", allActiveUsers.size());
+
+        List<Users> allInActiveUsers = usersRepository.findUsersByStatusEqualsAndUserTypeIDEquals( "Inactive", userTypes.get());
+        result.put("totalinactiveusers", allInActiveUsers.size());
+
+        Optional<PlanTypes> planTypes = planTypesRepository.findById(1l);
+        List<Payments> planTypes1Users = paymentsRepository.findPaymentsByPlanTypeIDEquals(planTypes.get());
+        result.put("totalvvipusers", planTypes1Users.size());
+
+        Optional<PlanTypes> planTypes2 = planTypesRepository.findById(2l);
+        List<Payments> allPlanTypes2Users = paymentsRepository.findPaymentsByPlanTypeIDEquals( planTypes2.get());
+        result.put("totalvipusers", allPlanTypes2Users.size());
+
+        BigDecimal planType1Income = BigDecimal.ZERO;
+        planType1Income = planTypes.get().getAmount().multiply(new BigDecimal(planTypes1Users.size()));
+        result.put("totalvvipincome", planType1Income);
+
+
+        BigDecimal planType2Income = BigDecimal.ZERO;
+        planType2Income = planTypes2.get().getAmount().multiply(new BigDecimal(allPlanTypes2Users.size()));
+        result.put("totalvipincome", planType2Income);
+
+        BigDecimal totalincome = planType1Income.add(planType2Income);
+        result.put("totalincome", totalincome);
+
+        if (result != null) {
+            response.setData(result);
+            response.setDescription("report found succesfully.");
+            response.setStatusCode(HttpServletResponse.SC_OK);
+        } else {
+            response.setDescription("No result found.");
+            response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        return response;
+
+    }
+
+    public String ValidateAllUsersPaymentDueDate() {
+        String result = "failed";
+        List<Users> users = usersRepository.findAll();
+        for (Users user : users) {
+            long userid = user.getId();
+            IsUserActive(userid);
+        }
+        return result;
+    }
+
+
+    public BaseResponse GetMonthlyReports (Date startDate) {
+        BaseResponse response = new BaseResponse();
+        HashMap<String, Object> result = new HashMap<String, Object>();
+
+        LocalDate convertedDate = appHelper.convertToLocalDateViaInstant(startDate);
+        convertedDate = convertedDate.withDayOfMonth(convertedDate.getMonth().length(convertedDate.isLeapYear()));
+
+        Date endDate = appHelper.convertToDateViaInstant(convertedDate);
+        Optional<UserTypes> userTypes = userTypesRepository.findById(2l);
+        List<Users> allUser = usersRepository.findUsersByDatejoinedBetweenAndUserTypeIDEquals(startDate, endDate, userTypes.get());
+        result.put("totalusers", allUser.size());
+
+        List<Users> allActiveUsers = usersRepository.findUsersByDatejoinedBetweenAndStatusEqualsAndUserTypeIDEquals(startDate, endDate, "Active", userTypes.get());
+        result.put("totalactiveusers", allActiveUsers.size());
+
+        List<Users> allInActiveUsers = usersRepository.findUsersByDatejoinedBetweenAndStatusEqualsAndUserTypeIDEquals(startDate, endDate, "Inactive", userTypes.get());
+        result.put("totalinactiveusers", allInActiveUsers.size());
+
+        Optional<PlanTypes> planTypes = planTypesRepository.findById(1l);
+        List<Payments> planTypes1Users = paymentsRepository.findPaymentsByPaymentdateBetweenAndPlanTypeIDEquals(startDate, endDate, planTypes.get());
+        result.put("totalvvipusers", planTypes1Users.size());
+
+        Optional<PlanTypes> planTypes2 = planTypesRepository.findById(2l);
+        List<Payments> allPlanTypes2Users = paymentsRepository.findPaymentsByPaymentdateBetweenAndPlanTypeIDEquals(startDate, endDate, planTypes2.get());
+        result.put("totalvipusers", allPlanTypes2Users.size());
+
+        BigDecimal planType1Income = BigDecimal.ZERO;
+        planType1Income = planTypes.get().getAmount().multiply(new BigDecimal(planTypes1Users.size()));
+        result.put("totalvvipincome", planType1Income);
+
+
+        BigDecimal planType2Income = BigDecimal.ZERO;
+        planType2Income = planTypes2.get().getAmount().multiply(new BigDecimal(allPlanTypes2Users.size()));
+        result.put("totalvipincome", planType2Income);
+
+        BigDecimal totalincome = planType1Income.add(planType2Income);
+        result.put("totalincome", totalincome);
+
+        if (result != null) {
+            response.setData(result);
+            response.setDescription("report found succesfully.");
+            response.setStatusCode(HttpServletResponse.SC_OK);
+        } else {
+            response.setDescription("No result found.");
+            response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        return response;
+
+    }
+
+
 }

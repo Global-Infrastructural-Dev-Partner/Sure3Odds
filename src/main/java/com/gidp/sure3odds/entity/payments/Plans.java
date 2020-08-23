@@ -1,5 +1,6 @@
 package com.gidp.sure3odds.entity.payments;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gidp.sure3odds.entity.users.Users;
 
 import java.util.Date;
@@ -34,10 +35,10 @@ public class Plans {
 	@JoinColumn(name ="plantypeid")
 	private PlanTypes planTypeID;
 
-	@Temporal(TemporalType.DATE)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
 	private Date startDate;
 
-	@Temporal(TemporalType.DATE)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
 	private Date endDate;
 
 	/**

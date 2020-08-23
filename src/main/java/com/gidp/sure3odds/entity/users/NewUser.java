@@ -23,21 +23,9 @@ public class NewUser {
 
     private Date datejoined;
 
-    private String status;
-
-    private String device_token;
-
-    private String assigned;
-
-
-    private Users userID;
-
     private PlanTypes planTypeID;
 
     private Date startDate;
-
-    private Date endDate;
-
 
     private Date paymentdate;
 
@@ -103,38 +91,6 @@ public class NewUser {
         this.datejoined = datejoined;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getDevice_token() {
-        return device_token;
-    }
-
-    public void setDevice_token(String device_token) {
-        this.device_token = device_token;
-    }
-
-    public String getAssigned() {
-        return assigned;
-    }
-
-    public void setAssigned(String assigned) {
-        this.assigned = assigned;
-    }
-
-    public Users getUserID() {
-        return userID;
-    }
-
-    public void setUserID(Users userID) {
-        this.userID = userID;
-    }
-
     public PlanTypes getPlanTypeID() {
         return planTypeID;
     }
@@ -149,14 +105,6 @@ public class NewUser {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
     }
 
     public Date getPaymentdate() {

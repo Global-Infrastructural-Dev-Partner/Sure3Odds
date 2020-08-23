@@ -1,4 +1,4 @@
-package com.gidp.sure3odds.controller;
+package com.gidp.sure3odds.controller.users;
 
 import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.entity.users.MemberAdvisers;
@@ -10,11 +10,13 @@ import com.gidp.sure3odds.service.users.MemberAdvisersService;
 import com.gidp.sure3odds.service.users.UserTypesService;
 import com.gidp.sure3odds.service.users.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Date;
 
 @RequestMapping("/sure3odds")
 @RestController
@@ -52,16 +54,6 @@ public class UsersController {
         }
     }
 
-    @GetMapping(value = "/users/getall")
-    ResponseEntity<?> getAllUsers() {
-        BaseResponse response = usersService.GetAllUsers();
-        if (response.getStatusCode() == 200) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }
-
     @DeleteMapping(value = "users/usertype/delete/{id}")
     ResponseEntity<?> deleteUserType(@PathVariable Long id) {
         BaseResponse response = userTypesService.DeleteUserType(id);
@@ -73,7 +65,7 @@ public class UsersController {
     }
 
     @GetMapping(value = "/users/get_by_usertypeid/{id}")
-    ResponseEntity<?> getUsersByUserTypeID(@PathVariable Long id) {
+    ResponseEntity<?> getUsersByUserTypeID(@RequestParam Long id) {
         BaseResponse response = usersService.GetUsersByUserTypID(id);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -82,9 +74,9 @@ public class UsersController {
         }
     }
 
-    @GetMapping(value = "/users/user/get_by_id/{id}")
-    ResponseEntity<?> getUserID(@PathVariable Long id) {
-        BaseResponse response = usersService.GetUserDetailsByID(id);
+    @GetMapping(value = "/users/user/get_by_userid")
+    ResponseEntity<?> getUserDetails(@RequestAttribute("UserID") Long UserID) {
+        BaseResponse response = usersService.GetUserDetailsByID(UserID);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -130,13 +122,8 @@ public class UsersController {
     }
 
 
-
-
-
-
-
     @PostMapping(value = "users/advisers/create")
-    ResponseEntity<?> createAdviser(@RequestBody NewUser user) {
+    ResponseEntity<?> createAdviser(@RequestBody Users user) {
         BaseResponse response = usersService.CreateAdviser(user);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -144,6 +131,7 @@ public class UsersController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+
     @PostMapping(value = "/users/member_advisers/assign")
     ResponseEntity<?> assignMemberAdviser(@RequestBody MemberAdvisers memberAdvisers) {
         BaseResponse response = memberAdvisersService.AssignMemberAdviser(memberAdvisers);
@@ -153,6 +141,7 @@ public class UsersController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+
     @DeleteMapping(value = "/users/member_advisers/delete/{id}")
     ResponseEntity<?> deleteMemberAdviser(@PathVariable Long id) {
         BaseResponse response = memberAdvisersService.DeleteMemberAdviser(id);
@@ -162,6 +151,7 @@ public class UsersController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+
     @PutMapping(value = "/users/member_advisers/update")
     ResponseEntity<?> updateMemberAdviser(@RequestBody MemberAdvisers memberAdvisers) {
         BaseResponse response = memberAdvisersService.UpdateMemberAdviser(memberAdvisers);
@@ -171,9 +161,10 @@ public class UsersController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping(value = "/users/members/adviserdetails_by_memeruserid/{id}")
-    ResponseEntity<?> getAdviserDetailsByMemberUserID(@PathVariable Long id) {
-        BaseResponse response = memberAdvisersService.GetAdviserDetailsByMemberID(id);
+
+    @GetMapping(value = "/users/members/adviserdetails_by_memeruserid")
+    ResponseEntity<?> getAdviserDetailsByMemberUserID(@RequestAttribute("UserID") Long UserID) {
+        BaseResponse response = memberAdvisersService.GetAdviserDetailsByMemberID(UserID);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -181,9 +172,9 @@ public class UsersController {
         }
     }
 
-    @GetMapping(value = "/users/advisers/members/getall/{id}")
-    ResponseEntity<?> getMembersByAdviserUserID(@PathVariable Long id) {
-        BaseResponse response = memberAdvisersService.GetMembersByAdviserUserID(id);
+    @GetMapping(value = "/users/advisers/members/getall")
+    ResponseEntity<?> getMembersByAdviserUserID(@RequestAttribute("UserID") Long UserID) {
+        BaseResponse response = memberAdvisersService.GetMembersByAdviserUserID(UserID);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -201,25 +192,29 @@ public class UsersController {
 //	}
 
 
-//	@GetMapping(value = "/get_app_stats")
-//	ResponseEntity<?> getAppStats() {
-//		BaseResponse response = null;
-//		if (response.getStatusCode() == 200) {
-//			return new ResponseEntity<>(response, HttpStatus.OK);
-//		} else {
-//			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-//		}
-//	}
-//
-//	@GetMapping(value = "/get_monthly_stats")
-//	ResponseEntity<?> getMonthlyStats() {
-//		BaseResponse response = null;
-//		if (response.getStatusCode() == 200) {
-//			return new ResponseEntity<>(response, HttpStatus.OK);
-//		} else {
-//			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-//		}
-//	}
+	@GetMapping(value = "users/app/get_app_reports")
+	ResponseEntity<?> getAppReports() {
+		BaseResponse response = usersService.GetAppReports();
+		if (response.getStatusCode() == 200) {
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+    /**
+     * @param selectedDate
+     * @return
+     */
+	@GetMapping(value = "users/app/get_monthly_reports")
+	ResponseEntity<?> getMonthlyReports(@RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) Date selectedDate) {
+		BaseResponse response = usersService.GetMonthlyReports(selectedDate);
+		if (response.getStatusCode() == 200) {
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+	}
 //
 
 

@@ -1,5 +1,6 @@
 package com.gidp.sure3odds.entity.payments;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gidp.sure3odds.entity.users.Users;
 
 import javax.persistence.*;
@@ -23,7 +24,7 @@ public class Payments {
 	@JoinColumn(name ="plantypeid")
 	private PlanTypes planTypeID;
 
-	@Temporal(TemporalType.DATE)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
 	private Date paymentdate;
 
 	private String paymenttype;

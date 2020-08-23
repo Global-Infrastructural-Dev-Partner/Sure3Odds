@@ -1,11 +1,12 @@
 package com.gidp.sure3odds.repository.payments;
 
+import com.gidp.sure3odds.entity.payments.Payments;
+import com.gidp.sure3odds.entity.payments.PlanTypes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.gidp.sure3odds.entity.payments.Payments;
-
+import java.util.Date;
 import java.util.List;
 
 
@@ -14,4 +15,10 @@ public interface PaymentsRepository extends JpaRepository<Payments, Long> {
 
 	@Query(value = "SELECT * FROM sure_payments WHERE userid = ?1", nativeQuery = true)
 	List<Payments> findPaymentsByUserID(long userid);
+
+
+	List<Payments> findPaymentsByPaymentdateBetweenAndPlanTypeIDEquals(Date startDate, Date endDate, PlanTypes planTypes);
+
+	List<Payments> findPaymentsByPlanTypeIDEquals(PlanTypes planTypes);
+
 }

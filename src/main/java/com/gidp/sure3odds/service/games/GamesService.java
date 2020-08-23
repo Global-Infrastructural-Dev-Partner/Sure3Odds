@@ -4,13 +4,19 @@ import com.gidp.sure3odds.entity.games.*;
 import com.gidp.sure3odds.entity.payments.Plans;
 import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.entity.users.NewGameAndPrediction;
+import com.gidp.sure3odds.helper.AppHelper;
 import com.gidp.sure3odds.repository.games.*;
 import com.gidp.sure3odds.repository.payments.PlansRepository;
 import com.gidp.sure3odds.service.users.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -42,6 +48,8 @@ public class GamesService {
 
     @Autowired
     SelectionsRepository selectionsRepository;
+
+    AppHelper appHelper = new AppHelper();
 
 
     public BaseResponse addGame(NewGameAndPrediction newGameAndPrediction) {
@@ -149,17 +157,15 @@ public class GamesService {
         List<Games> Set2Games = new ArrayList<>();
         List<Games> Set3Games = new ArrayList<>();
 
-        Date SearchDate = null;
         Date CurrentDate = new Date();
-        if (CurrentDate.equals(matchDate)) {
-            SearchDate = matchDate;
-        }
 
         if (usersService.IsUserActive(UserID)) {
             long planTypeID = 0l;
             if (UserID != 1) {
                 Plans plan = plansRepository.findPlanByUserID(UserID);
                 planTypeID = plan.getPlanTypeID().getId();
+            }else{
+                usersService.ValidateAllUsersPaymentDueDate();
             }
             if (planTypeID == 1 || UserID == 1) {
                 //Get for VVIP (set 1, set 2, set 3)
@@ -279,6 +285,66 @@ public class GamesService {
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
-
     }
+
+    public BaseResponse GetGameSettings() {
+        BaseResponse response = new BaseResponse();
+        HashMap<String, Object> GameOdds = new HashMap<>();
+        List<Games> Set1Games = new ArrayList<>();
+        List<Games> Set2Games = new ArrayList<>();
+        List<Games> Set3Games = new ArrayList<>();
+
+
+        LocalDate CurrentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String CurrentDateString = CurrentDate.format(formatter);
+        LocalDate mDate = LocalDate.parse(CurrentDateString);
+        Date matchDate  = appHelper.convertToDateViaInstant(mDate);
+
+        double set1Odds = 0.00;
+        double set2Odds = 0.00;
+        double set3Odds = 0.00;
+
+        Optional<Sets> set1 = setsRepository.findById(1l);
+        Set1Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set1.get());
+        if (!Set1Games.isEmpty()) {
+            for (Games game:Set1Games ) {
+                double s1odds = game.getOdds();
+                set1Odds += s1odds;
+            }
+        }
+        double TotalSet1Odds = Math.round(set1Odds * 100.0) /100.0;
+        GameOdds.put("totalset1oddcounts", TotalSet1Odds);
+
+
+        Optional<Sets> set2 = setsRepository.findById(2l);
+        Set2Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set2.get());
+        if (!Set2Games.isEmpty()) {
+            for (Games game:Set2Games) {
+                double s2odds = game.getOdds();
+                set2Odds += s2odds;
+            }
+        }
+        double TotalSet2Odds = Math.round(set2Odds * 100.0) /100.0;
+        GameOdds.put("totalset2oddcounts", TotalSet2Odds);
+
+
+
+        Optional<Sets> set3 = setsRepository.findById(3l);
+        Set3Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set3.get());
+        if (!Set3Games.isEmpty()) {
+            for (Games game :  Set3Games) {
+                double s3odds = game.getOdds();
+                set3Odds += s3odds;
+            }
+        }
+        double TotalSet3Odds = Math.round(set3Odds * 100.0) /100.0;
+        GameOdds.put("totalset3oddcounts", TotalSet3Odds);
+
+        response.setData(GameOdds);
+        response.setDescription("Games found succesfully.");
+        response.setStatusCode(HttpServletResponse.SC_OK);
+        return response;
+    }
+
 }

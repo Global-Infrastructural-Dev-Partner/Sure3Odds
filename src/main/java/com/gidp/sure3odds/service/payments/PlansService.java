@@ -5,6 +5,7 @@ import com.gidp.sure3odds.entity.payments.PlanTypes;
 import com.gidp.sure3odds.entity.payments.Plans;
 import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.entity.users.Users;
+import com.gidp.sure3odds.helper.AppHelper;
 import com.gidp.sure3odds.repository.payments.PaymentsRepository;
 import com.gidp.sure3odds.repository.payments.PlanTypesRepository;
 import com.gidp.sure3odds.repository.payments.PlansRepository;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 
@@ -40,6 +40,8 @@ public class PlansService {
 
 	@Autowired
 	PaymentsRepository paymentsRepository;
+
+	AppHelper appHelper = new AppHelper();
 
 
 	public BaseResponse UpdatePlan(long UserID, long PlanTypeID, String Platform, String TransactionID) throws IOException {
@@ -68,7 +70,7 @@ public class PlansService {
 				updated_plans.setStartDate(new Date());
 				//add 31 to the startdate to get the next due date
 				LocalDate DueDate = CurrentDate.plusMonths(1);
-				Date ExpiryDate = convertToDateViaInstant(DueDate);
+				Date ExpiryDate = appHelper.convertToDateViaInstant(DueDate);
 				updated_plans.setEndDate(ExpiryDate);
 				Plans saved_plan = plansRepository.save(updated_plans);
 
@@ -83,10 +85,8 @@ public class PlansService {
 				Payments saved_payment = paymentsRepository.save(payments);
 
 				//update the user table and set status to active
-				Users updated_user = new Users();
-				updated_user.setId(users.get().getId());
-				updated_user.setStatus("Active");
-				Users saved_user = usersRepository.save(updated_user);
+				users.get().setStatus("Active");
+				usersRepository.save(users.get());
 				response.setData(saved_plan);
 				response.setDescription("User plan renewal was successful.");
 				response.setStatusCode(HttpServletResponse.SC_OK);
@@ -102,10 +102,6 @@ public class PlansService {
 
 	}
 
-	public Date convertToDateViaInstant(LocalDate dateToConvert) {
-		return java.util.Date.from(dateToConvert.atStartOfDay()
-				.atZone(ZoneId.systemDefault())
-				.toInstant());
-	}
+
 
 }

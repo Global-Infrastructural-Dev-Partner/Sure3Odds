@@ -1,4 +1,4 @@
-package com.gidp.sure3odds.controller;
+package com.gidp.sure3odds.controller.games;
 
 import com.gidp.sure3odds.entity.games.*;
 import com.gidp.sure3odds.entity.response.BaseResponse;
@@ -15,7 +15,9 @@ import java.util.List;
 
 @RequestMapping("/sure3odds")
 @RestController
+
 public class GamesController {
+
     @Autowired
     SetsService setsService;
 
@@ -330,7 +332,6 @@ public class GamesController {
 
     @PostMapping(value = "/games/prediction/create")
     ResponseEntity<?> createPrediction(@RequestAttribute("UserID") Long userid, @RequestBody NewGameAndPrediction newGameAndPrediction) {
-
         BaseResponse response = predictionsService.CreatePrediction(userid, newGameAndPrediction);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -443,16 +444,6 @@ public class GamesController {
         }
     }
 
-    @GetMapping(value = "/games/game/get_settings")
-    ResponseEntity<?> getGamesSettings() {
-        BaseResponse response = null;
-        if (response.getStatusCode() == 200) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }
-
 
     @PostMapping(value = "/games/comment/create")
     ResponseEntity<?> addComment(@RequestBody Comments comments) {
@@ -541,6 +532,16 @@ public class GamesController {
     @DeleteMapping(value = "/games/selection/delete/{id}")
     ResponseEntity<?> deleteSelection(@RequestParam Long id) {
         BaseResponse response = selectionsService.DeleteSelection(id);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/games/game/get_settings")
+    ResponseEntity<?> getGamesSettings() {
+        BaseResponse response = gamesService.GetGameSettings();
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {

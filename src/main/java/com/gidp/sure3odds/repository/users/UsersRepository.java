@@ -1,10 +1,12 @@
 package com.gidp.sure3odds.repository.users;
 
+import com.gidp.sure3odds.entity.users.UserTypes;
 import com.gidp.sure3odds.entity.users.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +25,15 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
 	Optional<Users> findByEmail(String email);
 
-	List<Users> findUsersByFirstnameOrLastnameContainingAndUserTypeID(String searchValue, String searchText, long userTypeID);
 
+	List<Users> findUsersByDatejoinedBetweenAndUserTypeIDEquals(Date startDate, Date endDate, UserTypes usertypeID);
+
+
+	List<Users> findUsersByDatejoinedBetweenAndStatusEqualsAndUserTypeIDEquals(Date startDate, Date endDate, String status, UserTypes usertypeID);
+
+
+	List<Users> findUsersByUserTypeIDEquals(UserTypes usertypeID);
+
+	List<Users> findUsersByStatusEqualsAndUserTypeIDEquals(String status, UserTypes usertypeID);
 
 }

@@ -5,16 +5,15 @@ import com.gidp.sure3odds.entity.users.MemberAdvisers;
 import com.gidp.sure3odds.entity.users.NewUser;
 import com.gidp.sure3odds.entity.users.UserTypes;
 import com.gidp.sure3odds.entity.users.Users;
-import com.gidp.sure3odds.service.users.AuthenticationService;
-import com.gidp.sure3odds.service.users.MemberAdvisersService;
-import com.gidp.sure3odds.service.users.UserTypesService;
-import com.gidp.sure3odds.service.users.UsersService;
+import com.gidp.sure3odds.service.users.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sun.jvm.hotspot.debugger.AddressException;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.Date;
 
@@ -216,7 +215,23 @@ public class UsersController {
 			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 		}
 	}
-//
+
+    @Autowired
+    private EmailService emailService;
+    @GetMapping(value = "/sendmail")
+    public String sendEmail() throws AddressException, MessagingException, IOException {
+        emailService.sendmail();
+        return "Email sent successfully";
+    }
+
+//    ResponseEntity<?> sendmail(@RequestParam() String ToEmail) {
+//        BaseResponse response =  emailService.sendMail(ToEmail, "Test Subject", "Test mail");
+//        if (response.getStatusCode() == 200) {
+//            return new ResponseEntity<>(response, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
 
 }

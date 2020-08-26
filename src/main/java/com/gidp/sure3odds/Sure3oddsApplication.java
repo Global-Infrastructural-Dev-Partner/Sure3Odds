@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.io.IOException;
+
 @SpringBootApplication
 public class Sure3oddsApplication {
     @Value("${cors.url}")
@@ -30,6 +32,25 @@ public class Sure3oddsApplication {
         registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         registrationBean.setAsyncSupported(false);
         return registrationBean;
+    }
+
+    @Override
+    public void run(String... args) {
+
+        System.out.println("Sending Email...");
+
+        try {
+            sendEmail();
+           
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Done");
+
     }
 
     @Bean

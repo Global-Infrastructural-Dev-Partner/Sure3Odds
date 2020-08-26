@@ -109,6 +109,7 @@ public class UsersController {
     ResponseEntity<?> createMember(@RequestBody NewUser user) throws IOException {
         BaseResponse response = usersService.CreateNewUser(user);
         if (response.getStatusCode() == 200) {
+            response = authenticationService.userLogin(user.getEmail(), user.getPassword());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

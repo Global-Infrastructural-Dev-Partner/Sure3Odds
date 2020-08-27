@@ -1,101 +1,63 @@
 package com.gidp.sure3odds.service.users;
 
-import com.gidp.sure3odds.entity.response.BaseResponse;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import com.sendgrid.*;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Email;
+import com.sendgrid.helpers.mail.objects.Personalization;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.mail.*;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.Properties;
 
 @Service
 public class EmailService {
 
-    private JavaMailSender javaMailSender;
+    @Autowired
+    SendGrid sendGrid;
+    @Value("${sure.sendgrid.template-id}")
+    private String templateId;
+    @Value("${sure.sendgrid.api-key}")
+    private String appKey;
 
 
-    public BaseResponse sendMail(String toEmail, String subject, String message) {
-        BaseResponse response = new BaseResponse();
-
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-
-        mailMessage.setTo(toEmail);
-        mailMessage.setSubject(subject);
-        mailMessage.setText(message);
-
-        mailMessage.setFrom("support@sure3odds.com");
-
-        javaMailSender.send(mailMessage);
-        response.setData("success");
-        response.setDescription("report found succesfully.");
-        response.setStatusCode(HttpServletResponse.SC_OK);
-        return response;
-    }
-
-    public String sendmail() throws AddressException, MessagingException, IOException {
-        String me = null;
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "mail.sure3odds.com");
-        props.put("mail.smtp.port", "465");
-
-        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("support@sure3odds.com", "@Dee20mene");
-            }
-        });
-
+    public String sendEmail(String email) {
+            Mail mail = prepareMail(email);
+            Request request = new Request();
         try {
-//            Message message = (Message) new MimeMessage(session);
-//            message.setFrom((Address) new InternetAddress(from));
-//            message.setRecipients(Message.RecipientType.TO, (Address[]) InternetAddress.parse(to));
-//            message.setSubject(subject);
-//            message.setText(msg);
-//            Transport.send(message);
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("support@sure3odds.com", false));
-
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("visitsaint@gmail.com"));
-            msg.setSubject("Tutorials point email");
-            msg.setContent("Tutorials point email", "text/html");
-            msg.setSentDate(new Date());
-
-            MimeBodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setContent("Tutorials point email", "text/html");
-            Transport.send(msg);
-            System.out.println("Message send successfully....");
-            me = "success";
-        } catch (MessagingException e) {
-            me = e.getMessage();
-            throw new RuntimeException((Throwable) e);
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            Response response = sendGrid.api(request);
+            if (response != null) {
+                System.out.println("response code from sendgrid " + response.getHeaders());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "error in sending email";
         }
-        return me;
+        return "mail had been sent check your inbox";
+
     }
 
 
-    public JavaMailSender getJavaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("mail.sure3odds.com");
-        mailSender.setPort(465);
+    public Mail prepareMail(String email) {
 
-        mailSender.setUsername("support@sure3odds.com");
-        mailSender.setPassword("@Dee20mene");
-
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
-
-        return mailSender;
+        Mail mail = new Mail();
+        Email fromEmail = new Email();
+        fromEmail.setEmail("support@sure3odds.com");
+        fromEmail.setName("Sure3Odds");
+        Email toEmail = new Email();
+        toEmail.setEmail(email);
+        toEmail.setName("Saint Saint");
+        Personalization personalization = new Personalization();
+        personalization.addDynamicTemplateData("name", "Saint Deemene");
+        mail.setFrom(fromEmail);
+        personalization.addTo(toEmail);
+        mail.addPersonalization(personalization);
+        mail.setTemplateId(templateId);
+        return mail;
     }
+
+
 }

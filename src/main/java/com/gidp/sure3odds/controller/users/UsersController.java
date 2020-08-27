@@ -11,9 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.jvm.hotspot.debugger.AddressException;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.Date;
 
@@ -181,57 +179,58 @@ public class UsersController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
-	@PostMapping(value = "/users/user/forgot_password")
-	ResponseEntity<?> ForgotPassword(@RequestParam String Email, @RequestParam String Phone, @RequestParam String NewPassword) {
-		BaseResponse response = null;
-		if (response.getStatusCode() == 200) {
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-		}
-	}
+
+    @PostMapping(value = "/users/user/forgot_password")
+    ResponseEntity<?> ForgotPassword(@RequestParam String Email, @RequestParam String Phone, @RequestParam String NewPassword) {
+        BaseResponse response = null;
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
 
 
-	@GetMapping(value = "users/app/get_app_reports")
-	ResponseEntity<?> getAppReports() {
-		BaseResponse response = usersService.GetAppReports();
-		if (response.getStatusCode() == 200) {
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-		}
-	}
+    @GetMapping(value = "users/app/get_app_reports")
+    ResponseEntity<?> getAppReports() {
+        BaseResponse response = usersService.GetAppReports();
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
 
     /**
      * @param selectedDate
      * @return
      */
-	@GetMapping(value = "users/app/get_monthly_reports")
-	ResponseEntity<?> getMonthlyReports(@RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) Date selectedDate) {
-		BaseResponse response = usersService.GetMonthlyReports(selectedDate);
-		if (response.getStatusCode() == 200) {
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-		}
-	}
+    @GetMapping(value = "users/app/get_monthly_reports")
+    ResponseEntity<?> getMonthlyReports(@RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) Date selectedDate) {
+        BaseResponse response = usersService.GetMonthlyReports(selectedDate);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
     @Autowired
     private EmailService emailService;
-    @GetMapping(value = "/sendmail")
-    public String sendEmail() throws AddressException, MessagingException, IOException {
-        emailService.sendmail();
-        return "Email sent successfully";
-    }
 
-//    ResponseEntity<?> sendmail(@RequestParam() String ToEmail) {
-//        BaseResponse response =  emailService.sendMail(ToEmail, "Test Subject", "Test mail");
+    @GetMapping(value = "/sendmail")
+    public String sendEmail(@RequestParam(value = "email", required = true) String email) {
+        String result = emailService.sendEmail(email);
+        return result;
+    }
+//    ResponseEntity<?> sendEmail(@RequestParam(value = "email", required = true) String email) {
+//        BaseResponse response = usersService.GetMonthlyReports(selectedDate);
 //        if (response.getStatusCode() == 200) {
 //            return new ResponseEntity<>(response, HttpStatus.OK);
 //        } else {
 //            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 //        }
 //    }
-
 
 }

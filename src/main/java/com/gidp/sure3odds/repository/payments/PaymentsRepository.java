@@ -14,11 +14,11 @@ import java.util.List;
 public interface PaymentsRepository extends JpaRepository<Payments, Long> {
 
 	@Query(value = "SELECT * FROM sure_payments WHERE userid = ?1", nativeQuery = true)
-	List<Payments> findPaymentsByUserID(long userid);
+	List<Payments> findPaymentsByUser(long userid);
 
 
-	List<Payments> findPaymentsByPaymentdateBetweenAndPlanTypeIDEquals(Date startDate, Date endDate, PlanTypes planTypes);
+	List<Payments> findPaymentsByPaymentdateBetweenAndPlantypeEquals(Date startDate, Date endDate, PlanTypes planTypes);
 
-	List<Payments> findPaymentsByPlanTypeIDEquals(PlanTypes planTypes);
+	List<Payments> findPaymentsByPlantypeEquals(PlanTypes planTypes);
 
 }

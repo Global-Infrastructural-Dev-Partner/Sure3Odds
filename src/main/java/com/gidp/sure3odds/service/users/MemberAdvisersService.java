@@ -43,7 +43,7 @@ public class MemberAdvisersService {
 	public String UpdateMemberDetails(Long memberAdvisersid, String newValue) {
 		String result = "failed";
 		Optional<MemberAdvisers> memberAdvisers = memberAdvisersRepository.findById(memberAdvisersid);
-		long memberUserID = memberAdvisers.get().getMemberUserID().getId();
+		long memberUserID = memberAdvisers.get().getMemberuser().getId();
 		Users user = usersRepository.findById(memberUserID).get();
 		user.setAssigned(newValue);
 		Users updated_user = usersRepository.save(user);
@@ -56,7 +56,7 @@ public class MemberAdvisersService {
 	public String UpdateAdviserDetails(Long memberAdvisersid, String newValue) {
 		String result = "failed";
 		Optional<MemberAdvisers> memberAdvisers = memberAdvisersRepository.findById(memberAdvisersid);
-		long adviserUserID = memberAdvisers.get().getAdviserUserID().getId();
+		long adviserUserID = memberAdvisers.get().getAdviseruser().getId();
 		Users user = usersRepository.findById(adviserUserID).get();
 		user.setAssigned(newValue);
 		Users updated_user = usersRepository.save(user);
@@ -122,7 +122,7 @@ public class MemberAdvisersService {
 		BaseResponse response = new BaseResponse();
 		MemberAdvisers memberAdvisers  = memberAdvisersRepository.findAdviserByMemberUserID(memberUserID);
 		if (memberAdvisers != null) {
-			Long savedMemberAdviserID = memberAdvisers.getAdviserUserID().getId();
+			Long savedMemberAdviserID = memberAdvisers.getAdviseruser().getId();
 			Optional<Users> adviserDetails = usersRepository.findById(savedMemberAdviserID);
 			response.setData(adviserDetails);
 			response.setDescription("Adviser found succesfully.");

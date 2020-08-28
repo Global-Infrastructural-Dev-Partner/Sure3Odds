@@ -61,8 +61,8 @@ public class PlansService {
 				Optional<PlanTypes> planTypes = planTypesRepository.findById(PlanTypeID);
 				Optional<Users> users = usersRepository.findById(UserID);
 				Plans updated_plans = new Plans();
-				updated_plans.setPlanTypeID(planTypes.get());
-				updated_plans.setUserID(users.get());
+				updated_plans.setPlantype(planTypes.get());
+				updated_plans.setUser(users.get());
 				updated_plans.setId(plans.getId());
 				LocalDate CurrentDate = LocalDate.now();
 
@@ -75,8 +75,8 @@ public class PlansService {
 				Plans saved_plan = plansRepository.save(updated_plans);
 
 				Payments payments = new Payments();
-				payments.setUserID(users.get());
-				payments.setPlanTypeID(planTypes.get());
+				payments.setUser(users.get());
+				payments.setPlantype(planTypes.get());
 				payments.setPaymentdate(new Date());
 				payments.setPaymenttype("Renewal");
 				payments.setReferenceCode(TransactionID);

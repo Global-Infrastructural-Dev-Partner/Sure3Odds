@@ -17,12 +17,10 @@ public class Payments {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name ="userid")
-	private Users userID;
+	private Users user;
 
 	@ManyToOne
-	@JoinColumn(name ="plantypeid")
-	private PlanTypes planTypeID;
+	private PlanTypes plantype;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
 	private Date paymentdate;
@@ -48,22 +46,6 @@ public class Payments {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Users getUserID() {
-		return userID;
-	}
-
-	public void setUserID(Users userID) {
-		this.userID = userID;
-	}
-
-	public PlanTypes getPlanTypeID() {
-		return planTypeID;
-	}
-
-	public void setPlanTypeID(PlanTypes planTypeID) {
-		this.planTypeID = planTypeID;
 	}
 
 	public Date getPaymentdate() {
@@ -115,6 +97,19 @@ public class Payments {
 		this.referenceCode = referenceCode;
 	}
 
+	public Users getUser() {
+		return user;
+	}
 
+	public void setUser(Users user) {
+		this.user = user;
+	}
 
+	public PlanTypes getPlantype() {
+		return plantype;
+	}
+
+	public void setPlantype(PlanTypes plantype) {
+		this.plantype = plantype;
+	}
 }

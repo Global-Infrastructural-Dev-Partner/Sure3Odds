@@ -1,16 +1,6 @@
 package com.gidp.sure3odds.entity.users;
 
-import com.gidp.sure3odds.entity.users.Users;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "sure_member_advisers")
@@ -23,12 +13,10 @@ public class MemberAdvisers {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name ="memberuserid")
-	private Users memberUserID;
+	private Users memberuser;
 
 	@ManyToOne
-	@JoinColumn(name ="adviseruserid")
-	private Users adviserUserID;
+	private Users adviseruser;
 
 	/**
 	 * @return the id
@@ -44,21 +32,19 @@ public class MemberAdvisers {
 		this.id = id;
 	}
 
-	public Users getMemberUserID() {
-		return memberUserID;
+	public Users getMemberuser() {
+		return memberuser;
 	}
 
-	public void setMemberUserID(Users memberUserID) {
-		this.memberUserID = memberUserID;
+	public void setMemberuser(Users memberuser) {
+		this.memberuser = memberuser;
 	}
 
-	public Users getAdviserUserID() {
-		return adviserUserID;
+	public Users getAdviseruser() {
+		return adviseruser;
 	}
 
-	public void setAdviserUserID(Users adviserUserID) {
-		this.adviserUserID = adviserUserID;
+	public void setAdviseruser(Users adviseruser) {
+		this.adviseruser = adviseruser;
 	}
-
-	
 }

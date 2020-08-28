@@ -86,7 +86,7 @@ public class UsersService {
                     Users user = new Users(newUser.getEmail(), newUser.getPhone(), password,
                             newUser.getFirstname(), newUser.getLastname(), newUser.getDatejoined(), "Active",
                             "Pending", "Pending");
-                    user.setUserTypeID(usertype.get());
+                    user.setUsertype(usertype.get());
                     Users saved_user = usersRepository.save(user);
 
                     LocalDate CurrentDate = LocalDate.now();
@@ -96,13 +96,13 @@ public class UsersService {
                     Date endDate  = appHelper.convertToDateViaInstant(mDate);
 
                     Plans plan = new Plans(newUser.getStartDate(), endDate);
-                    plan.setUserID(saved_user);
-                    plan.setPlanTypeID(plantype.get());
+                    plan.setUser(saved_user);
+                    plan.setPlantype(plantype.get());
                     Plans saved_plan = plansRepository.save(plan);
                     Payments payment = new Payments(newUser.getPaymentdate(), newUser.getPaymenttype(),
                             newUser.getPlatform(), newUser.getReferenceCode());
-                    payment.setUserID(saved_user);
-                    payment.setPlanTypeID(plantype.get());
+                    payment.setUser(saved_user);
+                    payment.setPlantype(plantype.get());
                     Payments saved_payment = paymentsRepository.save(payment);
                     response.setData(saved_user);
                     response.setDescription("user created successfully");
@@ -126,7 +126,7 @@ public class UsersService {
 
     public BaseResponse GetUsersByUserTypID(long userTypeID) {
         BaseResponse response = new BaseResponse();
-        List<Users> users = usersRepository.findUsersByUserTypeID(userTypeID);
+        List<Users> users = usersRepository.findUsersByUsertype(userTypeID);
         if (!users.isEmpty()) {
             response.setData(users);
             response.setDescription("Users by user type found successfully.");
@@ -222,7 +222,7 @@ public class UsersService {
 
     public BaseResponse CreateAdviser(Users newUser) {
         BaseResponse response = new BaseResponse();
-        Long usertypeid = newUser.getUserTypeID().getId();
+        Long usertypeid = newUser.getUsertype().getId();
         Optional<UserTypes> usertype = userTypesRepository.findById(usertypeid);
         if (usertype.isPresent()) {
             String password = passwordEncoder.encode(newUser.getPassword());
@@ -232,7 +232,7 @@ public class UsersService {
             Users user = new Users(newUser.getEmail(), newUser.getPhone(), password,
                     newUser.getFirstname(), newUser.getLastname(), newUser.getDatejoined(), newUser.getStatus(),
                     newUser.getDevice_token(), newUser.getAssigned());
-            user.setUserTypeID(usertype.get());
+            user.setUsertype(usertype.get());
 
             Users saved_user = usersRepository.save(user);
             response.setData(saved_user);
@@ -254,7 +254,7 @@ public class UsersService {
         ArrayList<Object> data = new ArrayList<>();
         if (!users.isEmpty()) {
             for (Users user : users) {
-                Long usertypeID = user.getUserTypeID().getId();
+                Long usertypeID = user.getUsertype().getId();
                 if (usertypeID == usertypeid) {
                     data.add(user);
                 }
@@ -292,7 +292,7 @@ public class UsersService {
 
     public String GetUserTypeNameByUserID(Long userid) {
         Users users = usersRepository.findById(userid).get();
-        String usertypeName = users.getUserTypeID().getName();
+        String usertypeName = users.getUsertype().getName();
         return usertypeName;
     }
 
@@ -377,7 +377,7 @@ public class UsersService {
             if (UserID == 1l) {
                 result = true;
             } else {
-                if (user.get().getUserTypeID().getId() == 2l) {//members
+                if (user.get().getUsertype().getId() == 2l) {//members
                     Plans plans = plansRepository.findPlanByUserID(UserID);
                     Date dueDate = plans.getEndDate();
                     Date currentDate = new Date();
@@ -402,21 +402,21 @@ public class UsersService {
         HashMap<String, Object> result = new HashMap<String, Object>();
 
         Optional<UserTypes> userTypes = userTypesRepository.findById(2l);
-        List<Users> allUser = usersRepository.findUsersByUserTypeIDEquals(userTypes.get());
+        List<Users> allUser = usersRepository.findUsersByUsertypeEquals(userTypes.get());
         result.put("totalusers", allUser.size());
 
-        List<Users> allActiveUsers = usersRepository.findUsersByStatusEqualsAndUserTypeIDEquals("Active", userTypes.get());
+        List<Users> allActiveUsers = usersRepository.findUsersByStatusEqualsAndUsertypeEquals("Active", userTypes.get());
         result.put("totalactiveusers", allActiveUsers.size());
 
-        List<Users> allInActiveUsers = usersRepository.findUsersByStatusEqualsAndUserTypeIDEquals( "Inactive", userTypes.get());
+        List<Users> allInActiveUsers = usersRepository.findUsersByStatusEqualsAndUsertypeEquals( "Inactive", userTypes.get());
         result.put("totalinactiveusers", allInActiveUsers.size());
 
         Optional<PlanTypes> planTypes = planTypesRepository.findById(1l);
-        List<Payments> planTypes1Users = paymentsRepository.findPaymentsByPlanTypeIDEquals(planTypes.get());
+        List<Payments> planTypes1Users = paymentsRepository.findPaymentsByPlantypeEquals(planTypes.get());
         result.put("totalvvipusers", planTypes1Users.size());
 
         Optional<PlanTypes> planTypes2 = planTypesRepository.findById(2l);
-        List<Payments> allPlanTypes2Users = paymentsRepository.findPaymentsByPlanTypeIDEquals( planTypes2.get());
+        List<Payments> allPlanTypes2Users = paymentsRepository.findPaymentsByPlantypeEquals( planTypes2.get());
         result.put("totalvipusers", allPlanTypes2Users.size());
 
         BigDecimal planType1Income = BigDecimal.ZERO;
@@ -463,21 +463,21 @@ public class UsersService {
 
         Date endDate = appHelper.convertToDateViaInstant(convertedDate);
         Optional<UserTypes> userTypes = userTypesRepository.findById(2l);
-        List<Users> allUser = usersRepository.findUsersByDatejoinedBetweenAndUserTypeIDEquals(startDate, endDate, userTypes.get());
+        List<Users> allUser = usersRepository.findUsersByDatejoinedBetweenAndUsertypeEquals(startDate, endDate, userTypes.get());
         result.put("totalusers", allUser.size());
 
-        List<Users> allActiveUsers = usersRepository.findUsersByDatejoinedBetweenAndStatusEqualsAndUserTypeIDEquals(startDate, endDate, "Active", userTypes.get());
+        List<Users> allActiveUsers = usersRepository.findUsersByDatejoinedBetweenAndStatusEqualsAndUsertypeEquals(startDate, endDate, "Active", userTypes.get());
         result.put("totalactiveusers", allActiveUsers.size());
 
-        List<Users> allInActiveUsers = usersRepository.findUsersByDatejoinedBetweenAndStatusEqualsAndUserTypeIDEquals(startDate, endDate, "Inactive", userTypes.get());
+        List<Users> allInActiveUsers = usersRepository.findUsersByDatejoinedBetweenAndStatusEqualsAndUsertypeEquals(startDate, endDate, "Inactive", userTypes.get());
         result.put("totalinactiveusers", allInActiveUsers.size());
 
         Optional<PlanTypes> planTypes = planTypesRepository.findById(1l);
-        List<Payments> planTypes1Users = paymentsRepository.findPaymentsByPaymentdateBetweenAndPlanTypeIDEquals(startDate, endDate, planTypes.get());
+        List<Payments> planTypes1Users = paymentsRepository.findPaymentsByPaymentdateBetweenAndPlantypeEquals(startDate, endDate, planTypes.get());
         result.put("totalvvipusers", planTypes1Users.size());
 
         Optional<PlanTypes> planTypes2 = planTypesRepository.findById(2l);
-        List<Payments> allPlanTypes2Users = paymentsRepository.findPaymentsByPaymentdateBetweenAndPlanTypeIDEquals(startDate, endDate, planTypes2.get());
+        List<Payments> allPlanTypes2Users = paymentsRepository.findPaymentsByPaymentdateBetweenAndPlantypeEquals(startDate, endDate, planTypes2.get());
         result.put("totalvipusers", allPlanTypes2Users.size());
 
         BigDecimal planType1Income = BigDecimal.ZERO;

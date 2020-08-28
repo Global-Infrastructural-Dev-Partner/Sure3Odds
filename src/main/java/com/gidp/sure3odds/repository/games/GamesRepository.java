@@ -12,9 +12,9 @@ import java.util.List;
 public interface GamesRepository extends JpaRepository<Games, Long> {
 
 
-    List<Games> findGamesByMatchDateAndSetIDOrderByMatchTime(Date matchDate, Sets setID);
+    List<Games> findGamesByMatchDateAndSetOrderByMatchTime(Date matchDate, Sets setID);
 
-    List<Games> findGamesByMatchDateAndSetIDAndStatusOrderByMatchTime(Date matchDate, Sets setID, String Status);
+    List<Games> findGamesByMatchDateAndSetAndStatusOrderByMatchTime(Date matchDate, Sets setID, String Status);
 
 
 }

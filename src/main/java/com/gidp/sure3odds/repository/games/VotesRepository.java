@@ -12,24 +12,24 @@ import java.util.Optional;
 public interface VotesRepository extends JpaRepository<Votes, Long> {
 
 
-    Optional<Votes> findVotesByGameIDAndUserID(long gameid, long userid);
+    Optional<Votes> findVotesByGameAndUser(long gameid, long userid);
 
 
     @Query(value = "SELECT * FROM sure_votes WHERE gameid = ?1 and userid = ?2", nativeQuery = true)
-    Optional<Votes> findByGameIDAndUserID(long gameID, long userID);
+    Optional<Votes> findByGameAndUser(long gameID, long userID);
 
 
     @Query(value = "SELECT * FROM sure_votes WHERE away_vote = ?1 and gameid = ?2", nativeQuery = true)
-    List<Votes> findVotesByAwayVoteAndGameID(long awayvote, Long gameID);
+    List<Votes> findVotesByAwayVoteAndGame(long awayvote, Long gameID);
 
 
 
     @Query(value = "SELECT * FROM sure_votes WHERE home_vote = ?1 and gameid = ?2", nativeQuery = true)
-    List<Votes> findVotesByHomeVoteAndGameID(long homevote, Long gameID);
+    List<Votes> findVotesByHomeVoteAndGame(long homevote, Long game);
 
 
 
     @Query(value = "SELECT * FROM sure_votes WHERE draw_vote = ?1 and gameid = ?2", nativeQuery = true)
-    List<Votes> findVotesByDrawVoteAndGameID(long drawvote, Long gameID);
+    List<Votes> findVotesByDrawVoteAndGame(long drawvote, Long game);
 
 }

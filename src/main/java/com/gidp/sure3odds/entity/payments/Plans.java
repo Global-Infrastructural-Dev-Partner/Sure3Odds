@@ -3,19 +3,8 @@ package com.gidp.sure3odds.entity.payments;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gidp.sure3odds.entity.users.Users;
 
+import javax.persistence.*;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "sure_plans")
@@ -28,12 +17,10 @@ public class Plans {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name ="userid")
-	private Users userID;
+	private Users user;
 
 	@ManyToOne
-	@JoinColumn(name ="plantypeid")
-	private PlanTypes planTypeID;
+	private PlanTypes plantype;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
 	private Date startDate;
@@ -62,32 +49,20 @@ public class Plans {
 		this.id = id;
 	}
 
-	/**
-	 * @return the userID
-	 */
-	public Users getUserID() {
-		return userID;
+	public Users getUser() {
+		return user;
 	}
 
-	/**
-	 * @param userID the userID to set
-	 */
-	public void setUserID(Users userID) {
-		this.userID = userID;
+	public void setUser(Users user) {
+		this.user = user;
 	}
 
-	/**
-	 * @return the planTypeID
-	 */
-	public PlanTypes getPlanTypeID() {
-		return planTypeID;
+	public PlanTypes getPlantype() {
+		return plantype;
 	}
 
-	/**
-	 * @param planTypeID the planTypeID to set
-	 */
-	public void setPlanTypeID(PlanTypes planTypeID) {
-		this.planTypeID = planTypeID;
+	public void setPlantype(PlanTypes plantype) {
+		this.plantype = plantype;
 	}
 
 	/**
@@ -118,11 +93,6 @@ public class Plans {
 		this.endDate = endDate;
 	}
 
-	@Override
-	public String toString() {
-		return "Plans [id=" + id + ", userID=" + userID + ", planTypeID=" + planTypeID + ", startDate=" + startDate
-				+ ", endDate=" + endDate + "]";
-	}
 
 	/**
 	 * @param startDate

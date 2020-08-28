@@ -26,12 +26,10 @@ public class Comments {
 	private Date time;
 
 	@ManyToOne
-	@JoinColumn(name ="userid")
-	private Users userID;
+	private Users user;
 
 	@ManyToOne
-	@JoinColumn(name ="gameid")
-	private Games gameID;
+	private Games game;
 
 	/**
 	 * @return the id
@@ -89,38 +87,20 @@ public class Comments {
 		this.time = time;
 	}
 
-	/**
-	 * @return the userID
-	 */
-	public Users getUserID() {
-		return userID;
+	public Users getUser() {
+		return user;
 	}
 
-	/**
-	 * @param userID the userID to set
-	 */
-	public void setUserID(Users userID) {
-		this.userID = userID;
+	public void setUser(Users user) {
+		this.user = user;
 	}
 
-	/**
-	 * @return the gameID
-	 */
-	public Games getGameID() {
-		return gameID;
+	public Games getGame() {
+		return game;
 	}
 
-	/**
-	 * @param gameID the gameID to set
-	 */
-	public void setGameID(Games gameID) {
-		this.gameID = gameID;
-	}
-
-	@Override
-	public String toString() {
-		return "Comments [id=" + id + ", comments=" + comments + ", date=" + date + ", time=" + time + ", userID="
-				+ userID + ", gameID=" + gameID + "]";
+	public void setGame(Games game) {
+		this.game = game;
 	}
 
 	/**

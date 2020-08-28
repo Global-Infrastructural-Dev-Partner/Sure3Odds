@@ -23,7 +23,7 @@ public class PaymentsService {
 		if(userID == 1){
 			payments = paymentsRepository.findAll();
 		}else {
-			payments = paymentsRepository.findPaymentsByUserID(userID);
+			payments = paymentsRepository.findPaymentsByUser(userID);
 		}
 		if (!payments.isEmpty()) {
 			response.setData(payments);

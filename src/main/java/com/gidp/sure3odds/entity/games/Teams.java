@@ -1,17 +1,6 @@
 package com.gidp.sure3odds.entity.games;
 
-import com.gidp.sure3odds.entity.games.Countries;
-import com.gidp.sure3odds.entity.games.Leagues;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "sure_teams")
@@ -26,12 +15,10 @@ public class Teams {
 	private String name;
 
 	@ManyToOne
-	@JoinColumn(name ="leagueid")
-	private Leagues leagueID;
+	private Leagues league;
 
 	@ManyToOne
-	@JoinColumn(name ="countryid")
-	private Countries countryID;
+	private Countries country;
 
 
 	private String imageurl;
@@ -60,20 +47,20 @@ public class Teams {
 		this.name = name;
 	}
 
-	public Leagues getLeagueID() {
-		return leagueID;
+	public Leagues getLeague() {
+		return league;
 	}
 
-	public void setLeagueID(Leagues leagueID) {
-		this.leagueID = leagueID;
+	public void setLeague(Leagues league) {
+		this.league = league;
 	}
 
-	public Countries getCountryID() {
-		return countryID;
+	public Countries getCountry() {
+		return country;
 	}
 
-	public void setCountryID(Countries countryID) {
-		this.countryID = countryID;
+	public void setCountry(Countries country) {
+		this.country = country;
 	}
 
 	public String getImageurl() {

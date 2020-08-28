@@ -1,22 +1,10 @@
 package com.gidp.sure3odds.entity.users;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "sure_users")
@@ -30,8 +18,7 @@ public class Users {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name ="usertypeid")
-	private UserTypes userTypeID;
+	private UserTypes usertype;
 	
 	@Column(unique = true)
 	private String email;
@@ -79,18 +66,12 @@ public class Users {
 		this.id = id;
 	}
 
-	/**
-	 * @return the userTypeID
-	 */
-	public UserTypes getUserTypeID() {
-		return userTypeID;
+	public UserTypes getUsertype() {
+		return usertype;
 	}
 
-	/**
-	 * @param userTypeID the userTypeID to set
-	 */
-	public void setUserTypeID(UserTypes userTypeID) {
-		this.userTypeID = userTypeID;
+	public void setUsertype(UserTypes usertype) {
+		this.usertype = usertype;
 	}
 
 	/**

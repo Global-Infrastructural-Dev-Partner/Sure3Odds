@@ -18,24 +18,19 @@ public class Predictions {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "countryid")
-	private Countries countryID;
+	private Countries country;
 
 	@ManyToOne
-	@JoinColumn(name = "leagueid")
-	private Leagues leagueID;
+	private Leagues league;
 
 	@ManyToOne
-	@JoinColumn(name ="hometeamid")
-	private Teams homeTeamID;
+	private Teams hometeam;
 
 	@ManyToOne
-	@JoinColumn(name ="awayteamid")
-	private Teams awayTeamID;
+	private Teams awayteam;
 
 	@ManyToOne
-	@JoinColumn(name ="userid")
-	private Users userID;
+	private Users user;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
 	private Date matchDate;
@@ -44,8 +39,7 @@ public class Predictions {
 	private Date matchTime;
 
 	@ManyToOne
-	@JoinColumn(name ="selectionid")
-	private Selections selectionID;
+	private Selections selection;
 
 	private double odds;
 
@@ -72,48 +66,6 @@ public class Predictions {
 	 */
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the leagueID
-	 */
-	public Leagues getLeagueID() {
-		return leagueID;
-	}
-
-	/**
-	 * @param leagueID the leagueID to set
-	 */
-	public void setLeagueID(Leagues leagueID) {
-		this.leagueID = leagueID;
-	}
-
-	/**
-	 * @return the homeTeamID
-	 */
-	public Teams getHomeTeamID() {
-		return homeTeamID;
-	}
-
-	/**
-	 * @param homeTeamID the homeTeamID to set
-	 */
-	public void setHomeTeamID(Teams homeTeamID) {
-		this.homeTeamID = homeTeamID;
-	}
-
-	/**
-	 * @return the awayTeamID
-	 */
-	public Teams getAwayTeamID() {
-		return awayTeamID;
-	}
-
-	/**
-	 * @param awayTeamID the awayTeamID to set
-	 */
-	public void setAwayTeamID(Teams awayTeamID) {
-		this.awayTeamID = awayTeamID;
 	}
 
 	/**
@@ -197,13 +149,6 @@ public class Predictions {
 	}
 
 
-	public Countries getCountryID() {
-		return countryID;
-	}
-
-	public void setCountryID(Countries countryID) {
-		this.countryID = countryID;
-	}
 
 	public Predictions(Date matchDate, Date matchTime, double odds, String status, int confidenceLevel) {
 		this.matchDate = matchDate;
@@ -213,19 +158,51 @@ public class Predictions {
 		this.confidenceLevel = confidenceLevel;
 	}
 
-	public Users getUserID() {
-		return userID;
+	public Countries getCountry() {
+		return country;
 	}
 
-	public void setUserID(Users userID) {
-		this.userID = userID;
+	public void setCountry(Countries country) {
+		this.country = country;
 	}
 
-	public Selections getSelectionID() {
-		return selectionID;
+	public Leagues getLeague() {
+		return league;
 	}
 
-	public void setSelectionID(Selections selectionID) {
-		this.selectionID = selectionID;
+	public void setLeague(Leagues league) {
+		this.league = league;
+	}
+
+	public Teams getHometeam() {
+		return hometeam;
+	}
+
+	public void setHometeam(Teams hometeam) {
+		this.hometeam = hometeam;
+	}
+
+	public Teams getAwayteam() {
+		return awayteam;
+	}
+
+	public void setAwayteam(Teams awayteam) {
+		this.awayteam = awayteam;
+	}
+
+	public Users getUser() {
+		return user;
+	}
+
+	public void setUser(Users user) {
+		this.user = user;
+	}
+
+	public Selections getSelection() {
+		return selection;
+	}
+
+	public void setSelection(Selections selection) {
+		this.selection = selection;
 	}
 }

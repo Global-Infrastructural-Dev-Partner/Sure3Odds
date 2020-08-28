@@ -9,13 +9,10 @@ import com.gidp.sure3odds.repository.games.*;
 import com.gidp.sure3odds.repository.payments.PlansRepository;
 import com.gidp.sure3odds.service.users.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -74,12 +71,12 @@ public class GamesService {
                             if (selections.isPresent()) {
                                 Games newGame = new Games(0, 0, newGameAndPrediction.getOdds(),
                                         newGameAndPrediction.getConfidenceLevel(), "Not Started", newGameAndPrediction.getMatchDate(), newGameAndPrediction.getMatchTime());
-                                newGame.setAwayTeamID(awayteam.get());
-                                newGame.setHomeTeamID(hometeam.get());
-                                newGame.setLeagueID(league.get());
-                                newGame.setSetID(sets.get());
-                                newGame.setCountryID(countries.get());
-                                newGame.setSelectionID(selections.get());
+                                newGame.setAwayteam(awayteam.get());
+                                newGame.setHometeam(hometeam.get());
+                                newGame.setLeague(league.get());
+                                newGame.setSet(sets.get());
+                                newGame.setCountry(countries.get());
+                                newGame.setSelection(selections.get());
                                 Games savedGame = gamesRepository.save(newGame);
                                 response.setData(savedGame);
                                 response.setDescription("Game created successfully");
@@ -123,12 +120,13 @@ public class GamesService {
                 Games newGame = new Games(0, 0, prediction.get().getOdds(),
                         prediction.get().getConfidenceLevel(), "Not Started", prediction.get().getMatchDate(), prediction.get().getMatchTime());
 
-                newGame.setAwayTeamID(prediction.get().getAwayTeamID());
-                newGame.setHomeTeamID(prediction.get().getHomeTeamID());
-                newGame.setLeagueID(prediction.get().getLeagueID());
-                newGame.setSetID(set.get());
-                newGame.setSelectionID(prediction.get().getSelectionID());
-                newGame.setCountryID(prediction.get().getCountryID());
+
+                newGame.setAwayteam(prediction.get().getAwayteam());
+                newGame.setHometeam(prediction.get().getHometeam());
+                newGame.setLeague(prediction.get().getLeague());
+                newGame.setSet(set.get());
+                newGame.setSelection(prediction.get().getSelection());
+                newGame.setCountry(prediction.get().getCountry());
                 Games savedGame = gamesRepository.save(newGame);
                 //update prediction status to approved
                 prediction.get().setStatus("Approved");
@@ -163,7 +161,7 @@ public class GamesService {
             long planTypeID = 0l;
             if (UserID != 1) {
                 Plans plan = plansRepository.findPlanByUserID(UserID);
-                planTypeID = plan.getPlanTypeID().getId();
+                planTypeID = plan.getPlantype().getId();
             }else{
                 usersService.ValidateAllUsersPaymentDueDate();
             }
@@ -171,9 +169,9 @@ public class GamesService {
                 //Get for VVIP (set 1, set 2, set 3)
                 Optional<Sets> set1 = setsRepository.findById(1l);
                 if (CurrentDate.equals(matchDate)) {
-                    Set1Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set1.get());
+                    Set1Games = gamesRepository.findGamesByMatchDateAndSetOrderByMatchTime(matchDate, set1.get());
                 } else {
-                    Set1Games = gamesRepository.findGamesByMatchDateAndSetIDAndStatusOrderByMatchTime(matchDate, set1.get(), "Won");
+                    Set1Games = gamesRepository.findGamesByMatchDateAndSetAndStatusOrderByMatchTime(matchDate, set1.get(), "Won");
                 }
                 if (!Set1Games.isEmpty()) {
                     userGames.put(set1.get().getName(), Set1Games);
@@ -183,9 +181,9 @@ public class GamesService {
 
                 Optional<Sets> set2 = setsRepository.findById(2l);
                 if (CurrentDate.equals(matchDate)) {
-                    Set2Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set2.get());
+                    Set2Games = gamesRepository.findGamesByMatchDateAndSetOrderByMatchTime(matchDate, set2.get());
                 } else {
-                    Set2Games = gamesRepository.findGamesByMatchDateAndSetIDAndStatusOrderByMatchTime(matchDate, set2.get(), "Won");
+                    Set2Games = gamesRepository.findGamesByMatchDateAndSetAndStatusOrderByMatchTime(matchDate, set2.get(), "Won");
                 }
                 if (!Set2Games.isEmpty()) {
                     userGames.put(set2.get().getName(), Set2Games);
@@ -195,9 +193,9 @@ public class GamesService {
 
                 Optional<Sets> set3 = setsRepository.findById(3l);
                 if (CurrentDate.equals(matchDate)) {
-                    Set3Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set3.get());
+                    Set3Games = gamesRepository.findGamesByMatchDateAndSetOrderByMatchTime(matchDate, set3.get());
                 } else {
-                    Set3Games = gamesRepository.findGamesByMatchDateAndSetIDAndStatusOrderByMatchTime(matchDate, set3.get(), "Won");
+                    Set3Games = gamesRepository.findGamesByMatchDateAndSetAndStatusOrderByMatchTime(matchDate, set3.get(), "Won");
                 }
                 if (!Set3Games.isEmpty()) {
                     userGames.put(set3.get().getName(), Set3Games);
@@ -208,9 +206,9 @@ public class GamesService {
                 //Get for VIP (set 1, set 2)
                 Optional<Sets> set1 = setsRepository.findById(1l);
                 if (CurrentDate.equals(matchDate)) {
-                    Set1Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set1.get());
+                    Set1Games = gamesRepository.findGamesByMatchDateAndSetOrderByMatchTime(matchDate, set1.get());
                 } else {
-                    Set1Games = gamesRepository.findGamesByMatchDateAndSetIDAndStatusOrderByMatchTime(matchDate, set1.get(), "Won");
+                    Set1Games = gamesRepository.findGamesByMatchDateAndSetAndStatusOrderByMatchTime(matchDate, set1.get(), "Won");
                 }
                 if (!Set1Games.isEmpty()) {
                     userGames.put(set1.get().getName(), Set1Games);
@@ -220,9 +218,9 @@ public class GamesService {
 
                 Optional<Sets> set2 = setsRepository.findById(2l);
                 if (CurrentDate.equals(matchDate)) {
-                    Set2Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set2.get());
+                    Set2Games = gamesRepository.findGamesByMatchDateAndSetOrderByMatchTime(matchDate, set2.get());
                 } else {
-                    Set2Games = gamesRepository.findGamesByMatchDateAndSetIDAndStatusOrderByMatchTime(matchDate, set2.get(), "Won");
+                    Set2Games = gamesRepository.findGamesByMatchDateAndSetAndStatusOrderByMatchTime(matchDate, set2.get(), "Won");
                 }
                 if (!Set2Games.isEmpty()) {
                     userGames.put(set2.get().getName(), Set2Games);
@@ -306,7 +304,7 @@ public class GamesService {
         double set3Odds = 0.00;
 
         Optional<Sets> set1 = setsRepository.findById(1l);
-        Set1Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set1.get());
+        Set1Games = gamesRepository.findGamesByMatchDateAndSetOrderByMatchTime(matchDate, set1.get());
         if (!Set1Games.isEmpty()) {
             for (Games game:Set1Games ) {
                 double s1odds = game.getOdds();
@@ -318,7 +316,7 @@ public class GamesService {
 
 
         Optional<Sets> set2 = setsRepository.findById(2l);
-        Set2Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set2.get());
+        Set2Games = gamesRepository.findGamesByMatchDateAndSetOrderByMatchTime(matchDate, set2.get());
         if (!Set2Games.isEmpty()) {
             for (Games game:Set2Games) {
                 double s2odds = game.getOdds();
@@ -331,7 +329,7 @@ public class GamesService {
 
 
         Optional<Sets> set3 = setsRepository.findById(3l);
-        Set3Games = gamesRepository.findGamesByMatchDateAndSetIDOrderByMatchTime(matchDate, set3.get());
+        Set3Games = gamesRepository.findGamesByMatchDateAndSetOrderByMatchTime(matchDate, set3.get());
         if (!Set3Games.isEmpty()) {
             for (Games game :  Set3Games) {
                 double s3odds = game.getOdds();

@@ -16,32 +16,26 @@ public class Games {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "countryid")
-	private Countries countryID;
+	private Countries country;
 
 	@ManyToOne
-	@JoinColumn(name ="leagueid")
-	private Leagues leagueID;
+	private Leagues league;
 
 	@ManyToOne
-	@JoinColumn(name ="hometeamid")
-	private Teams homeTeamID;
+	private Teams hometeam;
 
 	@ManyToOne
-	@JoinColumn(name ="awayteamid")
-	private Teams awayTeamID;
+	private Teams awayteam;
 
 	@ManyToOne
-	@JoinColumn(name ="setid")
-	private Sets setID;
+	private Sets set;
 
 	private int homeTeamScore;
 
 	private int awayTeamScore;
 
 	@ManyToOne
-	@JoinColumn(name ="selectionid")
-	private Selections selectionID;
+	private Selections selection;
 
 	private double odds;
 
@@ -60,7 +54,6 @@ public class Games {
 	 */
 	public Games() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -77,61 +70,6 @@ public class Games {
 		this.id = id;
 	}
 
-	/**
-	 * @return the leagueID
-	 */
-	public Leagues getLeagueID() {
-		return leagueID;
-	}
-
-	/**
-	 * @param leagueID the leagueID to set
-	 */
-	public void setLeagueID(Leagues leagueID) {
-		this.leagueID = leagueID;
-	}
-
-	/**
-	 * @return the homeTeamID
-	 */
-	public Teams getHomeTeamID() {
-		return homeTeamID;
-	}
-
-	/**
-	 * @param homeTeamID the homeTeamID to set
-	 */
-	public void setHomeTeamID(Teams homeTeamID) {
-		this.homeTeamID = homeTeamID;
-	}
-
-	/**
-	 * @return the awayTeamID
-	 */
-	public Teams getAwayTeamID() {
-		return awayTeamID;
-	}
-
-	/**
-	 * @param awayTeamID the awayTeamID to set
-	 */
-	public void setAwayTeamID(Teams awayTeamID) {
-		this.awayTeamID = awayTeamID;
-	}
-
-	/**
-	 * @return the setID
-	 */
-	public Sets getSetID() {
-		return setID;
-	}
-
-	/**
-	 * @param setID the setID to set
-	 */
-	public void setSetID(Sets setID) {
-		this.setID = setID;
-	}
 
 	/**
 	 * @return the homeTeamScore
@@ -241,13 +179,6 @@ public class Games {
 		this.matchTime = matchTime;
 	}
 
-	public Countries getCountryID() {
-		return countryID;
-	}
-
-	public void setCountryID(Countries countryID) {
-		this.countryID = countryID;
-	}
 
 	public Games(Long id, int homeTeamScore, int awayTeamScore, double odds, int confidenceLevel, String status, Date matchDate, Date matchTime) {
 		this.id = id;
@@ -260,11 +191,51 @@ public class Games {
 		this.matchTime = matchTime;
 	}
 
-	public Selections getSelectionID() {
-		return selectionID;
+	public Countries getCountry() {
+		return country;
 	}
 
-	public void setSelectionID(Selections selectionID) {
-		this.selectionID = selectionID;
+	public void setCountry(Countries country) {
+		this.country = country;
+	}
+
+	public Leagues getLeague() {
+		return league;
+	}
+
+	public void setLeague(Leagues league) {
+		this.league = league;
+	}
+
+	public Teams getHometeam() {
+		return hometeam;
+	}
+
+	public void setHometeam(Teams hometeam) {
+		this.hometeam = hometeam;
+	}
+
+	public Teams getAwayteam() {
+		return awayteam;
+	}
+
+	public void setAwayteam(Teams awayteam) {
+		this.awayteam = awayteam;
+	}
+
+	public Sets getSet() {
+		return set;
+	}
+
+	public void setSet(Sets set) {
+		this.set = set;
+	}
+
+	public Selections getSelection() {
+		return selection;
+	}
+
+	public void setSelection(Selections selection) {
+		this.selection = selection;
 	}
 }

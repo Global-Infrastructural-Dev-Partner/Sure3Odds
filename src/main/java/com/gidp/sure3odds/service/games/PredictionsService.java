@@ -56,12 +56,13 @@ public class PredictionsService {
                             Optional<Selections> selections = selectionsRepository.findById(selectionid);
                             if (selections.isPresent()) {
                                 Predictions newPrediction = new Predictions(newGameAndPrediction.getMatchDate(), newGameAndPrediction.getMatchTime(), newGameAndPrediction.getOdds(), "Pending", newGameAndPrediction.getConfidenceLevel());
-                                newPrediction.setAwayTeamID(awayteam.get());
-                                newPrediction.setHomeTeamID(hometeam.get());
-                                newPrediction.setLeagueID(league.get());
-                                newPrediction.setUserID(users.get());
-                                newPrediction.setSelectionID(selections.get());
-                                newPrediction.setCountryID(countries.get());
+
+                                newPrediction.setAwayteam(awayteam.get());
+                                newPrediction.setHometeam(hometeam.get());
+                                newPrediction.setLeague(league.get());
+                                newPrediction.setUser(users.get());
+                                newPrediction.setSelection(selections.get());
+                                newPrediction.setCountry(countries.get());
                                 Predictions savedPrediction = predictionsRepository.save(newPrediction);
                                 response.setData(savedPrediction);
                                 response.setDescription("Prediction created successfully");
@@ -126,7 +127,7 @@ public class PredictionsService {
 
     public BaseResponse GetPredictionByDateAndUserID(Date matchDate, Long UserID) {
         BaseResponse response = new BaseResponse();
-        List<Predictions> predictions = predictionsRepository.findPredictionsByMatchDateAndUserIDOrderByMatchTime(matchDate, UserID);
+        List<Predictions> predictions = predictionsRepository.findPredictionsByMatchDateAndUserOrderByMatchTime(matchDate, UserID);
 //        List<Predictions> predictions = predictionsRepository.findPredictionsByMatchDate(matchDate);
         if (!predictions.isEmpty()) {
             response.setData(predictions);

@@ -40,7 +40,7 @@ public class CommentsService {
 	public BaseResponse GetCommentsByGameID(Long gameID) {
 		BaseResponse response = new BaseResponse();
 		Optional<Games> game  = gamesRepository.findById(gameID);
-		List<Comments> comments = commentsRepository.findCommentsByGameIDOrderByTime(game.get());
+		List<Comments> comments = commentsRepository.findCommentsByGameOrderByTime(game.get());
 		if (!comments.isEmpty()) {
 			response.setData(comments);
 			response.setDescription("Comments found succesfully.");

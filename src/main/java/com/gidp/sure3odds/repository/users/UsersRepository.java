@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface UsersRepository extends JpaRepository<Users, Long> {
 	
 	@Query(value = "SELECT * FROM sure_users WHERE usertypeid = ?1", nativeQuery = true)
-	List<Users> findUsersByUserTypeID(long usertypeid);
+	List<Users> findUsersByUsertype(long usertypeid);
 
 	@Query(value = "SELECT * FROM sure_users WHERE email = ?1 or phone = ?2", nativeQuery = true)
 	Optional<Users> findByEmailOrPhoneNumber(String email, String phoneNumber);
@@ -26,14 +26,14 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 	Optional<Users> findByEmail(String email);
 
 
-	List<Users> findUsersByDatejoinedBetweenAndUserTypeIDEquals(Date startDate, Date endDate, UserTypes usertypeID);
+	List<Users> findUsersByDatejoinedBetweenAndUsertypeEquals(Date startDate, Date endDate, UserTypes usertypeID);
 
 
-	List<Users> findUsersByDatejoinedBetweenAndStatusEqualsAndUserTypeIDEquals(Date startDate, Date endDate, String status, UserTypes usertypeID);
+	List<Users> findUsersByDatejoinedBetweenAndStatusEqualsAndUsertypeEquals(Date startDate, Date endDate, String status, UserTypes usertypeID);
 
 
-	List<Users> findUsersByUserTypeIDEquals(UserTypes usertypeID);
+	List<Users> findUsersByUsertypeEquals(UserTypes usertypeID);
 
-	List<Users> findUsersByStatusEqualsAndUserTypeIDEquals(String status, UserTypes usertypeID);
+	List<Users> findUsersByStatusEqualsAndUsertypeEquals(String status, UserTypes usertypeID);
 
 }

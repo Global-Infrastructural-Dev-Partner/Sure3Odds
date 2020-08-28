@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface CommentsRepository extends JpaRepository<Comments, Long> {
 
-    List<Comments> findCommentsByGameIDOrderByTime(Games gameID);
+    List<Comments> findCommentsByGameOrderByTime(Games games);
 }

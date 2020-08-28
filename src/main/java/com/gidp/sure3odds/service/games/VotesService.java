@@ -29,7 +29,7 @@ public class VotesService {
     public BaseResponse CreateVotes(Votes votes, long userid) {
         BaseResponse response = new BaseResponse();
         Optional<Users> user = usersRepository.findById(userid);
-        votes.setUserID(user.get());
+        votes.setUser(user.get());
         Votes saved_votes = votesRepository.save(votes);
         if (saved_votes != null) {
             response.setData(saved_votes);
@@ -51,22 +51,22 @@ public class VotesService {
         BaseResponse response = new BaseResponse();
         HashMap<String, Object> Votes = new HashMap<>();
 
-        Optional<Votes> UserVote = votesRepository.findByGameIDAndUserID(gameID, userID);
+        Optional<Votes> UserVote = votesRepository.findByGameAndUser(gameID, userID);
         if(UserVote.isPresent()){
             Votes.put("UserVote", UserVote);
         }
 
-        List<Votes> AwayVotes = votesRepository.findVotesByAwayVoteAndGameID(1l, gameID);
+        List<Votes> AwayVotes = votesRepository.findVotesByAwayVoteAndGame(1l, gameID);
         if(!AwayVotes.isEmpty()){
             Votes.put("AwayVotes", AwayVotes.size());
         }
 
-        List<Votes> HomeVotes = votesRepository.findVotesByHomeVoteAndGameID(1l, gameID);
+        List<Votes> HomeVotes = votesRepository.findVotesByHomeVoteAndGame(1l, gameID);
         if(!HomeVotes.isEmpty()){
             Votes.put("HomeVotes", HomeVotes.size());
         }
 
-        List<Votes> DrawVotes = votesRepository.findVotesByDrawVoteAndGameID(1l, gameID);
+        List<Votes> DrawVotes = votesRepository.findVotesByDrawVoteAndGame(1l, gameID);
         if(!DrawVotes.isEmpty()){
             Votes.put("DrawVotes", DrawVotes.size());
         }

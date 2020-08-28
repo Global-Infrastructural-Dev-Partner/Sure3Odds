@@ -106,7 +106,7 @@ public class MemberAdvisersService {
 	
 	public BaseResponse GetMembersByAdviserUserID(Long adviserUserID) {
 		BaseResponse response = new BaseResponse();
-		List<MemberAdvisers> memberAdvisers  = memberAdvisersRepository.findMembersByAdviserUserID(adviserUserID);
+		List<MemberAdvisers> memberAdvisers  = memberAdvisersRepository.findMembersByAdviseruser(adviserUserID);
 		if (memberAdvisers != null) {
 			response.setData(memberAdvisers);
 			response.setDescription("Adviser found succesfully.");
@@ -120,7 +120,7 @@ public class MemberAdvisersService {
 	}
 	public BaseResponse GetAdviserDetailsByMemberID(Long memberUserID) {
 		BaseResponse response = new BaseResponse();
-		MemberAdvisers memberAdvisers  = memberAdvisersRepository.findAdviserByMemberUserID(memberUserID);
+		MemberAdvisers memberAdvisers  = memberAdvisersRepository.findAdviserByMemberuser(memberUserID);
 		if (memberAdvisers != null) {
 			Long savedMemberAdviserID = memberAdvisers.getAdviseruser().getId();
 			Optional<Users> adviserDetails = usersRepository.findById(savedMemberAdviserID);

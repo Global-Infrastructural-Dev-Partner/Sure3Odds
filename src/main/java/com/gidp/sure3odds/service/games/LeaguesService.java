@@ -1,12 +1,13 @@
 package com.gidp.sure3odds.service.games;
 
-import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.entity.games.Leagues;
+import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.repository.games.LeaguesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,29 @@ public class LeaguesService {
 	
 	@Autowired
 	LeaguesRepository leaguesRepository;
+
+	public BaseResponse CreateAllLeagues(List<Leagues> listLeagues) {
+		BaseResponse response = new BaseResponse();
+		ArrayList<Object> saved_countries = new ArrayList<>();
+		try {
+			for (Leagues leagues : listLeagues) {
+				Leagues saved_country = leaguesRepository.save(leagues);
+				saved_countries.add(saved_country);
+			}
+		} catch (Exception e) {
+
+		}
+		if (saved_countries != null) {
+			response.setData(saved_countries);
+			response.setDescription("New Leagues created successfully");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("New Leagues was not created.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+
+	}
 
 
 	public BaseResponse CreateLeague(Leagues leagues) {

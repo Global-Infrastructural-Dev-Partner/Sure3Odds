@@ -167,6 +167,15 @@ public class GamesController {
         }
     }
 
+    @PostMapping("/games/league/createall")
+    ResponseEntity<?> createLeagues(@RequestBody List<Leagues> listLeagues) {
+        BaseResponse response = leaguesService.CreateAllLeagues(listLeagues);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @PostMapping(value = "/games/league/create")
     ResponseEntity<?> createLeague(@RequestBody Leagues leagues) {

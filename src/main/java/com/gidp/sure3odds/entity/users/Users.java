@@ -1,10 +1,11 @@
 package com.gidp.sure3odds.entity.users;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "sure_users")
@@ -34,8 +35,8 @@ public class Users {
 	private String lastname;
 
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date datejoined;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
+	private LocalDate datejoined;
 
 	private String status;
 
@@ -119,14 +120,14 @@ public class Users {
 	/**
 	 * @return the datejoined
 	 */
-	public Date getDatejoined() {
+	public LocalDate getDatejoined() {
 		return datejoined;
 	}
 
 	/**
 	 * @param datejoined the datejoined to set
 	 */
-	public void setDatejoined(Date datejoined) {
+	public void setDatejoined(LocalDate datejoined) {
 		this.datejoined = datejoined;
 	}
 
@@ -189,7 +190,7 @@ public class Users {
 	}
 
 	public Users(Long id, String email, String phone, String password, String firstname, String lastname,
-			Date datejoined, String status, String device_token, String assigned) {
+				 LocalDate datejoined, String status, String device_token, String assigned) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -203,7 +204,7 @@ public class Users {
 		this.assigned = assigned;
 	}
 
-	public Users(String email, String phone, String password, String firstname, String lastname, Date datejoined,
+	public Users(String email, String phone, String password, String firstname, String lastname, LocalDate datejoined,
 			String status, String device_token, String assigned) {
 		super();
 		this.email = email;

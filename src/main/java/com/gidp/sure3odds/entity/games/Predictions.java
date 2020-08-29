@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gidp.sure3odds.entity.users.Users;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 
 @Entity
@@ -33,10 +34,10 @@ public class Predictions {
 	private Users user;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
-	private Date matchDate;
+	private LocalDate matchDate;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING,  pattern="HH:mm:ss", timezone = "Africa/Lagos")
-	private Date matchTime;
+	private LocalTime matchTime;
 
 	@ManyToOne
 	private Selections selection;
@@ -71,28 +72,28 @@ public class Predictions {
 	/**
 	 * @return the matchDate
 	 */
-	public Date getMatchDate() {
+	public LocalDate getMatchDate() {
 		return matchDate;
 	}
 
 	/**
 	 * @param matchDate the matchDate to set
 	 */
-	public void setMatchDate(Date matchDate) {
+	public void setMatchDate(LocalDate matchDate) {
 		this.matchDate = matchDate;
 	}
 
 	/**
 	 * @return the matchTime
 	 */
-	public Date getMatchTime() {
+	public LocalTime getMatchTime() {
 		return matchTime;
 	}
 
 	/**
 	 * @param matchTime the matchTime to set
 	 */
-	public void setMatchTime(Date matchTime) {
+	public void setMatchTime(LocalTime matchTime) {
 		this.matchTime = matchTime;
 	}
 
@@ -139,7 +140,7 @@ public class Predictions {
 		this.confidenceLevel = confidenceLevel;
 	}
 
-	public Predictions(Long id, Date matchDate, Date matchTime, double odds, String status, int confidenceLevel) {
+	public Predictions(Long id, LocalDate matchDate, LocalTime matchTime, double odds, String status, int confidenceLevel) {
 		this.id = id;
 		this.matchDate = matchDate;
 		this.matchTime = matchTime;
@@ -150,7 +151,7 @@ public class Predictions {
 
 
 
-	public Predictions(Date matchDate, Date matchTime, double odds, String status, int confidenceLevel) {
+	public Predictions(LocalDate matchDate, LocalTime matchTime, double odds, String status, int confidenceLevel) {
 		this.matchDate = matchDate;
 		this.matchTime = matchTime;
 		this.odds = odds;

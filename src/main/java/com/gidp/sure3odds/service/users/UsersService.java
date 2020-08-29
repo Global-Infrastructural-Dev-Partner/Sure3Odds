@@ -5,16 +5,22 @@ import com.gidp.sure3odds.entity.payments.PlanTypes;
 import com.gidp.sure3odds.entity.payments.Plans;
 import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.entity.users.NewUser;
+import com.gidp.sure3odds.entity.users.Parameters;
 import com.gidp.sure3odds.entity.users.UserTypes;
 import com.gidp.sure3odds.entity.users.Users;
 import com.gidp.sure3odds.helper.AppHelper;
 import com.gidp.sure3odds.repository.payments.PaymentsRepository;
 import com.gidp.sure3odds.repository.payments.PlanTypesRepository;
 import com.gidp.sure3odds.repository.payments.PlansRepository;
+import com.gidp.sure3odds.repository.users.ParametersRepository;
 import com.gidp.sure3odds.repository.users.UserTypesRepository;
 import com.gidp.sure3odds.repository.users.UsersRepository;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,6 +51,9 @@ public class UsersService {
     @Autowired
     PaymentsRepository paymentsRepository;
 
+    @Autowired
+    ParametersRepository parametersRepository;
+
     AppHelper appHelper = new AppHelper();
 
     @Autowired
@@ -70,37 +79,35 @@ public class UsersService {
         BaseResponse response = new BaseResponse();
         String validationResult = "failed";
         if (newUser.getPlatform().equals("Android")) {
-            validationResult = AndroidPaymentValidation(newUser.getReferenceCode());
+            validationResult = AndroidPaymentValidation(newUser.getReferencecode());
         } else if (newUser.getPlatform().equals("iOS")) {
-            validationResult = iOSPaymentValidation(newUser.getReferenceCode());
+            validationResult = iOSPaymentValidation(newUser.getReferencecode());
         }
 
         if (validationResult.equals("success")) {
-            Long usertypeid = newUser.getUserTypeID().getId();
-            Optional<UserTypes> usertype = userTypesRepository.findById(usertypeid);
+            Optional<UserTypes> usertype = userTypesRepository.findById(2l);
             if (usertype.isPresent()) {
-                Long planttypeid = newUser.getPlanTypeID().getId();
+                Long planttypeid = newUser.getPlantype().getId();
                 Optional<PlanTypes> plantype = planTypesRepository.findById(planttypeid);
                 if (plantype.isPresent()) {
                     String password = passwordEncoder.encode(newUser.getPassword());
+                    LocalDate CurrentDate = LocalDate.now();
                     Users user = new Users(newUser.getEmail(), newUser.getPhone(), password,
-                            newUser.getFirstname(), newUser.getLastname(), newUser.getDatejoined(), "Active",
+                            newUser.getFirstname(), newUser.getLastname(), CurrentDate, "Active",
                             "Pending", "Pending");
                     user.setUsertype(usertype.get());
                     Users saved_user = usersRepository.save(user);
 
-                    LocalDate CurrentDate = LocalDate.now();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                     String CurrentDateString = CurrentDate.format(formatter);
-                    LocalDate mDate = LocalDate.parse(CurrentDateString);
-                    Date endDate  = appHelper.convertToDateViaInstant(mDate);
+                    LocalDate endDate = LocalDate.parse(CurrentDateString);
 
-                    Plans plan = new Plans(newUser.getStartDate(), endDate);
+                    Plans plan = new Plans(CurrentDate, endDate);
                     plan.setUser(saved_user);
                     plan.setPlantype(plantype.get());
                     Plans saved_plan = plansRepository.save(plan);
-                    Payments payment = new Payments(newUser.getPaymentdate(), newUser.getPaymenttype(),
-                            newUser.getPlatform(), newUser.getReferenceCode());
+                    Payments payment = new Payments(CurrentDate, "Registration",
+                            newUser.getPlatform(), newUser.getReferencecode());
                     payment.setUser(saved_user);
                     payment.setPlantype(plantype.get());
                     Payments saved_payment = paymentsRepository.save(payment);
@@ -184,39 +191,32 @@ public class UsersService {
     public String AndroidPaymentValidation(String ReferenceCode) throws IOException {
 
         String result = "success";
-//        String SecretKey = "";
-//        try {
-//            HttpGet newRequest = new HttpGet("https://api.paystack.co/transaction/verify/" + ReferenceCode);
-//            newRequest.addHeader("Content-type", "application/json");
-//            newRequest.addHeader("Authorization", "Bearer " + SecretKey);
-//            newRequest.addHeader("Cache-Control", "no-cache");
-//            CloseableHttpResponse response = httpClient.execute(newRequest);
-//            try {
-//
-//                // Get HttpResponse Status             // HTTP/1.1
-//                System.out.println(response.getStatusLine().getStatusCode());   // 200
-//                System.out.println(response.getStatusLine().getReasonPhrase()); // OK
-//                System.out.println(response.getStatusLine().toString());        // HTTP/1.1 200 OK
-//
-//                HttpEntity entity = response.getEntity();
-//                if (entity != null) {
-//                    // return it as a String
-//                    String responseBody = EntityUtils.toString(entity);
-//                    System.out.println(responseBody);
-//
-//
-//
-//                }
-//
-//            } finally {
-//                response.close();
-//            }
-//
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        } finally {
-//            httpClient.close();
-//        }
+        Parameters parameters = parametersRepository.findById(2l).get();
+        String SecretKey = parameters.getValue();
+        try {
+            HttpGet newRequest = new HttpGet("https://api.paystack.co/transaction/verify/" + ReferenceCode);
+            newRequest.addHeader("Content-type", "application/json");
+            newRequest.addHeader("Authorization", "Bearer " + SecretKey);
+            newRequest.addHeader("Cache-Control", "no-cache");
+            CloseableHttpResponse response = httpClient.execute(newRequest);
+            try {
+                HttpEntity entity = response.getEntity();
+                if (entity != null) {
+                    // return it as a String
+                    String responseBody = EntityUtils.toString(entity);
+                    System.out.println(responseBody);
+                    if(response.getStatusLine().getReasonPhrase().toString() == "OK"){
+                        return result = "success";
+                    }
+                }
+            } finally {
+                response.close();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            httpClient.close();
+        }
         return result;
     }
 
@@ -379,9 +379,9 @@ public class UsersService {
             } else {
                 if (user.get().getUsertype().getId() == 2l) {//members
                     Plans plans = plansRepository.findPlanByUserID(UserID);
-                    Date dueDate = plans.getEndDate();
-                    Date currentDate = new Date();
-                    if (currentDate.after(dueDate)) {
+                    LocalDate dueDate = plans.getEndDate();
+                    LocalDate currentDate = LocalDate.now();
+                    if (currentDate.isAfter(dueDate)) {
                         user.get().setStatus("Inactive");
                         usersRepository.save(user.get());
                         result = false;

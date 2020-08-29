@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -67,17 +66,16 @@ public class PlansService {
 				LocalDate CurrentDate = LocalDate.now();
 
 				//update the startdate to currentdate
-				updated_plans.setStartDate(new Date());
+				updated_plans.setStartDate(CurrentDate);
 				//add 31 to the startdate to get the next due date
-				LocalDate DueDate = CurrentDate.plusMonths(1);
-				Date ExpiryDate = appHelper.convertToDateViaInstant(DueDate);
+				LocalDate ExpiryDate = CurrentDate.plusMonths(1);
 				updated_plans.setEndDate(ExpiryDate);
 				Plans saved_plan = plansRepository.save(updated_plans);
 
 				Payments payments = new Payments();
 				payments.setUser(users.get());
 				payments.setPlantype(planTypes.get());
-				payments.setPaymentdate(new Date());
+				payments.setPaymentdate(CurrentDate);
 				payments.setPaymenttype("Renewal");
 				payments.setReferenceCode(TransactionID);
 				payments.setPlatform(Platform);

@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gidp.sure3odds.entity.users.Users;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "sure_comments")
@@ -20,10 +21,10 @@ public class Comments {
 	private String comments;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
-	private Date date;
+	private LocalDate date;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING,  pattern="HH:mm:ss", timezone = "Africa/Lagos")
-	private Date time;
+	private LocalTime time;
 
 	@ManyToOne
 	private Users user;
@@ -62,28 +63,28 @@ public class Comments {
 	/**
 	 * @return the date
 	 */
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
 	/**
 	 * @param date the date to set
 	 */
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
 	/**
 	 * @return the time
 	 */
-	public Date getTime() {
+	public LocalTime getTime() {
 		return time;
 	}
 
 	/**
 	 * @param time the time to set
 	 */
-	public void setTime(Date time) {
+	public void setTime(LocalTime time) {
 		this.time = time;
 	}
 
@@ -116,7 +117,7 @@ public class Comments {
 	 * @param date
 	 * @param time
 	 */
-	public Comments(Long id, String comments, Date date, Date time) {
+	public Comments(Long id, String comments, LocalDate date, LocalTime time) {
 		super();
 		this.id = id;
 		this.comments = comments;
@@ -129,7 +130,7 @@ public class Comments {
 	 * @param date
 	 * @param time
 	 */
-	public Comments(String comments, Date date, Date time) {
+	public Comments(String comments, LocalDate date, LocalTime time) {
 		super();
 		this.comments = comments;
 		this.date = date;

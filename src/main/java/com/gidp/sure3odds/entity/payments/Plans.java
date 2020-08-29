@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gidp.sure3odds.entity.users.Users;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "sure_plans")
@@ -23,10 +23,10 @@ public class Plans {
 	private PlanTypes plantype;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
-	private Date startDate;
+	private LocalDate startDate;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
-	private Date endDate;
+	private LocalDate endDate;
 
 	/**
 	 *
@@ -68,28 +68,28 @@ public class Plans {
 	/**
 	 * @return the startDate
 	 */
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
 	/**
 	 * @param startDate the startDate to set
 	 */
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
 	/**
 	 * @return the endDate
 	 */
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
 	/**
 	 * @param endDate the endDate to set
 	 */
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
@@ -98,7 +98,7 @@ public class Plans {
 	 * @param startDate
 	 * @param endDate
 	 */
-	public Plans(Date startDate, Date endDate) {
+	public Plans(LocalDate startDate, LocalDate endDate) {
 		super();
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -109,7 +109,7 @@ public class Plans {
 	 * @param startDate
 	 * @param endDate
 	 */
-	public Plans(Long id, Date startDate, Date endDate) {
+	public Plans(Long id, LocalDate startDate, LocalDate endDate) {
 		super();
 		this.id = id;
 		this.startDate = startDate;

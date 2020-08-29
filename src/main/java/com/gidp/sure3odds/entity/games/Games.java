@@ -3,7 +3,8 @@ package com.gidp.sure3odds.entity.games;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "sure_games")
@@ -44,10 +45,10 @@ public class Games {
 	private String status;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
-	private Date matchDate;
+	private LocalDate matchDate;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING,  pattern="HH:mm:ss", timezone = "Africa/Lagos")
-	private Date matchTime;
+	private LocalTime matchTime;
 
 	/**
 	 *
@@ -144,32 +145,32 @@ public class Games {
 	/**
 	 * @return the matchDate
 	 */
-	public Date getMatchDate() {
+	public LocalDate getMatchDate() {
 		return matchDate;
 	}
 
 	/**
 	 * @param matchDate the matchDate to set
 	 */
-	public void setMatchDate(Date matchDate) {
+	public void setMatchDate(LocalDate matchDate) {
 		this.matchDate = matchDate;
 	}
 
 	/**
 	 * @return the matchTime
 	 */
-	public Date getMatchTime() {
+	public LocalTime getMatchTime() {
 		return matchTime;
 	}
 
 	/**
 	 * @param matchTime the matchTime to set
 	 */
-	public void setMatchTime(Date matchTime) {
+	public void setMatchTime(LocalTime matchTime) {
 		this.matchTime = matchTime;
 	}
 
-	public Games(int homeTeamScore, int awayTeamScore, double odds, int confidenceLevel, String status, Date matchDate, Date matchTime) {
+	public Games(int homeTeamScore, int awayTeamScore, double odds, int confidenceLevel, String status, LocalDate matchDate, LocalTime matchTime) {
 		this.homeTeamScore = homeTeamScore;
 		this.awayTeamScore = awayTeamScore;
 		this.odds = odds;
@@ -180,7 +181,7 @@ public class Games {
 	}
 
 
-	public Games(Long id, int homeTeamScore, int awayTeamScore, double odds, int confidenceLevel, String status, Date matchDate, Date matchTime) {
+	public Games(Long id, int homeTeamScore, int awayTeamScore, double odds, int confidenceLevel, String status, LocalDate matchDate, LocalTime matchTime) {
 		this.id = id;
 		this.homeTeamScore = homeTeamScore;
 		this.awayTeamScore = awayTeamScore;

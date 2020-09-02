@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gidp.sure3odds.entity.games.*;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Date;
 
 public class NewGameAndPrediction {
 
@@ -28,8 +28,8 @@ public class NewGameAndPrediction {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
     private LocalDate matchDate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING,  pattern="HH:mm:ss", timezone = "Africa/Lagos")
-    private LocalTime matchTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING,  pattern="HH:mm", timezone = "Africa/Lagos")
+    private Date matchTime;
 
     public Leagues getLeagueID() {
         return leagueID;
@@ -103,11 +103,11 @@ public class NewGameAndPrediction {
         this.matchDate = matchDate;
     }
 
-    public LocalTime getMatchTime() {
+    public Date getMatchTime() {
         return matchTime;
     }
 
-    public void setMatchTime(LocalTime matchTime) {
+    public void setMatchTime(Date matchTime) {
         this.matchTime = matchTime;
     }
 }

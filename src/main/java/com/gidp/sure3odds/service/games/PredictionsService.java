@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +55,9 @@ public class PredictionsService {
                             Long selectionid = newGameAndPrediction.getSelectionID().getId();
                             Optional<Selections> selections = selectionsRepository.findById(selectionid);
                             if (selections.isPresent()) {
-                                Predictions newPrediction = new Predictions(newGameAndPrediction.getMatchDate(), newGameAndPrediction.getMatchTime(), newGameAndPrediction.getOdds(), "Pending", newGameAndPrediction.getConfidenceLevel());
+
+
+                                Predictions newPrediction = new Predictions(newGameAndPrediction.getMatchDate(), newGameAndPrediction.getMatchTime() , newGameAndPrediction.getOdds(), "Pending", newGameAndPrediction.getConfidenceLevel());
 
                                 newPrediction.setAwayteam(awayteam.get());
                                 newPrediction.setHometeam(hometeam.get());
@@ -125,9 +127,10 @@ public class PredictionsService {
 
     }
 
-    public BaseResponse GetPredictionByDateAndUserID(Date matchDate, Long UserID) {
+    public BaseResponse GetPredictionByDateAndUserID(LocalDate matchDate, Long UserID) {
         BaseResponse response = new BaseResponse();
-        List<Predictions> predictions = predictionsRepository.findPredictionsByMatchDateAndUserOrderByMatchTime(matchDate, UserID);
+        Users users = usersRepository.findById(UserID).get();
+        List<Predictions> predictions = predictionsRepository.findPredictionsByMatchDateAndUserOrderByMatchTime(matchDate, users);
 //        List<Predictions> predictions = predictionsRepository.findPredictionsByMatchDate(matchDate);
         if (!predictions.isEmpty()) {
             response.setData(predictions);

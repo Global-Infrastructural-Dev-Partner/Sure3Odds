@@ -5,7 +5,7 @@ import com.gidp.sure3odds.entity.users.Users;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Date;
 
 
 @Entity
@@ -36,8 +36,8 @@ public class Predictions {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
 	private LocalDate matchDate;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING,  pattern="HH:mm:ss", timezone = "Africa/Lagos")
-	private LocalTime matchTime;
+	@JsonFormat(shape = JsonFormat.Shape.STRING,  pattern="HH:mm", timezone = "Africa/Lagos")
+	private Date matchTime;
 
 	@ManyToOne
 	private Selections selection;
@@ -86,14 +86,14 @@ public class Predictions {
 	/**
 	 * @return the matchTime
 	 */
-	public LocalTime getMatchTime() {
+	public Date getMatchTime() {
 		return matchTime;
 	}
 
 	/**
 	 * @param matchTime the matchTime to set
 	 */
-	public void setMatchTime(LocalTime matchTime) {
+	public void setMatchTime(Date matchTime) {
 		this.matchTime = matchTime;
 	}
 
@@ -140,7 +140,7 @@ public class Predictions {
 		this.confidenceLevel = confidenceLevel;
 	}
 
-	public Predictions(Long id, LocalDate matchDate, LocalTime matchTime, double odds, String status, int confidenceLevel) {
+	public Predictions(Long id, LocalDate matchDate, Date matchTime, double odds, String status, int confidenceLevel) {
 		this.id = id;
 		this.matchDate = matchDate;
 		this.matchTime = matchTime;
@@ -151,7 +151,7 @@ public class Predictions {
 
 
 
-	public Predictions(LocalDate matchDate, LocalTime matchTime, double odds, String status, int confidenceLevel) {
+	public Predictions(LocalDate matchDate, Date matchTime, double odds, String status, int confidenceLevel) {
 		this.matchDate = matchDate;
 		this.matchTime = matchTime;
 		this.odds = odds;

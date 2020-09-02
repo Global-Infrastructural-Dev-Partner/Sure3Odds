@@ -65,11 +65,11 @@ public class UsersService {
             if (!checkEmailAddressOrPhoneNumberExist(newUser.getEmail(), newUser.getPhone())) {
                 response = RegisterUser(newUser);
             } else {
-                response.setDescription("user already registered");
+                response.setDescription("User already registered");
                 response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
             }
         } else {
-            response.setDescription("please enter a valid email");
+            response.setDescription("Please enter a valid email");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
@@ -123,7 +123,7 @@ public class UsersService {
                 response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
             }
         } else {
-            response.setDescription("Please, select a usertype");
+            response.setDescription("Please, select a Usertype");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
 
@@ -378,7 +378,7 @@ public class UsersService {
                 result = true;
             } else {
                 if (user.get().getUsertype().getId() == 2l) {//members
-                    Plans plans = plansRepository.findPlanByUserID(UserID);
+                    Plans plans = plansRepository.findPlansByUser(user.get());
                     LocalDate dueDate = plans.getEndDate();
                     LocalDate currentDate = LocalDate.now();
                     if (currentDate.isAfter(dueDate)) {

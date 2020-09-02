@@ -46,8 +46,8 @@ public class PlansService {
 	public BaseResponse UpdatePlan(long UserID, long PlanTypeID, String Platform, String TransactionID) throws IOException {
 		BaseResponse response = new BaseResponse();
 		String PaymentResult = "failed";
-
-		Plans plans = plansRepository.findPlanByUserID(UserID);
+		Users user = usersRepository.findById(UserID).get();
+		Plans plans = plansRepository.findPlansByUser(user);
 		if(plans != null){
 			if(Platform.equals("Android")){
 				PaymentResult = usersService.AndroidPaymentValidation(TransactionID);

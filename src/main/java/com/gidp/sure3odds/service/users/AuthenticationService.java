@@ -77,13 +77,13 @@ public class AuthenticationService {
             statusCode = HttpStatus.BAD_REQUEST.value();
             if (!isUser.isPresent()) {
                 baseResponse.setStatusCode(statusCode);
-                baseResponse.setDescription("user does not exist");
+                baseResponse.setDescription("Invalid Email");
                 return baseResponse;
             }
             Users user = isUser.get();
             if (!passwordEncoder.matches(password, user.getPassword())) {
                 baseResponse.setStatusCode(statusCode);
-                baseResponse.setDescription("invalid password");
+                baseResponse.setDescription("Invalid password");
                 return baseResponse;
             }
             return generateToken(user);

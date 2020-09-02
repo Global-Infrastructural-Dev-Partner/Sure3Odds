@@ -1,7 +1,9 @@
 package com.gidp.sure3odds.service.games;
 
+import com.gidp.sure3odds.entity.games.Countries;
 import com.gidp.sure3odds.entity.games.Leagues;
 import com.gidp.sure3odds.entity.response.BaseResponse;
+import com.gidp.sure3odds.repository.games.CountriesRepository;
 import com.gidp.sure3odds.repository.games.LeaguesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,9 @@ public class LeaguesService {
 	
 	@Autowired
 	LeaguesRepository leaguesRepository;
+
+	@Autowired
+	CountriesRepository countriesRepository;
 
 	public BaseResponse CreateAllLeagues(List<Leagues> listLeagues) {
 		BaseResponse response = new BaseResponse();
@@ -121,7 +126,8 @@ public class LeaguesService {
 
 	public BaseResponse GetLeagueByCountryID(Long countryid) {
 		BaseResponse response = new BaseResponse();
-		List<Leagues> leagues = leaguesRepository.findLeaguesByCountryID(countryid);
+		Countries countries = countriesRepository.findById(countryid).get();
+		List<Leagues> leagues = leaguesRepository.findLeaguesByCountryID(countries);
 		if (!leagues.isEmpty()) {
 			response.setData(leagues);
 			response.setDescription("League found succesfully.");

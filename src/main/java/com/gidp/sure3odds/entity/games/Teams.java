@@ -21,6 +21,7 @@ public class Teams {
 	private Countries country;
 
 
+	@Lob
 	private String imageurl;
 
 	public Teams() {

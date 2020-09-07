@@ -59,6 +59,9 @@ public class UsersService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    EmailService emailService;
+
     public BaseResponse CreateNewUser(NewUser newUser) throws IOException {
         BaseResponse response = new BaseResponse();
         if (appHelper.isValidEmail(newUser.getEmail())) {
@@ -97,11 +100,10 @@ public class UsersService {
                             "Pending", "Pending");
                     user.setUsertype(usertype.get());
                     Users saved_user = usersRepository.save(user);
-
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                     String CurrentDateString = CurrentDate.format(formatter);
-                    LocalDate endDate = LocalDate.parse(CurrentDateString);
-
+                    LocalDate eDate = LocalDate.parse(CurrentDateString);
+                    LocalDate endDate = eDate.plusMonths(1);
                     Plans plan = new Plans(CurrentDate, endDate);
                     plan.setUser(saved_user);
                     plan.setPlantype(plantype.get());
@@ -112,8 +114,10 @@ public class UsersService {
                     payment.setPlantype(plantype.get());
                     Payments saved_payment = paymentsRepository.save(payment);
                     response.setData(saved_user);
+                    String userName = newUser.getFirstname() + " " + newUser.getLastname();
                     response.setDescription("user created successfully");
                     response.setStatusCode(HttpServletResponse.SC_OK);
+                    emailService.sendEmail(user.getEmail(), userName, plantype.get().getName());
                 } else {
                     response.setDescription("Please, select a plan type found.");
                     response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
@@ -126,9 +130,7 @@ public class UsersService {
             response.setDescription("Please, select a Usertype");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
-
         return response;
-
     }
 
     public BaseResponse GetUsersByUserTypID(long userTypeID) {
@@ -205,7 +207,7 @@ public class UsersService {
                     // return it as a String
                     String responseBody = EntityUtils.toString(entity);
                     System.out.println(responseBody);
-                    if(response.getStatusLine().getReasonPhrase().toString() == "OK"){
+                    if (response.getStatusLine().getReasonPhrase().toString() == "OK") {
                         return result = "success";
                     }
                 }
@@ -408,7 +410,7 @@ public class UsersService {
         List<Users> allActiveUsers = usersRepository.findUsersByStatusEqualsAndUsertypeEquals("Active", userTypes.get());
         result.put("totalactiveusers", allActiveUsers.size());
 
-        List<Users> allInActiveUsers = usersRepository.findUsersByStatusEqualsAndUsertypeEquals( "Inactive", userTypes.get());
+        List<Users> allInActiveUsers = usersRepository.findUsersByStatusEqualsAndUsertypeEquals("Inactive", userTypes.get());
         result.put("totalinactiveusers", allInActiveUsers.size());
 
         Optional<PlanTypes> planTypes = planTypesRepository.findById(1l);
@@ -416,7 +418,7 @@ public class UsersService {
         result.put("totalvvipusers", planTypes1Users.size());
 
         Optional<PlanTypes> planTypes2 = planTypesRepository.findById(2l);
-        List<Payments> allPlanTypes2Users = paymentsRepository.findPaymentsByPlantypeEquals( planTypes2.get());
+        List<Payments> allPlanTypes2Users = paymentsRepository.findPaymentsByPlantypeEquals(planTypes2.get());
         result.put("totalvipusers", allPlanTypes2Users.size());
 
         BigDecimal planType1Income = BigDecimal.ZERO;
@@ -454,7 +456,7 @@ public class UsersService {
     }
 
 
-    public BaseResponse GetMonthlyReports (Date startDate) {
+    public BaseResponse GetMonthlyReports(Date startDate) {
         BaseResponse response = new BaseResponse();
         HashMap<String, Object> result = new HashMap<String, Object>();
 

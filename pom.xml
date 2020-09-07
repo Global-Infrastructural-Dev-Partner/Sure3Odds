@@ -92,11 +92,6 @@
             <version>8.12.7</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.3.6</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
@@ -116,13 +111,15 @@
         <dependency>
             <groupId>com.sendgrid</groupId>
             <artifactId>sendgrid-java</artifactId>
-
+            <version>4.6.4</version>
         </dependency>
         <dependency>
             <groupId>com.sendgrid</groupId>
             <artifactId>java-http-client</artifactId>
             <version>4.3.5</version>
         </dependency>
+        <!-- Thanks for using https://jar-download.com -->
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

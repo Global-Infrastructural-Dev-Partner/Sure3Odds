@@ -31,6 +31,8 @@ public class UsersController {
     @Autowired
     AuthenticationService authenticationService;
 
+
+
     @PostMapping(value = "/users/usertype/create")
     ResponseEntity<?> createUserTypes(@RequestBody UserTypes userType) {
         BaseResponse response = userTypesService.CreateUserType(userType);
@@ -106,7 +108,6 @@ public class UsersController {
     ResponseEntity<?> createMember(@RequestBody NewUser user) throws IOException {
         BaseResponse response = usersService.CreateNewUser(user);
         if (response.getStatusCode() == 200) {
-            response = authenticationService.userLogin(user.getEmail(), user.getPassword());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -215,22 +216,5 @@ public class UsersController {
         }
     }
 
-
-    @Autowired
-    private EmailService emailService;
-
-    @GetMapping(value = "/sendmail")
-    public String sendEmail(@RequestParam(value = "email", required = true) String email) {
-        String result = emailService.sendEmail(email);
-        return result;
-    }
-//    ResponseEntity<?> sendEmail(@RequestParam(value = "email", required = true) String email) {
-//        BaseResponse response = usersService.GetMonthlyReports(selectedDate);
-//        if (response.getStatusCode() == 200) {
-//            return new ResponseEntity<>(response, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-//        }
-//    }
 
 }

@@ -17,12 +17,9 @@ public class EmailService {
     SendGrid sendGrid;
     @Value("${sure.sendgrid.template-id}")
     private String templateId;
-    @Value("${sure.sendgrid.api-key}")
-    private String appKey;
 
-
-    public String sendEmail(String email) {
-            Mail mail = prepareMail(email);
+    public void sendEmail(String email, String userName, String planType) {
+            Mail mail = prepareMail(email, userName, planType);
             Request request = new Request();
         try {
             request.setMethod(Method.POST);
@@ -30,32 +27,40 @@ public class EmailService {
             request.setBody(mail.build());
             Response response = sendGrid.api(request);
             if (response != null) {
+                System.out.println("response code from sendgrid " + response.getBody());
                 System.out.println("response code from sendgrid " + response.getHeaders());
+                System.out.println("response code from sendgrid " + response.getStatusCode());
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return "error in sending email";
         }
-        return "mail had been sent check your inbox";
-
     }
 
-
-    public Mail prepareMail(String email) {
+    public Mail prepareMail(String email, String userName, String planType) {
 
         Mail mail = new Mail();
         Email fromEmail = new Email();
         fromEmail.setEmail("support@sure3odds.com");
         fromEmail.setName("Sure3Odds");
+        mail.setFrom(fromEmail);
+
         Email toEmail = new Email();
         toEmail.setEmail(email);
-        toEmail.setName("Saint Saint");
+        toEmail.setName(userName);
         Personalization personalization = new Personalization();
-        personalization.addDynamicTemplateData("name", "Saint Deemene");
-        mail.setFrom(fromEmail);
+        personalization.addDynamicTemplateData("name", userName);
+        personalization.addDynamicTemplateData("plantype", planType);
         personalization.addTo(toEmail);
         mail.addPersonalization(personalization);
+
+        Email replyTo = new Email();
+        replyTo.setName("Sure3Odds");
+        replyTo.setEmail("support@sure3odds.com");
+        mail.setReplyTo(replyTo);;
+
         mail.setTemplateId(templateId);
+
+
         return mail;
     }
 

@@ -17,7 +17,7 @@ public interface VotesRepository extends JpaRepository<Votes, Long> {
     Optional<Votes> findVotesByGameAndUser(long gameid, long userid);
 
 
-    @Query(value = "SELECT * FROM sure_votes WHERE gameid = ?1 and user_id = ?2", nativeQuery = true)
+//    @Query(value = "SELECT * FROM sure_votes WHERE game_id = ?1 and user_id = ?2", nativeQuery = true)
     Optional<Votes> findByGameAndUser(Games games, Users users);
 
 

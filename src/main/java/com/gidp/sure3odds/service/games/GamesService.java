@@ -225,30 +225,35 @@ public class GamesService {
                 }
             } else if (planTypeID == 2) {
                 //Get for VIP (set 1, set 2)
-//                Optional<Sets> set1 = setsRepository.findById(1l);
-//                if (CurrentDate.equals(matchDate)) {
-//                    Set1Games = gamesRepository.findGamesByMatchDateAndSetOrderByMatchTime(matchDate, set1.get());
-//                } else {
-//                    Set1Games = gamesRepository.findGamesByMatchDateAndSetAndStatusOrderByMatchTime(matchDate, set1.get(), "Won");
-//                }
-//                if (!Set1Games.isEmpty()) {
-//                    userGames1.put(set1.get().getName(), Set1Games);
-//                } else {
-//                    userGames1.put(set1.get().getName(), set1.get().getName() + " Games will be available shortly or No Games.");
-//                }
-//
-//                Optional<Sets> set2 = setsRepository.findById(2l);
-//                if (CurrentDate.equals(matchDate)) {
-//                    Set2Games = gamesRepository.findGamesByMatchDateAndSetOrderByMatchTime(matchDate, set2.get());
-//                } else {
-//                    Set2Games = gamesRepository.findGamesByMatchDateAndSetAndStatusOrderByMatchTime(matchDate, set2.get(), "Won");
-//                }
-//                if (!Set2Games.isEmpty()) {
-//                    userGames1.put(set2.get().getName(), Set2Games);
-//                } else {
-//                    userGames1.put(set2.get().getName(), set2.get().getName() + " Games will be available shortly or No Games.");
-//                }
+                Optional<Sets> set1 = setsRepository.findById(1l);
+                if (CurrentDate.equals(matchDate)) {
+                    Set1Games = gamesRepository.findGamesByMatchDateAndSetOrderByMatchTime(matchDate, set1.get());
+                } else {
+                    Set1Games = gamesRepository.findGamesByMatchDateAndSetAndStatusOrderByMatchTime(matchDate, set1.get(), "Won");
+                }
+                HashMap<String, Object> userGames1 = new HashMap<>();
+                if (!Set1Games.isEmpty()) {
+                    userGames1.put("title", set1.get().getName());
+                    userGames1.put("items", Set1Games);
+                    AllUserGames.add(userGames1);
+                } else {
+                    userGames1.put(set1.get().getName(), set1.get().getName() + " Games will be available shortly or No Games.");
+                }
 
+                Optional<Sets> set2 = setsRepository.findById(2l);
+                if (CurrentDate.equals(matchDate)) {
+                    Set2Games = gamesRepository.findGamesByMatchDateAndSetOrderByMatchTime(matchDate, set2.get());
+                } else {
+                    Set2Games = gamesRepository.findGamesByMatchDateAndSetAndStatusOrderByMatchTime(matchDate, set2.get(), "Won");
+                }
+                HashMap<String, Object> userGames2 = new HashMap<>();
+                if (!Set2Games.isEmpty()) {
+                    userGames2.put("title", set2.get().getName());
+                    userGames2.put("items", Set2Games);
+                    AllUserGames.add(userGames2);
+                } else {
+                    userGames2.put(set2.get().getName(), set2.get().getName() + " Games will be available shortly or No Games.");
+                }
             }
             response.setData(AllUserGames);
             response.setDescription("Games found succesfully.");

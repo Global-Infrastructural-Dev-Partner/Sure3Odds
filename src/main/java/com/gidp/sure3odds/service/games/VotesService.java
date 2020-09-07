@@ -60,24 +60,16 @@ public class VotesService {
         Users users = usersRepository.findById(userID).get();
 
         Optional<Votes> UserVote = votesRepository.findByGameAndUser(games, users);
-        if(UserVote.isPresent()){
-            Votes.put("UserVote", UserVote);
-        }
+        Votes.put("UserVote", UserVote);
 
         List<Votes> AwayVotes = votesRepository.findVotesByAwayVoteAndGame(1l, games);
-        if(!AwayVotes.isEmpty()){
-            Votes.put("AwayVotes", AwayVotes.size());
-        }
+        Votes.put("AwayVotes", AwayVotes.size());
 
         List<Votes> HomeVotes = votesRepository.findVotesByHomeVoteAndGame(1l, games);
-        if(!HomeVotes.isEmpty()){
-            Votes.put("HomeVotes", HomeVotes.size());
-        }
+        Votes.put("HomeVotes", HomeVotes.size());
 
         List<Votes> DrawVotes = votesRepository.findVotesByDrawVoteAndGame(1l, games);
-        if(!DrawVotes.isEmpty()){
-            Votes.put("DrawVotes", DrawVotes.size());
-        }
+        Votes.put("DrawVotes", DrawVotes.size());
 
 
         if (!Votes.isEmpty()) {

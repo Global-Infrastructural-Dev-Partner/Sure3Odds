@@ -5,7 +5,7 @@ import com.gidp.sure3odds.entity.users.Users;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "sure_comments")
@@ -24,7 +24,7 @@ public class Comments {
 	private LocalDate date;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING,  pattern="HH:mm", timezone = "Africa/Lagos")
-	private LocalTime time;
+	private Date time;
 
 	@ManyToOne
 	private Users user;
@@ -77,14 +77,14 @@ public class Comments {
 	/**
 	 * @return the time
 	 */
-	public LocalTime getTime() {
+	public Date getTime() {
 		return time;
 	}
 
 	/**
 	 * @param time the time to set
 	 */
-	public void setTime(LocalTime time) {
+	public void setTime(Date time) {
 		this.time = time;
 	}
 
@@ -117,7 +117,7 @@ public class Comments {
 	 * @param date
 	 * @param time
 	 */
-	public Comments(Long id, String comments, LocalDate date, LocalTime time) {
+	public Comments(Long id, String comments, LocalDate date, Date time) {
 		super();
 		this.id = id;
 		this.comments = comments;
@@ -130,7 +130,7 @@ public class Comments {
 	 * @param date
 	 * @param time
 	 */
-	public Comments(String comments, LocalDate date, LocalTime time) {
+	public Comments(String comments, LocalDate date, Date time) {
 		super();
 		this.comments = comments;
 		this.date = date;

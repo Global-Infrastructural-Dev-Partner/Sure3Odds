@@ -455,8 +455,8 @@ public class GamesController {
 
 
     @PostMapping(value = "/games/comment/create")
-    ResponseEntity<?> addComment(@RequestBody Comments comments) {
-        BaseResponse response = commentsService.CreateComments(comments);
+    ResponseEntity<?> addComment(@RequestAttribute("UserID") Long UserID, @RequestBody Comments comments) {
+        BaseResponse response = commentsService.CreateComments(comments, UserID);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -464,9 +464,9 @@ public class GamesController {
         }
     }
 
-    @GetMapping(value = "/games/comment/get_game_comments")
-    ResponseEntity<?> getComments(@RequestParam Long GameID) {
-        BaseResponse response = commentsService.GetCommentsByGameID(GameID);
+    @GetMapping(value = "/games/comment/get_game_comments/{id}")
+    ResponseEntity<?> getComments(@PathVariable Long id) {
+        BaseResponse response = commentsService.GetCommentsByGameID(id);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {

@@ -14,6 +14,7 @@ public class Leagues {
 
 	private String name;
 
+	@Lob
 	private String imageurl;
 
 	@ManyToOne

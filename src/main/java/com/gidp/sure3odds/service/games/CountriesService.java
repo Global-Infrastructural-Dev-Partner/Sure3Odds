@@ -1,9 +1,12 @@
 package com.gidp.sure3odds.service.games;
 
-import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.entity.games.Countries;
+import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.repository.games.CountriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -91,11 +94,12 @@ public class CountriesService {
     }
 
 
-    public BaseResponse GetAllCountries() {
+    public BaseResponse GetAllCountries(int pageNo, int pageSize) {
         BaseResponse response = new BaseResponse();
-        List<Countries> countries = countriesRepository.findAll();
-        if (!countries.isEmpty()) {
-            response.setData(countries);
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        Page<Countries> pagedResult = countriesRepository.findAll(paging);
+        if (!pagedResult.isEmpty()) {
+            response.setData(pagedResult);
             response.setDescription("Countries found succesfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
@@ -103,7 +107,6 @@ public class CountriesService {
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
-
     }
 
     public BaseResponse GetCountryByID(Long id) {

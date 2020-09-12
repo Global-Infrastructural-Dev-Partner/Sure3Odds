@@ -191,7 +191,9 @@ public class GamesService {
                     userGames1.put("items", Set1Games);
                     AllUserGames.add(userGames1);
                 } else {
-                    userGames1.put(set1.get().getName(), set1.get().getName() + " Games will be available shortly or No Games.");
+                    userGames1.put("title", set1.get().getName());
+                    userGames1.put("msg",  set1.get().getName() + " Games will be available shortly or No Games.");
+                    AllUserGames.add(userGames1);
                 }
 
                 Optional<Sets> set2 = setsRepository.findById(2l);
@@ -206,7 +208,9 @@ public class GamesService {
                     userGames2.put("items", Set2Games);
                     AllUserGames.add(userGames2);
                 } else {
-                    userGames2.put(set2.get().getName(), set2.get().getName() + " Games will be available shortly or No Games.");
+                    userGames2.put("title", set2.get().getName());
+                    userGames2.put("msg",  set2.get().getName() + " Games will be available shortly or No Games.");
+                    AllUserGames.add(userGames2);
                 }
 
                 Optional<Sets> set3 = setsRepository.findById(3l);
@@ -221,7 +225,9 @@ public class GamesService {
                     userGames3.put("items", Set3Games);
                     AllUserGames.add(userGames3);
                 } else {
-                    userGames3.put(set3.get().getName(), set3.get().getName() + " Games will be available shortly or No Games.");
+                    userGames3.put("title", set3.get().getName());
+                    userGames3.put("msg",  set3.get().getName() + " Games will be available shortly or No Games.");
+                    AllUserGames.add(userGames3);
                 }
             } else if (planTypeID == 2) {
                 //Get for VIP (set 1, set 2)
@@ -237,7 +243,9 @@ public class GamesService {
                     userGames1.put("items", Set1Games);
                     AllUserGames.add(userGames1);
                 } else {
-                    userGames1.put(set1.get().getName(), set1.get().getName() + " Games will be available shortly or No Games.");
+                    userGames1.put("title", set1.get().getName());
+                    userGames1.put("msg",  set1.get().getName() + " Games will be available shortly or No Games.");
+                    AllUserGames.add(userGames1);
                 }
 
                 Optional<Sets> set2 = setsRepository.findById(2l);
@@ -252,7 +260,9 @@ public class GamesService {
                     userGames2.put("items", Set2Games);
                     AllUserGames.add(userGames2);
                 } else {
-                    userGames2.put(set2.get().getName(), set2.get().getName() + " Games will be available shortly or No Games.");
+                    userGames2.put("title", set2.get().getName());
+                    userGames2.put("msg",  set2.get().getName() + " Games will be available shortly or No Games.");
+                    AllUserGames.add(userGames2);
                 }
             }
             response.setData(AllUserGames);

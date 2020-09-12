@@ -76,9 +76,10 @@ public class GamesController {
         }
     }
 
+
     @GetMapping(value = "/games/country/getall")
-    ResponseEntity<?> getAllCountries() {
-        BaseResponse response = countriesService.GetAllCountries();
+    ResponseEntity<?> getAllCountries(@RequestParam int pageNo, @RequestParam int pageSize) {
+        BaseResponse response = countriesService.GetAllCountries(pageNo, pageSize);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -106,9 +107,9 @@ public class GamesController {
         }
     }
 
-    @GetMapping(value = "/games/country/search_by_name/")
-    ResponseEntity<?> searchCountryByName(@RequestParam String country) {
-        BaseResponse response = countriesService.SearchCountries(country);
+    @GetMapping(value = "/games/country/search_by_name")
+    ResponseEntity<?> searchCountryByName(@RequestParam String name) {
+        BaseResponse response = countriesService.SearchCountries(name);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {

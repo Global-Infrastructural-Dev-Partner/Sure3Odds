@@ -6,6 +6,10 @@ import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.repository.games.CountriesRepository;
 import com.gidp.sure3odds.repository.games.LeaguesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -94,9 +98,11 @@ public class LeaguesService {
 	}
 
 
-	public BaseResponse GetAllLeagues() {
+	public BaseResponse GetAllLeagues(int pageNo, int pageSize) {
 		BaseResponse response = new BaseResponse();
-		List<Leagues> leagues = leaguesRepository.findAll();
+		Pageable paging = PageRequest.of(pageNo, pageSize);
+
+		Page<Leagues> leagues = leaguesRepository.findAll(paging);
 		if (!leagues.isEmpty()) {
 			response.setData(leagues);
 			response.setDescription("League found succesfully.");
@@ -109,20 +115,6 @@ public class LeaguesService {
 
 	}
 
-	public BaseResponse GetLeagueByID(Long id) {
-		BaseResponse response = new BaseResponse();
-		Optional<Leagues> leagues = leaguesRepository.findById(id);
-		if (leagues.isPresent()) {
-			response.setData(leagues);
-			response.setDescription("League found succesfully.");
-			response.setStatusCode(HttpServletResponse.SC_OK);
-		} else {
-			response.setDescription("No result found.");
-			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-		}
-		return response;
-
-	}
 
 	public BaseResponse GetLeagueByCountryID(Long countryid) {
 		BaseResponse response = new BaseResponse();
@@ -140,9 +132,10 @@ public class LeaguesService {
 
 	}
 
-	public BaseResponse SearchLeaguesByName(String name) {
+	public BaseResponse SearchLeaguesByName(String name, int pageNo, int pageSize) {
 		BaseResponse response = new BaseResponse();
-		List<Leagues> leagues = leaguesRepository.findLeaguesByNameContainingOrderByName(name);
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name"));
+		Page<Leagues> leagues = leaguesRepository.findLeaguesByNameContainingOrderByName(name, paging);
 		if (!leagues.isEmpty()) {
 			response.setData(leagues);
 			response.setDescription("Teams found succesfully.");

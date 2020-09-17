@@ -1,10 +1,15 @@
 package com.gidp.sure3odds.service.games;
 
+import com.gidp.sure3odds.entity.games.Leagues;
 import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.entity.games.Teams;
 import com.gidp.sure3odds.repository.games.LeaguesRepository;
 import com.gidp.sure3odds.repository.games.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -103,9 +108,10 @@ public class TeamsService {
 	}
 
 
-	public BaseResponse GetAllTeams() {
+	public BaseResponse GetAllTeams(int pageNo, int pageSize) {
 		BaseResponse response = new BaseResponse();
-		List<Teams> teams = teamsRepository.findAll();
+		Pageable paging = PageRequest.of(pageNo, pageSize);
+		Page<Teams> teams = teamsRepository.findAll(paging);
 		if (!teams.isEmpty()) {
 			response.setData(teams);
 			response.setDescription("Team found succesfully.");
@@ -163,9 +169,10 @@ public class TeamsService {
 	}
 
 
-	public BaseResponse SearchTeamsByName(String name) {
+	public BaseResponse SearchTeamsByName(String name, int pageNo, int pageSize ) {
 		BaseResponse response = new BaseResponse();
-		List<Teams> teams = teamsRepository.findTeamsByNameContainingOrderByName(name);
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name"));
+		Page<Teams> teams = teamsRepository.findTeamsByNameContainingOrderByName(name, paging);
 		if (!teams.isEmpty()) {
 			response.setData(teams);
 			response.setDescription("Teams found succesfully.");

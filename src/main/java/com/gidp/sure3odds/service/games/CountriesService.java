@@ -99,7 +99,7 @@ public class CountriesService {
 
     public BaseResponse GetAllCountries(int pageNo, int pageSize) {
         BaseResponse response = new BaseResponse();
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name"));
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());
         Page<Countries> countries = countriesRepository.findAll(paging);
         if (!countries.isEmpty()) {
             response.setData(countries);
@@ -128,5 +128,22 @@ public class CountriesService {
         return response;
 
     }
+
+    public BaseResponse GetCountries() {
+        BaseResponse response = new BaseResponse();
+        Sort sortOrder = Sort.by("name").ascending();
+        List<Countries> countries = countriesRepository.findAll(sortOrder);
+        if (!countries.isEmpty()) {
+            response.setData(countries);
+            response.setDescription("Countries found succesfully.");
+            response.setStatusCode(HttpServletResponse.SC_OK);
+        } else {
+            response.setDescription("No result found.");
+            response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        return response;
+    }
+
+
 
 }

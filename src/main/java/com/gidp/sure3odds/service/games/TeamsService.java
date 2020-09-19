@@ -1,8 +1,8 @@
 package com.gidp.sure3odds.service.games;
 
 import com.gidp.sure3odds.entity.games.Leagues;
-import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.entity.games.Teams;
+import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.repository.games.LeaguesRepository;
 import com.gidp.sure3odds.repository.games.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +26,6 @@ public class TeamsService {
 	@Autowired
 	LeaguesRepository leaguesRepository;
 
-
-	public boolean checkTeamExist(long leagueID, String teamName) {
-		boolean result = false;
-		Optional<Teams> teams = teamsRepository.findByLeagueIDAndTeamName(leagueID, teamName);
-		if (teams.isPresent()) {
-			result = true;
-		}
-		return result;
-	}
 
 	public BaseResponse CreateAllTeams(List<Teams> listTeams) {
 		BaseResponse response = new BaseResponse();
@@ -81,11 +72,11 @@ public class TeamsService {
 		BaseResponse response = new BaseResponse();
 		Optional<Teams> team = teamsRepository.findById(teamID);
 		if(team.isPresent()) {
-			leaguesRepository.deleteById(teamID);
+			teamsRepository.deleteById(teamID);
 			response.setDescription("Team deleted successfully");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		}else {
-			response.setDescription("No Team found");
+			response.setDescription("No results found");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
@@ -117,7 +108,7 @@ public class TeamsService {
 			response.setDescription("Team found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
@@ -132,42 +123,12 @@ public class TeamsService {
 			response.setDescription("Team found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
 
 	}
-
-	public BaseResponse GetTeamsByCountryID(Long countryid) {
-		BaseResponse response = new BaseResponse();
-		List<Teams> teams = teamsRepository.findTeamsByCountryID(countryid);
-		if (!teams.isEmpty()) {
-			response.setData(teams);
-			response.setDescription("Teams found succesfully.");
-			response.setStatusCode(HttpServletResponse.SC_OK);
-		} else {
-			response.setDescription("No result found.");
-			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-		}
-		return response;
-	}
-
-
-	public BaseResponse GetTeamsByLeagueID(Long leagueid) {
-		BaseResponse response = new BaseResponse();
-		List<Teams> teams = teamsRepository.findTeamsByLeagueID(leagueid);
-		if (!teams.isEmpty()) {
-			response.setData(teams);
-			response.setDescription("Teams found succesfully.");
-			response.setStatusCode(HttpServletResponse.SC_OK);
-		} else {
-			response.setDescription("No result found.");
-			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-		}
-		return response;
-	}
-
 
 	public BaseResponse SearchTeamsByName(String name, int pageNo, int pageSize ) {
 		BaseResponse response = new BaseResponse();
@@ -178,7 +139,42 @@ public class TeamsService {
 			response.setDescription("Teams found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+	public BaseResponse SearchTeamsByLeagueIdAndName(Long leagueId, String leagueName, int pageNo, int pageSize) {
+		BaseResponse response = new BaseResponse();
+		Leagues leagues = leaguesRepository.findById(leagueId).get();
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name") .ascending());
+		Page<Teams> teams = teamsRepository.findByNameContainingAndLeagueOrderByName(leagueName, leagues, paging);
+		if (!teams.isEmpty()) {
+			response.setData(teams);
+			response.setDescription("Teams found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No results found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+
+	}
+
+
+
+
+	public BaseResponse GetTeamsByLeagueID(Long leagueId, int pageNo, int pageSize) {
+		BaseResponse response = new BaseResponse();
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name"));
+		Leagues leagues = leaguesRepository.findById(leagueId).get();
+		Page<Teams> teams = teamsRepository.findByLeagueOrderByName(leagues, paging);
+		if (!teams.isEmpty()) {
+			response.setData(teams);
+			response.setDescription("Teams found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;

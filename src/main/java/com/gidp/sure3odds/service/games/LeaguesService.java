@@ -75,7 +75,7 @@ public class LeaguesService {
 			response.setDescription("League deleted successfully");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		}else {
-			response.setDescription("No League found");
+			response.setDescription("No Leagues found");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
@@ -88,7 +88,7 @@ public class LeaguesService {
 		Leagues updated_league = leaguesRepository.save(leagues);
 		if (updated_league != null) {
 			response.setData(updated_league);
-			response.setDescription("Leagues has been updated succesfully.");
+			response.setDescription("Leagues has been updated successfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
 			response.setDescription("Leagues was not updated.");
@@ -98,17 +98,19 @@ public class LeaguesService {
 	}
 
 
+
 	public BaseResponse GetAllLeagues(int pageNo, int pageSize) {
 		BaseResponse response = new BaseResponse();
-		Pageable paging = PageRequest.of(pageNo, pageSize);
-
+//		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("country_id").ascending());
+//		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name").descending());
 		Page<Leagues> leagues = leaguesRepository.findAll(paging);
 		if (!leagues.isEmpty()) {
 			response.setData(leagues);
-			response.setDescription("League found succesfully.");
+			response.setDescription("Leagues found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
@@ -116,16 +118,35 @@ public class LeaguesService {
 	}
 
 
+
 	public BaseResponse GetLeagueByCountryID(Long countryid) {
 		BaseResponse response = new BaseResponse();
 		Countries countries = countriesRepository.findById(countryid).get();
-		List<Leagues> leagues = leaguesRepository.findLeaguesByCountryID(countries);
+		Sort sortOrder = Sort.by("name").ascending();
+		List<Leagues> leagues = leaguesRepository.findByCountryOrderByName(countries, sortOrder);
 		if (!leagues.isEmpty()) {
 			response.setData(leagues);
-			response.setDescription("League found succesfully.");
+			response.setDescription("Leagues found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+
+	}
+
+	public BaseResponse SearchLeagueByCountryIDAndName(Long countryId, String countryName) {
+		BaseResponse response = new BaseResponse();
+		Countries countries = countriesRepository.findById(countryId).get();
+		Sort sortOrder = Sort.by("name").ascending();
+		List<Leagues> leagues = leaguesRepository.findByNameContainingAndCountryOrderByName(countryName, countries, sortOrder);
+		if (!leagues.isEmpty()) {
+			response.setData(leagues);
+			response.setDescription("Leagues found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
@@ -141,7 +162,7 @@ public class LeaguesService {
 			response.setDescription("Teams found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;

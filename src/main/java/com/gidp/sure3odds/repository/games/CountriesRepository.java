@@ -9,7 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CountriesRepository extends JpaRepository<Countries, Long> {
 
-
-
     Page<Countries> findCountriesByNameContainingOrderByName(String name, Pageable pageable);
 }

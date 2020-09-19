@@ -102,7 +102,8 @@ public class LeaguesService {
 	public BaseResponse GetAllLeagues(int pageNo, int pageSize) {
 		BaseResponse response = new BaseResponse();
 //		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());
-		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("country_id").ascending());
+//		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("country_id").ascending());
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending().and(Sort.by("country_id").descending()));
 //		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name").descending());
 		Page<Leagues> leagues = leaguesRepository.findAll(paging);
 		if (!leagues.isEmpty()) {

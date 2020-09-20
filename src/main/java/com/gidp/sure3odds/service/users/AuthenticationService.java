@@ -86,6 +86,23 @@ public class AuthenticationService {
                 baseResponse.setDescription("Invalid password");
                 return baseResponse;
             }
+            if (user.getId() != 1) {
+                if (!user.getStatus().getName().equals("Active")) {
+                    String desc = "";
+                    if (user.getUsertype().getName().equals("Member")) {
+                        desc = usersService.GetUserName(user.getId()) + ", your subscription has expired. Please, contact Sure3Odds Support on 08188888320 (WhatsApp Only) or send an email to support@sure3odds.com or renew your subscription.";
+                        baseResponse.setStatusCode(statusCode);
+                        baseResponse.setDescription(desc);
+                        return baseResponse;
+                    } else if (user.getUsertype().getName().equals("SubAdmin")) {
+                        desc = usersService.GetUserName(user.getId()) + ", your account has been suspended by the Admin. Please, contact the Admin";
+                        baseResponse.setStatusCode(statusCode);
+                        baseResponse.setDescription(desc);
+                        return baseResponse;
+                    }
+                }
+            }
+
             return generateToken(user);
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, ex.getMessage());
@@ -117,11 +134,11 @@ public class AuthenticationService {
     }
 
 
-    public String getUserID(String token){
+    public String getUserID(String token) {
         DecodedJWT decodedJwt = jwtHelper.getUserId(token);
         String userid = "none";
-        if(decodedJwt != null){
-            userid =   decodedJwt.getId();
+        if (decodedJwt != null) {
+            userid = decodedJwt.getId();
         }
         return userid;
     }

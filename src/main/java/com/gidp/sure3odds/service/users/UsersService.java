@@ -1,5 +1,6 @@
 package com.gidp.sure3odds.service.users;
 
+import com.gidp.sure3odds.entity.games.Status;
 import com.gidp.sure3odds.entity.payments.Payments;
 import com.gidp.sure3odds.entity.payments.PlanTypes;
 import com.gidp.sure3odds.entity.payments.Plans;
@@ -9,6 +10,7 @@ import com.gidp.sure3odds.entity.users.Parameters;
 import com.gidp.sure3odds.entity.users.UserTypes;
 import com.gidp.sure3odds.entity.users.Users;
 import com.gidp.sure3odds.helper.AppHelper;
+import com.gidp.sure3odds.repository.games.StatusRepository;
 import com.gidp.sure3odds.repository.payments.PaymentsRepository;
 import com.gidp.sure3odds.repository.payments.PlanTypesRepository;
 import com.gidp.sure3odds.repository.payments.PlansRepository;
@@ -60,6 +62,9 @@ public class UsersService {
     PasswordEncoder passwordEncoder;
 
     @Autowired
+    StatusRepository statusRepository;
+
+    @Autowired
     EmailService emailService;
 
     public BaseResponse CreateNewUser(NewUser newUser) throws IOException {
@@ -68,7 +73,7 @@ public class UsersService {
             if (!checkEmailAddressOrPhoneNumberExist(newUser.getEmail(), newUser.getPhone())) {
                 response = RegisterUser(newUser);
             } else {
-                response.setDescription("User already registered");
+                response.setDescription("User is already registered");
                 response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
             }
         } else {
@@ -88,17 +93,19 @@ public class UsersService {
         }
 
         if (validationResult.equals("success")) {
-            Optional<UserTypes> usertype = userTypesRepository.findById(2l);
+            Long usertypeid = newUser.getUserTypes().getId();
+            Optional<UserTypes> usertype = userTypesRepository.findById(usertypeid);
             if (usertype.isPresent()) {
                 Long planttypeid = newUser.getPlantype().getId();
                 Optional<PlanTypes> plantype = planTypesRepository.findById(planttypeid);
                 if (plantype.isPresent()) {
+                    Optional<Status> status = statusRepository.findByName("Active");
                     String password = passwordEncoder.encode(newUser.getPassword());
                     LocalDate CurrentDate = LocalDate.now();
-                    Users user = new Users(newUser.getEmail(), newUser.getPhone(), password,
-                            newUser.getFirstname(), newUser.getLastname(), CurrentDate, "Active",
-                            "Pending", "Pending");
+                    Users user = new Users(newUser.getEmail(), newUser.getPhone(), password, newUser.getFirstname(), newUser.getLastname(), CurrentDate,
+                            "Pending");
                     user.setUsertype(usertype.get());
+                    user.setStatus(status.get());
                     Users saved_user = usersRepository.save(user);
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                     String CurrentDateString = CurrentDate.format(formatter);
@@ -141,7 +148,7 @@ public class UsersService {
             response.setDescription("Users by user type found successfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
-            response.setDescription("No result found.");
+            response.setDescription("No results found.");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
@@ -222,18 +229,18 @@ public class UsersService {
         return result;
     }
 
-    public BaseResponse CreateAdviser(Users newUser) {
+    public BaseResponse CreateSubAdmin(Users newUser) {
         BaseResponse response = new BaseResponse();
         Long usertypeid = newUser.getUsertype().getId();
         Optional<UserTypes> usertype = userTypesRepository.findById(usertypeid);
         if (usertype.isPresent()) {
+            Optional<Status> status = statusRepository.findByName("Active");
             String password = passwordEncoder.encode(newUser.getPassword());
-            newUser.setAssigned("Pending");
-            newUser.setStatus("Active");
+            newUser.setStatus(status.get());
             newUser.setDevice_token("Pending");
             Users user = new Users(newUser.getEmail(), newUser.getPhone(), password,
-                    newUser.getFirstname(), newUser.getLastname(), newUser.getDatejoined(), newUser.getStatus(),
-                    newUser.getDevice_token(), newUser.getAssigned());
+                    newUser.getFirstname(), newUser.getLastname(), newUser.getDatejoined(),
+                    newUser.getDevice_token());
             user.setUsertype(usertype.get());
 
             Users saved_user = usersRepository.save(user);
@@ -241,7 +248,7 @@ public class UsersService {
             response.setDescription("user created successfully");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
-            response.setDescription("No user type found.");
+            response.setDescription("No results found.");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
 
@@ -263,14 +270,14 @@ public class UsersService {
             }
             if (!data.isEmpty()) {
                 response.setData(users);
-                response.setDescription("usertypes found succesfully.");
+                response.setDescription("Usertypes found successfully.");
                 response.setStatusCode(HttpServletResponse.SC_OK);
             } else {
-                response.setDescription("No result found.");
+                response.setDescription("No results found.");
                 response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
             }
         } else {
-            response.setDescription("No result found.");
+            response.setDescription("No results found.");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
@@ -282,10 +289,10 @@ public class UsersService {
         Optional<Users> users = usersRepository.findById(userid);
         if (users != null) {
             response.setData(users);
-            response.setDescription("user found succesfully.");
+            response.setDescription("User found successfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
-            response.setDescription("No result found.");
+            response.setDescription("No results found.");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
@@ -383,8 +390,9 @@ public class UsersService {
                     Plans plans = plansRepository.findPlansByUser(user.get());
                     LocalDate dueDate = plans.getEndDate();
                     LocalDate currentDate = LocalDate.now();
+                    Status status = statusRepository.findByName("Inactive").get();
                     if (currentDate.isAfter(dueDate)) {
-                        user.get().setStatus("Inactive");
+                        user.get().setStatus(status);
                         usersRepository.save(user.get());
                         result = false;
                     } else {
@@ -435,10 +443,10 @@ public class UsersService {
 
         if (result != null) {
             response.setData(result);
-            response.setDescription("report found succesfully.");
+            response.setDescription("report found successfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
-            response.setDescription("No result found.");
+            response.setDescription("No results found.");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;

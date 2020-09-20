@@ -12,8 +12,8 @@ import java.util.List;
 public interface PredictionsRepository extends JpaRepository<Predictions, Long> {
 
 
-    List<Predictions> findPredictionsByMatchDate(LocalDate matchDate);
+    List<Predictions> findPredictionsByMatchdate(LocalDate matchDate);
 
-    List<Predictions> findPredictionsByMatchDateAndUserOrderByMatchTime(LocalDate matchDate, Users users);
+    List<Predictions> findPredictionsByMatchdateAndUserOrderByMatchtime(LocalDate matchDate, Users users);
 
 }

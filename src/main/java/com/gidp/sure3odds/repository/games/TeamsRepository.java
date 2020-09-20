@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TeamsRepository extends JpaRepository<Teams, Long> {
 
@@ -18,4 +20,8 @@ public interface TeamsRepository extends JpaRepository<Teams, Long> {
 
 
     Page<Teams> findByNameContainingAndLeagueOrderByName(String name, Leagues leagues, Pageable pageable);
+
+    List<Teams> findByLeagueOrderByName(Leagues leagues);
+
+
 }

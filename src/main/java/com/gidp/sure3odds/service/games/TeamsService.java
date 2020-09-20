@@ -115,21 +115,6 @@ public class TeamsService {
 
 	}
 
-	public BaseResponse GetTeamByID(Long id) {
-		BaseResponse response = new BaseResponse();
-		Optional<Teams> team = teamsRepository.findById(id);
-		if (team.isPresent()) {
-			response.setData(team);
-			response.setDescription("Team found succesfully.");
-			response.setStatusCode(HttpServletResponse.SC_OK);
-		} else {
-			response.setDescription("No results found.");
-			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-		}
-		return response;
-
-	}
-
 	public BaseResponse SearchTeamsByName(String name, int pageNo, int pageSize ) {
 		BaseResponse response = new BaseResponse();
 		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name"));
@@ -162,13 +147,28 @@ public class TeamsService {
 	}
 
 
-
-
 	public BaseResponse GetTeamsByLeagueID(Long leagueId, int pageNo, int pageSize) {
 		BaseResponse response = new BaseResponse();
 		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name"));
 		Leagues leagues = leaguesRepository.findById(leagueId).get();
 		Page<Teams> teams = teamsRepository.findByLeagueOrderByName(leagues, paging);
+		if (!teams.isEmpty()) {
+			response.setData(teams);
+			response.setDescription("Teams found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No results found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+
+
+
+	public BaseResponse getTeamsByLeagueID(Long leagueId) {
+		BaseResponse response = new BaseResponse();
+		Leagues leagues = leaguesRepository.findById(leagueId).get();
+		List<Teams> teams = teamsRepository.findByLeagueOrderByName(leagues);
 		if (!teams.isEmpty()) {
 			response.setData(teams);
 			response.setDescription("Teams found succesfully.");

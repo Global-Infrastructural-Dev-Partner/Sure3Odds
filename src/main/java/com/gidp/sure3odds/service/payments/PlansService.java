@@ -1,11 +1,13 @@
 package com.gidp.sure3odds.service.payments;
 
+import com.gidp.sure3odds.entity.games.Status;
 import com.gidp.sure3odds.entity.payments.Payments;
 import com.gidp.sure3odds.entity.payments.PlanTypes;
 import com.gidp.sure3odds.entity.payments.Plans;
 import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.entity.users.Users;
 import com.gidp.sure3odds.helper.AppHelper;
+import com.gidp.sure3odds.repository.games.StatusRepository;
 import com.gidp.sure3odds.repository.payments.PaymentsRepository;
 import com.gidp.sure3odds.repository.payments.PlanTypesRepository;
 import com.gidp.sure3odds.repository.payments.PlansRepository;
@@ -36,6 +38,9 @@ public class PlansService {
 
 	@Autowired
 	UsersRepository usersRepository;
+
+	@Autowired
+	StatusRepository statusRepository;
 
 	@Autowired
 	PaymentsRepository paymentsRepository;
@@ -81,9 +86,9 @@ public class PlansService {
 				payments.setPlatform(Platform);
 				//create the payment
 				Payments saved_payment = paymentsRepository.save(payments);
-
 				//update the user table and set status to active
-				users.get().setStatus("Active");
+				Status status = statusRepository.findByName("Active").get();
+				users.get().setStatus(status);
 				usersRepository.save(users.get());
 				response.setData(saved_plan);
 				response.setDescription("User plan renewal was successful.");

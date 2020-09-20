@@ -2,7 +2,7 @@ package com.gidp.sure3odds.controller.games;
 
 import com.gidp.sure3odds.entity.games.*;
 import com.gidp.sure3odds.entity.response.BaseResponse;
-import com.gidp.sure3odds.entity.users.NewGameAndPrediction;
+import com.gidp.sure3odds.entity.games.NewGameAndPrediction;
 import com.gidp.sure3odds.service.games.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,6 +44,9 @@ public class GamesController {
 
     @Autowired
     SelectionsService selectionsService;
+
+    @Autowired
+    StatusService statusService;
 
     //-----------------Start-----Country--------------------------
     @PostMapping("/games/country/createall")
@@ -95,6 +98,7 @@ public class GamesController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+
     @DeleteMapping(value = "/games/country/delete/{id}")
     ResponseEntity<?> deleteCountry(@PathVariable long id) {
         BaseResponse response = countriesService.DeleteCountry(id);
@@ -114,6 +118,7 @@ public class GamesController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping(value = "/games/country/leagues/get/{id}")
     ResponseEntity<?> searchLeagueByCountryID(@PathVariable Long id) {
         BaseResponse response = leaguesService.GetLeagueByCountryID(id);
@@ -123,6 +128,7 @@ public class GamesController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping(value = "/games/country/leagues/search")
     ResponseEntity<?> searchLeaguesByCountryIDAndName(@RequestParam String searchValue, @RequestParam long countryId) {
         BaseResponse response = leaguesService.SearchLeagueByCountryIDAndName(countryId, searchValue);
@@ -176,8 +182,6 @@ public class GamesController {
         }
     }
 
-
-
     @GetMapping(value = "/games/league/search")
     ResponseEntity<?> searchLeagueByName(@RequestParam String searchValue, @RequestParam int pageNo, @RequestParam int pageSize) {
         BaseResponse response = leaguesService.SearchLeaguesByName(searchValue, pageNo, pageSize);
@@ -199,7 +203,7 @@ public class GamesController {
     }
 
     @GetMapping(value = "/games/league/teams/get")
-    ResponseEntity<?> getTeamsByLeagudId(@RequestParam long leagueId, @RequestParam int pageNo, @RequestParam int pageSize) {
+    ResponseEntity<?> GetTeamsByLeagudId(@RequestParam long leagueId, @RequestParam int pageNo, @RequestParam int pageSize) {
         BaseResponse response = teamsService.GetTeamsByLeagueID(leagueId, pageNo, pageSize);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -207,6 +211,7 @@ public class GamesController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping(value = "/games/league/teams/search")
     ResponseEntity<?> searchTeamsByLeagueIdAndName(@RequestParam String searchValue, @RequestParam long leagueId, @RequestParam int pageNo, @RequestParam int pageSize) {
         BaseResponse response = teamsService.SearchTeamsByLeagueIdAndName(leagueId, searchValue, pageNo, pageSize);
@@ -217,9 +222,30 @@ public class GamesController {
         }
     }
 
+    @GetMapping(value = "/games/league/teams/getall/{id}")
+    ResponseEntity<?> getTeamsByLeagudId(@PathVariable long id) {
+        BaseResponse response = teamsService.getTeamsByLeagueID(id);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 //----------------End------Leagues--------------------------
 
-//----------------Start------Teams--------------------------
+    //----------------Start------Teams--------------------------
+    @PostMapping("/games/team/createall")
+    ResponseEntity<?> createTeams(@RequestBody List<Teams> listTeams) {
+        BaseResponse response = teamsService.CreateAllTeams(listTeams);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
     @PostMapping(value = "/games/team/create")
     ResponseEntity<?> createTeam(@RequestBody Teams teams) {
@@ -251,16 +277,6 @@ public class GamesController {
         }
     }
 
-    @GetMapping(value = "/games/team/get_by_id/{id}")
-    ResponseEntity<?> getTeamByID(@RequestParam Long id) {
-        BaseResponse response = teamsService.GetTeamByID(id);
-        if (response.getStatusCode() == 200) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }
-
     @GetMapping(value = "/games/team/search")
     ResponseEntity<?> searchTeamsByName(@RequestParam String searchValue, @RequestParam int pageNo, @RequestParam int pageSize) {
         BaseResponse response = teamsService.SearchTeamsByName(searchValue, pageNo, pageSize);
@@ -280,13 +296,10 @@ public class GamesController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
-
-
-
 //----------------End------Teams--------------------------
-//----------------Start------Selections--------------------------
 
 
+    //----------------Start------Selections--------------------------
     @PostMapping(value = "/games/selection/create")
     ResponseEntity<?> createSelection(@RequestBody Selections selections) {
         BaseResponse response = selectionsService.CreateSelection(selections);
@@ -308,7 +321,7 @@ public class GamesController {
     }
 
     @GetMapping(value = "/games/selection/getall")
-    ResponseEntity<?> getAllSelections(@RequestParam int pageNo, @RequestParam int pageSize) {
+    ResponseEntity<?> GetAllSelections(@RequestParam int pageNo, @RequestParam int pageSize) {
         BaseResponse response = selectionsService.GetAllSelections(pageNo, pageSize);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -336,10 +349,20 @@ public class GamesController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping(value = "/games/selection/get_all")
+    ResponseEntity<?> getAllSelections() {
+        BaseResponse response = selectionsService.getAllSelections();
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 //----------------End------Selections--------------------------
 
 
-
+    //----------------Start------Set--------------------------
     @PostMapping(value = "/games/set/create")
     ResponseEntity<?> createSet(@RequestBody Sets sets) {
         BaseResponse response = setsService.CreateSet(sets);
@@ -390,18 +413,9 @@ public class GamesController {
         }
     }
 
+    //----------------End------Set--------------------------
 
-    @PostMapping("/games/team/createall")
-    ResponseEntity<?> createTeams(@RequestBody List<Teams> listTeams) {
-        BaseResponse response = teamsService.CreateAllTeams(listTeams);
-        if (response.getStatusCode() == 200) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-
+    //----------------Start------Prediction--------------------------
     @PostMapping(value = "/games/prediction/create")
     ResponseEntity<?> createPrediction(@RequestAttribute("UserID") Long userid, @RequestBody NewGameAndPrediction newGameAndPrediction) {
         BaseResponse response = predictionsService.CreatePrediction(userid, newGameAndPrediction);
@@ -461,8 +475,10 @@ public class GamesController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+    //----------------End------Prediction--------------------------
 
 
+    //----------------Start------Game--------------------------
     @PostMapping(value = "/games/game/add")
     ResponseEntity<?> addGame(@RequestBody NewGameAndPrediction newGameAndPrediction) {
         BaseResponse response = gamesService.addGame(newGameAndPrediction);
@@ -496,7 +512,7 @@ public class GamesController {
 
 
     @DeleteMapping(value = "/games/game/delete/{id}")
-    ResponseEntity<?> deleteGame(@RequestParam Long id) {
+    ResponseEntity<?> deleteGame(@PathVariable Long id) {
         BaseResponse response = gamesService.DeleteGame(id);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -506,7 +522,7 @@ public class GamesController {
     }
 
 
-    @GetMapping(value = "/games/game/get_by_userid")
+    @GetMapping(value = "/games/game/user/get")
     ResponseEntity<?> getUserGames(@RequestAttribute("UserID") Long UserID, @RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) LocalDate matchDate) {
         BaseResponse response = gamesService.GetUserGames(UserID, matchDate);
         if (response.getStatusCode() == 200) {
@@ -515,8 +531,9 @@ public class GamesController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+    //----------------End------Game--------------------------
 
-
+    //----------------Start------Comment--------------------------
     @PostMapping(value = "/games/comment/create")
     ResponseEntity<?> addComment(@RequestAttribute("UserID") Long UserID, @RequestBody Comments comments) {
         BaseResponse response = commentsService.CreateComments(comments, UserID);
@@ -536,7 +553,9 @@ public class GamesController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+    //----------------End------Comment--------------------------
 
+    //----------------Start------Vote--------------------------
 
     @PostMapping(value = "/games/vote/create")
     ResponseEntity<?> addGameVote(@RequestBody Votes votes, @RequestAttribute("UserID") Long UserID) {
@@ -567,10 +586,11 @@ public class GamesController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+    //----------------End------Vote--------------------------
 
-    @GetMapping(value = "/games/game/get_settings")
-    ResponseEntity<?> getGamesSettings() {
-        BaseResponse response = gamesService.GetGameSettings();
+    @PostMapping(value = "/games/status/create")
+    ResponseEntity<?> createStatus(@RequestBody Status status) {
+        BaseResponse response = statusService.CreateStatus(status);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -578,6 +598,54 @@ public class GamesController {
         }
     }
 
+//    @PutMapping(value = "/games/selection/update")
+//    ResponseEntity<?> updateSelection(@RequestBody Selections selections) {
+//        BaseResponse response = selectionsService.UpdateSelection(selections);
+//        if (response.getStatusCode() == 200) {
+//            return new ResponseEntity<>(response, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+//        }
+//    }
+//
+    @GetMapping(value = "/games/status/type/get")
+    ResponseEntity<?> GetAllStatusesByType(@RequestParam String statusType) {
+        BaseResponse response = statusService.GetAllStatuses(statusType);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+//
+//    @DeleteMapping(value = "/games/selection/delete/{id}")
+//    ResponseEntity<?> deleteSelection(@PathVariable Long id) {
+//        BaseResponse response = selectionsService.DeleteSelection(id);
+//        if (response.getStatusCode() == 200) {
+//            return new ResponseEntity<>(response, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+//        }
+//    }
+//
+//    @GetMapping(value = "/games/selection/search")
+//    ResponseEntity<?> selectionsService(@RequestParam String searchValue, @RequestParam int pageNo, @RequestParam int pageSize) {
+//        BaseResponse response = selectionsService.SearchSelectionsByName(searchValue, pageNo, pageSize);
+//        if (response.getStatusCode() == 200) {
+//            return new ResponseEntity<>(response, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+//        }
+//    }
+//    @GetMapping(value = "/games/selection/get_all")
+//    ResponseEntity<?> getAllSelections() {
+//        BaseResponse response = selectionsService.getAllSelections();
+//        if (response.getStatusCode() == 200) {
+//            return new ResponseEntity<>(response, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
 
 }

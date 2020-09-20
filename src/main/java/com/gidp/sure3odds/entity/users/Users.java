@@ -3,6 +3,7 @@ package com.gidp.sure3odds.entity.users;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.gidp.sure3odds.entity.games.Status;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -38,12 +39,11 @@ public class Users {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
 	private LocalDate datejoined;
 
-	private String status;
+	@ManyToOne
+	private Status status;
 
 	@Lob
 	private String device_token;
-
-	private String assigned = "Pending";
 
 	/**
 	 *
@@ -131,19 +131,6 @@ public class Users {
 		this.datejoined = datejoined;
 	}
 
-	/**
-	 * @return the status
-	 */
-	public String getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	/**
 	 * @return the device_token
@@ -159,19 +146,6 @@ public class Users {
 		this.device_token = device_token;
 	}
 
-	/**
-	 * @return the assigned
-	 */
-	public String getAssigned() {
-		return assigned;
-	}
-
-	/**
-	 * @param assigned the assigned to set
-	 */
-	public void setAssigned(String assigned) {
-		this.assigned = assigned;
-	}
 
 	public String getFirstname() {
 		return firstname;
@@ -190,7 +164,7 @@ public class Users {
 	}
 
 	public Users(Long id, String email, String phone, String password, String firstname, String lastname,
-				 LocalDate datejoined, String status, String device_token, String assigned) {
+				 LocalDate datejoined, String device_token) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -199,13 +173,10 @@ public class Users {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.datejoined = datejoined;
-		this.status = status;
 		this.device_token = device_token;
-		this.assigned = assigned;
 	}
 
-	public Users(String email, String phone, String password, String firstname, String lastname, LocalDate datejoined,
-			String status, String device_token, String assigned) {
+	public Users(String email, String phone, String password, String firstname, String lastname, LocalDate datejoined, String device_token) {
 		super();
 		this.email = email;
 		this.phone = phone;
@@ -213,11 +184,14 @@ public class Users {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.datejoined = datejoined;
-		this.status = status;
 		this.device_token = device_token;
-		this.assigned = assigned;
 	}
 
+	public Status getStatus() {
+		return status;
+	}
 
-
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 }

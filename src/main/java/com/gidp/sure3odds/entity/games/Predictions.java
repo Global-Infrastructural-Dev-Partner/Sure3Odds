@@ -34,19 +34,18 @@ public class Predictions {
 	private Users user;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
-	private LocalDate matchDate;
+	private LocalDate matchdate;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING,  pattern="HH:mm", timezone = "Africa/Lagos")
-	private Date matchTime;
+	private Date matchtime;
 
 	@ManyToOne
-	private Selections selection;
+	private Selections selections;
 
 	private double odds;
 
-	private String status;
-
-	private int confidenceLevel;
+	@ManyToOne
+	private Status status;
 
 	/**
 	 *
@@ -69,34 +68,21 @@ public class Predictions {
 		this.id = id;
 	}
 
-	/**
-	 * @return the matchDate
-	 */
-	public LocalDate getMatchDate() {
-		return matchDate;
+	public LocalDate getMatchdate() {
+		return matchdate;
 	}
 
-	/**
-	 * @param matchDate the matchDate to set
-	 */
-	public void setMatchDate(LocalDate matchDate) {
-		this.matchDate = matchDate;
+	public void setMatchdate(LocalDate matchdate) {
+		this.matchdate = matchdate;
 	}
 
-	/**
-	 * @return the matchTime
-	 */
-	public Date getMatchTime() {
-		return matchTime;
+	public Date getMatchtime() {
+		return matchtime;
 	}
 
-	/**
-	 * @param matchTime the matchTime to set
-	 */
-	public void setMatchTime(Date matchTime) {
-		this.matchTime = matchTime;
+	public void setMatchtime(Date matchtime) {
+		this.matchtime = matchtime;
 	}
-
 
 	/**
 	 * @return the odds
@@ -112,51 +98,23 @@ public class Predictions {
 		this.odds = odds;
 	}
 
-	/**
-	 * @return the status
-	 */
-	public String getStatus() {
-		return status;
-	}
 
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
-	/**
-	 * @return the confidenceLevel
-	 */
-	public int getConfidenceLevel() {
-		return confidenceLevel;
-	}
 
-	/**
-	 * @param confidenceLevel the confidenceLevel to set
-	 */
-	public void setConfidenceLevel(int confidenceLevel) {
-		this.confidenceLevel = confidenceLevel;
-	}
-
-	public Predictions(Long id, LocalDate matchDate, Date matchTime, double odds, String status, int confidenceLevel) {
+	public Predictions(Long id, LocalDate matchdate, Date matchtime, double odds) {
 		this.id = id;
-		this.matchDate = matchDate;
-		this.matchTime = matchTime;
+		this.matchdate = matchdate;
+		this.matchtime = matchtime;
 		this.odds = odds;
-		this.status = status;
-		this.confidenceLevel = confidenceLevel;
 	}
 
 
 
-	public Predictions(LocalDate matchDate, Date matchTime, double odds, String status, int confidenceLevel) {
-		this.matchDate = matchDate;
-		this.matchTime = matchTime;
+	public Predictions(LocalDate matchdate, Date matchtime, double odds) {
+		this.matchdate = matchdate;
+		this.matchtime = matchtime;
 		this.odds = odds;
-		this.status = status;
-		this.confidenceLevel = confidenceLevel;
+
 	}
 
 	public Countries getCountry() {
@@ -199,11 +157,19 @@ public class Predictions {
 		this.user = user;
 	}
 
-	public Selections getSelection() {
-		return selection;
+	public Selections getSelections() {
+		return selections;
 	}
 
-	public void setSelection(Selections selection) {
-		this.selection = selection;
+	public void setSelections(Selections selections) {
+		this.selections = selections;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 }

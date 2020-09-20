@@ -1,7 +1,6 @@
 package com.gidp.sure3odds.service.games;
 
 import com.gidp.sure3odds.entity.games.Selections;
-import com.gidp.sure3odds.entity.games.Teams;
 import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.repository.games.SelectionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +25,10 @@ public class SelectionsService {
 		Selections saved_selections = selectionsRepository.save(selections);
 		if(saved_selections != null) {
 			response.setData(saved_selections);
-			response.setDescription("New Selections created successfully");
+			response.setDescription("New Selection created successfully");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		}else {
-			response.setDescription("New Selections was not created.");
+			response.setDescription("New Selection was not created.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
@@ -58,10 +57,10 @@ public class SelectionsService {
 		if (selectionsRepository.existsById(selections.getId())) {
 			Selections updated_selection = selectionsRepository.save(selections);
 			response.setData(updated_selection);
-			response.setDescription("Selections has been updated succesfully.");
+			response.setDescription("Selection has been updated succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("Selections was not updated.");
+			response.setDescription("Selection was not updated.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
@@ -77,7 +76,7 @@ public class SelectionsService {
 			response.setDescription("Selections found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
@@ -92,7 +91,22 @@ public class SelectionsService {
 			response.setDescription("Selections found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+
+
+	public BaseResponse getAllSelections() {
+		BaseResponse response = new BaseResponse();
+		List<Selections> selections = selectionsRepository.findAll();
+		if (!selections.isEmpty()) {
+			response.setData(selections);
+			response.setDescription("Selections found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;

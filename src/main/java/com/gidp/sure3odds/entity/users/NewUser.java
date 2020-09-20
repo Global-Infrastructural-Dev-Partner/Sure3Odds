@@ -2,6 +2,8 @@ package com.gidp.sure3odds.entity.users;
 
 import com.gidp.sure3odds.entity.payments.PlanTypes;
 
+import javax.persistence.ManyToOne;
+
 
 public class NewUser {
 
@@ -15,6 +17,8 @@ public class NewUser {
 
     private String lastname;
 
+    @ManyToOne
+    private UserTypes userTypes;
 
     private PlanTypes plantype;
 
@@ -86,6 +90,14 @@ public class NewUser {
 
     public void setReferencecode(String referencecode) {
         this.referencecode = referencecode;
+    }
+
+    public UserTypes getUserTypes() {
+        return userTypes;
+    }
+
+    public void setUserTypes(UserTypes userTypes) {
+        this.userTypes = userTypes;
     }
 }
 

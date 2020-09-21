@@ -18,7 +18,7 @@ public class NewUser {
     private String lastname;
 
     @ManyToOne
-    private UserTypes userTypes;
+    private UserTypes usertypes;
 
     private PlanTypes plantype;
 
@@ -92,12 +92,12 @@ public class NewUser {
         this.referencecode = referencecode;
     }
 
-    public UserTypes getUserTypes() {
-        return userTypes;
+    public UserTypes getUsertypes() {
+        return usertypes;
     }
 
-    public void setUserTypes(UserTypes userTypes) {
-        this.userTypes = userTypes;
+    public void setUsertypes(UserTypes usertypes) {
+        this.usertypes = usertypes;
     }
 }
 

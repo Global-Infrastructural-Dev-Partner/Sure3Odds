@@ -121,7 +121,7 @@ public class TeamsService {
 		Page<Teams> teams = teamsRepository.findTeamsByNameContainingOrderByName(name, paging);
 		if (!teams.isEmpty()) {
 			response.setData(teams);
-			response.setDescription("Teams found succesfully.");
+			response.setDescription("Teams found successfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
 			response.setDescription("No results found.");
@@ -136,7 +136,7 @@ public class TeamsService {
 		Page<Teams> teams = teamsRepository.findByNameContainingAndLeagueOrderByName(leagueName, leagues, paging);
 		if (!teams.isEmpty()) {
 			response.setData(teams);
-			response.setDescription("Teams found succesfully.");
+			response.setDescription("Teams found successfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
 			response.setDescription("No results found.");

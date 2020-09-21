@@ -349,6 +349,7 @@ public class GamesController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping(value = "/games/selection/get_all")
     ResponseEntity<?> getAllSelections() {
         BaseResponse response = selectionsService.getAllSelections();
@@ -436,27 +437,7 @@ public class GamesController {
         }
     }
 
-    @GetMapping(value = "/games/prediction/getall")
-    ResponseEntity<?> getAllPredictions() {
-        BaseResponse response = predictionsService.GetAllPredictions();
-        if (response.getStatusCode() == 200) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @GetMapping(value = "/games/prediction/get_by_id/{id}")
-    ResponseEntity<?> getPredictionByID(@RequestParam long id) {
-        BaseResponse response = predictionsService.GetPredictionByID(id);
-        if (response.getStatusCode() == 200) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @GetMapping(value = "/games/prediction/get_by_date/")
+    @GetMapping(value = "/games/prediction/get")
     ResponseEntity<?> getAllPredictionByDate(@RequestAttribute("UserID") Long UserID, @RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) LocalDate matchDate) {
         BaseResponse response = predictionsService.GetPredictionByDateAndUserID(matchDate, UserID);
         if (response.getStatusCode() == 200) {
@@ -467,7 +448,7 @@ public class GamesController {
     }
 
     @DeleteMapping(value = "/games/prediction/delete/{id}")
-    ResponseEntity<?> deletePrediction(@RequestParam Long id) {
+    ResponseEntity<?> deletePrediction(@PathVariable Long id) {
         BaseResponse response = predictionsService.DeletePrediction(id);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -501,8 +482,8 @@ public class GamesController {
 
     @PostMapping(value = "/games/game/create")
         //convert the prediction into a game
-    ResponseEntity<?> createGame(@RequestParam Long PredictionID, Long SetID) {
-        BaseResponse response = gamesService.CreateGameFromPrediction(PredictionID, SetID);
+    ResponseEntity<?> createGame(@RequestParam() long predictionId, @RequestParam() long setId, @RequestParam() long statusId) {
+        BaseResponse response = gamesService.CreateGameFromPrediction(predictionId, setId, statusId);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -598,7 +579,7 @@ public class GamesController {
         }
     }
 
-//    @PutMapping(value = "/games/selection/update")
+    //    @PutMapping(value = "/games/selection/update")
 //    ResponseEntity<?> updateSelection(@RequestBody Selections selections) {
 //        BaseResponse response = selectionsService.UpdateSelection(selections);
 //        if (response.getStatusCode() == 200) {

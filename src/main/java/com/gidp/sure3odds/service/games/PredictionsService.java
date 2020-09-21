@@ -114,44 +114,19 @@ public class PredictionsService {
         return response;
     }
 
-    public BaseResponse GetAllPredictions() {
-        BaseResponse response = new BaseResponse();
-        List<Predictions> predictions = predictionsRepository.findAll();
-        if (!predictions.isEmpty()) {
-            response.setData(predictions);
-            response.setDescription("Predictions found succesfully.");
-            response.setStatusCode(HttpServletResponse.SC_OK);
-        } else {
-            response.setDescription("No result found.");
-            response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        return response;
-
-    }
-
     public BaseResponse GetPredictionByDateAndUserID(LocalDate matchDate, Long UserID) {
         BaseResponse response = new BaseResponse();
         Users users = usersRepository.findById(UserID).get();
-        List<Predictions> predictions = predictionsRepository.findPredictionsByMatchdateAndUserOrderByMatchtime(matchDate, users);
-//        List<Predictions> predictions = predictionsRepository.findPredictionsByMatchDate(matchDate);
+        List<Predictions> predictions = null;
+        if(users.getId() == 1){
+            predictions = predictionsRepository.findPredictionsByMatchdateOrderByMatchtime(matchDate);
+        }else{
+            predictions = predictionsRepository.findPredictionsByMatchdateAndUserOrderByMatchtime(matchDate, users);
+        }
+
         if (!predictions.isEmpty()) {
             response.setData(predictions);
             response.setDescription("Predictions found succesfully.");
-            response.setStatusCode(HttpServletResponse.SC_OK);
-        } else {
-            response.setDescription("No result found.");
-            response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        return response;
-
-    }
-
-    public BaseResponse GetPredictionByID(Long id) {
-        BaseResponse response = new BaseResponse();
-        Optional<Predictions> predictions = predictionsRepository.findById(id);
-        if (predictions.isPresent()) {
-            response.setData(predictions);
-            response.setDescription("Prediction found succesfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
             response.setDescription("No result found.");

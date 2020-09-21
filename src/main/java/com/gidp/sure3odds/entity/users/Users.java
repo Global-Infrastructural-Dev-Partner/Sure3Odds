@@ -20,7 +20,7 @@ public class Users {
 	private Long id;
 
 	@ManyToOne
-	private UserTypes usertype;
+	private UserTypes usertypes;
 	
 	@Column(unique = true)
 	private String email;
@@ -67,12 +67,12 @@ public class Users {
 		this.id = id;
 	}
 
-	public UserTypes getUsertype() {
-		return usertype;
+	public UserTypes getUsertypes() {
+		return usertypes;
 	}
 
-	public void setUsertype(UserTypes usertype) {
-		this.usertype = usertype;
+	public void setUsertypes(UserTypes usertypes) {
+		this.usertypes = usertypes;
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class Users {
 	}
 
 	public Users(Long id, String email, String phone, String password, String firstname, String lastname,
-				 LocalDate datejoined, String device_token) {
+				  String device_token) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -172,18 +172,16 @@ public class Users {
 		this.password = password;
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.datejoined = datejoined;
 		this.device_token = device_token;
 	}
 
-	public Users(String email, String phone, String password, String firstname, String lastname, LocalDate datejoined, String device_token) {
+	public Users(String email, String phone, String password, String firstname, String lastname, String device_token) {
 		super();
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.datejoined = datejoined;
 		this.device_token = device_token;
 	}
 

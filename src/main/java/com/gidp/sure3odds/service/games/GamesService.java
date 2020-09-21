@@ -86,7 +86,7 @@ public class GamesService {
                             if (selections.isPresent()) {
                                 Status gameStatus = statusRepository.findByName("Not Started").get();
                                 Games newGame = new Games(0, 0, newGameAndPrediction.getOdds(),
-                                         newGameAndPrediction.getMatchdate(), newGameAndPrediction.getMatchtime());
+                                        newGameAndPrediction.getMatchdate(), newGameAndPrediction.getMatchtime());
                                 newGame.setAwayteam(awayteam.get());
                                 newGame.setHometeam(hometeam.get());
                                 newGame.setLeague(league.get());
@@ -127,32 +127,36 @@ public class GamesService {
     }
 
 
-    public BaseResponse CreateGameFromPrediction(long predictionID, long setID) {
+    public BaseResponse CreateGameFromPrediction(long predictionId, long setId, long statusId) {
         BaseResponse response = new BaseResponse();
 
-        Optional<Predictions> prediction = predictionsRepository.findById(predictionID);
+        Optional<Predictions> prediction = predictionsRepository.findById(predictionId);
         if (prediction.isPresent()) {
-            Optional<Sets> set = setsRepository.findById(setID);
+            Optional<Sets> set = setsRepository.findById(setId);
             if (set.isPresent()) {
-                Games newGame = new Games(0, 0, prediction.get().getOdds(),
-                        prediction.get().getMatchdate(), prediction.get().getMatchtime());
+                Optional<Status> predictionStatus = statusRepository.findById(statusId);
+                if (predictionStatus.isPresent()) {
+                    Games newGame = new Games(0, 0, prediction.get().getOdds(),
+                            prediction.get().getMatchdate(), prediction.get().getMatchtime());
 
-                Status gameStatus = statusRepository.findByName("Not Started").get();
-                newGame.setAwayteam(prediction.get().getAwayteam());
-                newGame.setHometeam(prediction.get().getHometeam());
-                newGame.setLeague(prediction.get().getLeague());
-                newGame.setSets(set.get());
-                newGame.setSelections(prediction.get().getSelections());
-                newGame.setCountry(prediction.get().getCountry());
-                newGame.setStatus(gameStatus);
-                Games savedGame = gamesRepository.save(newGame);
-                //update prediction status to approved
-                Status predictionStatus = statusRepository.findByName("Approved").get();
-                prediction.get().setStatus(predictionStatus);
-                predictionsRepository.save(prediction.get());
-                response.setData(savedGame);
-                response.setDescription("Game has been updated successfully.");
-                response.setStatusCode(HttpServletResponse.SC_OK);
+                    Status gameStatus = statusRepository.findByName("Not Started").get();
+                    newGame.setAwayteam(prediction.get().getAwayteam());
+                    newGame.setHometeam(prediction.get().getHometeam());
+                    newGame.setLeague(prediction.get().getLeague());
+                    newGame.setSets(set.get());
+                    newGame.setSelections(prediction.get().getSelections());
+                    newGame.setCountry(prediction.get().getCountry());
+                    newGame.setStatus(gameStatus);
+                    Games savedGame = gamesRepository.save(newGame);
+                    //update prediction status to approved
+//
+                    prediction.get().setStatus(predictionStatus.get());
+                    predictionsRepository.save(prediction.get());
+                    response.setData(savedGame);
+                    response.setDescription("Game has been updated successfully.");
+                    response.setStatusCode(HttpServletResponse.SC_OK);
+                }
+
             } else {
                 response.setDescription("Please, select a set to add the game to.");
                 response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
@@ -181,11 +185,10 @@ public class GamesService {
             long planTypeID = 0l;
             if (UserID != 1) {
                 Users user = usersRepository.findById(UserID).get();
-
                 Plans plan = plansRepository.findPlansByUser(user);
                 planTypeID = plan.getPlantype().getId();
             } else {
-//                usersService.ValidateAllUsersPaymentDueDate();
+                usersService.ValidateAllUsersPaymentDueDate();
             }
             Status status = statusRepository.findByName("Won").get();
             if (planTypeID == 1 || UserID == 1) {
@@ -312,7 +315,7 @@ public class GamesService {
             response.setStatusCode(HttpServletResponse.SC_OK);
 
         } else {
-            String result = usersService.GetUserName(UserID) + ", your subscription has expired. Please, contact the admin or renew your subscription.";
+            String result = usersService.GetUserName(UserID) + ", your subscription has expired or something went wrong. Please, contact Sure3Odds Support on 08188888320 / send an email to support@sure3odds.com or renew your subscription.";
             response.setDescription(result);
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -355,10 +358,14 @@ public class GamesService {
         if (game.isPresent()) {
 
             List<Votes> votes = votesRepository.findByGame(game.get());
-            votesRepository.deleteAll(votes);
+            if (!votes.isEmpty()) {
+                votesRepository.deleteAll(votes);
+            }
 
             List<Comments> comments = commentsRepository.findByGame(game.get());
-            commentsRepository.deleteAll(comments);
+            if (!comments.isEmpty()) {
+                commentsRepository.deleteAll(comments);
+            }
 
             gamesRepository.deleteById(gameId);
             response.setDescription("Game deleted successfully");

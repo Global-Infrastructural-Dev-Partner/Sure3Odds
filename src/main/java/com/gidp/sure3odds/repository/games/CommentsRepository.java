@@ -2,6 +2,7 @@ package com.gidp.sure3odds.repository.games;
 
 import com.gidp.sure3odds.entity.games.Comments;
 import com.gidp.sure3odds.entity.games.Games;
+import com.gidp.sure3odds.entity.users.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +16,6 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
 
 
     List<Comments> findByGame(Games games);
+
+    List<Comments> findByUser(Users users);
 }

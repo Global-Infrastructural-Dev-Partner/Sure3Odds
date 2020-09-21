@@ -36,4 +36,6 @@ public interface VotesRepository extends JpaRepository<Votes, Long> {
 
     List<Votes> findByGame(Games games);
 
+    List<Votes> findByUser(Users users);
+
 }

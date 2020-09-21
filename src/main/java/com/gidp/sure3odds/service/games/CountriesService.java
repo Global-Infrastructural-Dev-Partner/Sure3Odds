@@ -84,7 +84,7 @@ public class CountriesService {
             if (countriesRepository.existsById(countries.getId())) {
                 Countries updated_league = countriesRepository.save(countries);
                 response.setData(updated_league);
-                response.setDescription("Country has been updated succesfully.");
+                response.setDescription("Country has been updated successfully.");
                 response.setStatusCode(HttpServletResponse.SC_OK);
             } else {
                 response.setDescription("Country was not updated.");
@@ -103,10 +103,10 @@ public class CountriesService {
         Page<Countries> countries = countriesRepository.findAll(paging);
         if (!countries.isEmpty()) {
             response.setData(countries);
-            response.setDescription("Countries found succesfully.");
+            response.setDescription("Countries found successfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
-            response.setDescription("No result found.");
+            response.setDescription("No results found.");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
@@ -119,10 +119,10 @@ public class CountriesService {
         Page<Countries> countries = countriesRepository.findCountriesByNameContainingOrderByName(name, paging);
         if (!countries.isEmpty()) {
             response.setData(countries);
-            response.setDescription("Countries found succesfully.");
+            response.setDescription("Countries found successfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
-            response.setDescription("No result found.");
+            response.setDescription("No results found.");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
@@ -135,10 +135,10 @@ public class CountriesService {
         List<Countries> countries = countriesRepository.findAll(sortOrder);
         if (!countries.isEmpty()) {
             response.setData(countries);
-            response.setDescription("Countries found succesfully.");
+            response.setDescription("Countries found successfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
-            response.setDescription("No result found.");
+            response.setDescription("No results found.");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;

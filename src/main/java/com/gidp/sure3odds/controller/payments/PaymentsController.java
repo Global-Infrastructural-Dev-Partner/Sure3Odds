@@ -81,9 +81,18 @@ public class PaymentsController {
     }
 
 
-    @GetMapping(value = "/payments/payment/get_by_userid")
-    ResponseEntity<?> GetPaymentsByUserID(@RequestAttribute("UserID") Long UserID) {
-        BaseResponse response = paymentsService.GetPaymentsByUserID(UserID);
+    @GetMapping(value = "/payments/payment/get")
+    ResponseEntity<?> GetPaymentsByUserID(@RequestAttribute("UserID") Long UserID, @RequestParam int pageNo, @RequestParam int pageSize) {
+        BaseResponse response = paymentsService.GetPaymentsByUserID(UserID, pageNo, pageSize);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+    @DeleteMapping(value = "/payments/payment/delete/{id}")
+    ResponseEntity<?> deletePayment(@PathVariable long id) {
+        BaseResponse response = paymentsService.DeletePayment(id);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -92,9 +101,19 @@ public class PaymentsController {
     }
 
 
+    @GetMapping(value = "/payments/payment/search")
+    ResponseEntity<?> searchPayments(@RequestParam String searchValue, @RequestParam int pageNo, @RequestParam int pageSize) {
+        BaseResponse response = paymentsService.SearchPayments(searchValue, pageNo, pageSize);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping(value = "/payments/plan/update")
-    ResponseEntity<?> UpdatePlan(@RequestAttribute("UserID") Long UserID, @RequestParam Long PlanTypeID, @RequestParam String Platform, @RequestParam String TransactionObject) throws IOException {
-        BaseResponse response = plansService.UpdatePlan(UserID, PlanTypeID, Platform, TransactionObject);
+    ResponseEntity<?> UpdatePlan(@RequestParam long userId, @RequestParam long plantypeId, @RequestParam String planform, @RequestParam String transactionObject) throws IOException {
+        BaseResponse response = plansService.UpdatePlan(userId, plantypeId, planform, transactionObject);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -152,6 +171,8 @@ public class PaymentsController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+
+
 
 
 }

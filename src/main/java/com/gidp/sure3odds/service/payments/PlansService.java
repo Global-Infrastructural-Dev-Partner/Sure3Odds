@@ -51,56 +51,66 @@ public class PlansService {
 	public BaseResponse UpdatePlan(long UserID, long PlanTypeID, String Platform, String TransactionID) throws IOException {
 		BaseResponse response = new BaseResponse();
 		String PaymentResult = "failed";
-		Users user = usersRepository.findById(UserID).get();
-		Plans plans = plansRepository.findPlansByUser(user);
-		if(plans != null){
-			if(Platform.equals("Android")){
-				PaymentResult = usersService.AndroidPaymentValidation(TransactionID);
-			}else  if (Platform.equals("iOS")){
-				PaymentResult = usersService.iOSPaymentValidation(TransactionID);
-			}
+		Optional<Users> users = usersRepository.findById(UserID);
+		if(users.isPresent()){
+			Plans plans = plansRepository.findPlansByUser(users.get());
+			if(plans != null){
+				if(Platform.equals("Android")){
+					PaymentResult = usersService.AndroidPaymentValidation(TransactionID);
+				}else  if (Platform.equals("iOS")){
+					PaymentResult = usersService.iOSPaymentValidation(TransactionID);
+				} else if (Platform.equals("Manual")) {
+					PaymentResult = "success";
+				}
 
-			if(PaymentResult.equals("success")){
-				//update the plantypeid in the plan table
-				Optional<PlanTypes> planTypes = planTypesRepository.findById(PlanTypeID);
-				Optional<Users> users = usersRepository.findById(UserID);
-				Plans updated_plans = new Plans();
-				updated_plans.setPlantype(planTypes.get());
-				updated_plans.setUser(users.get());
-				updated_plans.setId(plans.getId());
-				LocalDate CurrentDate = LocalDate.now();
+				if(PaymentResult.equals("success")){
+					//update the plantypeid in the plan table
+					Optional<PlanTypes> planTypes = planTypesRepository.findById(PlanTypeID);
 
-				//update the startdate to currentdate
-				updated_plans.setStartDate(CurrentDate);
-				//add 31 to the startdate to get the next due date
-				LocalDate ExpiryDate = CurrentDate.plusMonths(1);
-				updated_plans.setEndDate(ExpiryDate);
-				Plans saved_plan = plansRepository.save(updated_plans);
 
-				Payments payments = new Payments();
-				payments.setUser(users.get());
-				payments.setPlantype(planTypes.get());
-				payments.setPaymentdate(CurrentDate);
-				payments.setPaymenttype("Renewal");
-				payments.setReferenceCode(TransactionID);
-				payments.setPlatform(Platform);
-				//create the payment
-				Payments saved_payment = paymentsRepository.save(payments);
-				//update the user table and set status to active
-				Status status = statusRepository.findByName("Active").get();
-				users.get().setStatus(status);
-				usersRepository.save(users.get());
-				response.setData(saved_plan);
-				response.setDescription("User plan renewal was successful.");
-				response.setStatusCode(HttpServletResponse.SC_OK);
+					plans.setPlantype(planTypes.get());
+					plans.setUser(users.get());
+					plans.setId(plans.getId());
+					LocalDate CurrentDate = LocalDate.now();
+
+					//update the startdate to currentdate
+					plans.setStartDate(CurrentDate);
+					//add 31 to the startdate to get the next due date
+					LocalDate ExpiryDate = CurrentDate.plusMonths(1);
+					plans.setEndDate(ExpiryDate);
+					Plans saved_plan = plansRepository.save(plans);
+
+					Payments payments = new Payments();
+					payments.setUser(users.get());
+					payments.setPlantype(planTypes.get());
+					payments.setPaymentdate(CurrentDate);
+					payments.setPaymenttype("Renewal");
+					payments.setReferenceCode(TransactionID);
+					payments.setPlatform(Platform);
+					//create the payment
+					Payments saved_payment = paymentsRepository.save(payments);
+					//update the user table and set status to active
+					Status status = statusRepository.findByName("Active").get();
+					users.get().setStatus(status);
+					usersRepository.save(users.get());
+					response.setData(saved_plan);
+//					String userName = newUser.getFirstname() + " " + newUser.getLastname();
+//					emailService.sendEmail(user.getEmail(), userName, plantype.get().getName());
+					response.setDescription("User plan renewal was successful.");
+					response.setStatusCode(HttpServletResponse.SC_OK);
+				}else{
+					response.setDescription("Payment validation was not successful, Please, contact Sure3Odds Support on 08188888320 / send an email to support@sure3odds.com with the proof of payment!");
+					response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+				}
 			}else{
-				response.setDescription("Your payment validation was not successful, Please contact the admin if your account was debited and send proof of payment!");
+				response.setDescription("Please, select a plan.");
 				response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 			}
 		}else{
-			response.setDescription("Please, No record found.");
+			response.setDescription("Please, no records found for the selected User");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
+
 		return response;
 
 	}

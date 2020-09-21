@@ -60,9 +60,9 @@ public class UsersController {
         }
     }
 
-    @GetMapping(value = "/users/get_by_usertypeid/{id}")
-    ResponseEntity<?> getUsersByUserTypeID(@RequestParam Long id) {
-        BaseResponse response = usersService.GetUsersByUserTypID(id);
+    @GetMapping(value = "/users/user/type/get")
+    ResponseEntity<?> getUsersByUserTypeID(@RequestParam Long usertypeId, @RequestParam int pageNo, @RequestParam int pageSize) {
+        BaseResponse response = usersService.GetUsersByUserTypID(usertypeId, pageNo, pageSize);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -70,9 +70,29 @@ public class UsersController {
         }
     }
 
-    @GetMapping(value = "/users/user/get_by_userid")
+    @GetMapping(value = "/users/user/type/search")
+    ResponseEntity<?> searchUsersByUserTypeID(@RequestParam String searchValue, @RequestParam long usertypeId, @RequestParam int pageNo, @RequestParam int pageSize) {
+        BaseResponse response = usersService.SearchUsersByUserTypID(usertypeId, searchValue, pageNo, pageSize);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/users/user/get")
     ResponseEntity<?> getUserDetails(@RequestAttribute("UserID") Long UserID) {
         BaseResponse response = usersService.GetUserDetailsByID(UserID);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/users/user/find/{id}")
+    ResponseEntity<?> findUserDetails(@PathVariable long id) {
+        BaseResponse response = usersService.GetUserDetailsByID(id);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -90,9 +110,9 @@ public class UsersController {
         }
     }
 
-    @GetMapping(value = "users/user/search")
-    ResponseEntity<?> searchUser(@RequestParam String searchvalue, @RequestParam Long usertypeid) {
-        BaseResponse response = usersService.searchByFirstNameOrLastName(usertypeid, searchvalue);
+    @PostMapping(value = "/users/member/create")
+    ResponseEntity<?> createMember(@RequestBody NewUser user) throws IOException {
+        BaseResponse response = usersService.CreateNewUser(user);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -100,10 +120,9 @@ public class UsersController {
         }
     }
 
-
-    @PostMapping(value = "/users/member/create")
-    ResponseEntity<?> createMember(@RequestBody NewUser user) throws IOException {
-        BaseResponse response = usersService.CreateNewUser(user);
+    @DeleteMapping(value = "users/member/delete/{id}")
+    ResponseEntity<?> deleteMember(@PathVariable Long id) {
+        BaseResponse response = usersService.DeleteMember(id);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -127,7 +146,15 @@ public class UsersController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
-
+    @DeleteMapping(value = "users/subadmin/delete/{id}")
+    ResponseEntity<?> deleteSubAdmin(@PathVariable Long id) {
+        BaseResponse response = usersService.DeleteSubAdmin(id);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @PostMapping(value = "/users/user/forgot_password")
     ResponseEntity<?> ForgotPassword(@RequestParam String Email, @RequestParam String Phone, @RequestParam String NewPassword) {

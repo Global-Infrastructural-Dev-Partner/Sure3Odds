@@ -30,6 +30,7 @@ public class PaymentsController {
     @Autowired
     ParametersService parametersService;
 
+    //-----------End-------------Planttype---------------------
     @PostMapping(value = "/payments/plantype/create")
     ResponseEntity<?> createPlanTypes(@RequestBody PlanTypes plantype) {
         BaseResponse response = planTypesService.CreatePlanTypes(plantype);
@@ -69,17 +70,10 @@ public class PaymentsController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+    //-----------End-------------Planttype---------------------
 
-    @GetMapping(value = "/payments/plantype/get_by_id/{id}")
-    ResponseEntity<?> GetPlanTypesByID(@PathVariable Long id) {
-        BaseResponse response = planTypesService.GetPlantype(id);
-        if (response.getStatusCode() == 200) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }
 
+    //-----------Start-------------Payments---------------------
 
     @GetMapping(value = "/payments/payment/get")
     ResponseEntity<?> GetPaymentsByUserID(@RequestAttribute("UserID") Long UserID, @RequestParam int pageNo, @RequestParam int pageSize) {
@@ -100,7 +94,6 @@ public class PaymentsController {
         }
     }
 
-
     @GetMapping(value = "/payments/payment/search")
     ResponseEntity<?> searchPayments(@RequestParam String searchValue, @RequestParam int pageNo, @RequestParam int pageSize) {
         BaseResponse response = paymentsService.SearchPayments(searchValue, pageNo, pageSize);
@@ -110,18 +103,32 @@ public class PaymentsController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+    //-----------End-------------Payments---------------------
 
+
+    //-----------Start-------------Plans---------------------
     @PostMapping(value = "/payments/plan/update")
-    ResponseEntity<?> UpdatePlan(@RequestParam long userId, @RequestParam long plantypeId, @RequestParam String planform, @RequestParam String transactionObject) throws IOException {
-        BaseResponse response = plansService.UpdatePlan(userId, plantypeId, planform, transactionObject);
+    ResponseEntity<?> UpdatePlan(@RequestParam long userId, @RequestParam long plantypeId, @RequestParam String platform, @RequestParam String transactionObject) throws IOException {
+        BaseResponse response = plansService.UpdatePlan(userId, plantypeId, platform, transactionObject);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping(value = "/payments/plan/get")
+    ResponseEntity<?> GetAllPlans( @RequestParam int pageNo, @RequestParam int pageSize) {
+        BaseResponse response = plansService.GetAllPlans(pageNo, pageSize);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+    //-----------End-------------Plans---------------------
 
 
+    //-----------Start-------------Parameters---------------------
     @PostMapping(value = "/payments/parameter/create")
     ResponseEntity<?> createParameter(@RequestBody Parameters parameters) {
         BaseResponse response = parametersService.CreateParameter(parameters);
@@ -162,8 +169,8 @@ public class PaymentsController {
         }
     }
 
-    @GetMapping(value = "/payments/parameter/get_by_id/{id}")
-    ResponseEntity<?> getParameterByID(@PathVariable Long id) {
+    @GetMapping(value = "/payments/parameter/get/{id}")
+    ResponseEntity<?> GetParameterByID(@PathVariable long id) {
         BaseResponse response = parametersService.GetParameterByID(id);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -172,6 +179,7 @@ public class PaymentsController {
         }
     }
 
+    //-----------End-------------Parameters---------------------
 
 
 

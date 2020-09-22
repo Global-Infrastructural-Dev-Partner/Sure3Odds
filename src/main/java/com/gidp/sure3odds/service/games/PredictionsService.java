@@ -126,10 +126,10 @@ public class PredictionsService {
 
         if (!predictions.isEmpty()) {
             response.setData(predictions);
-            response.setDescription("Predictions found succesfully.");
+            response.setDescription("Predictions found successfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
-            response.setDescription("No result found.");
+            response.setDescription("No predictions yet.");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;

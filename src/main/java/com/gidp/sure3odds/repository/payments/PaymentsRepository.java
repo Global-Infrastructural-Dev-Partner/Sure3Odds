@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -19,7 +19,7 @@ public interface PaymentsRepository extends JpaRepository<Payments, Long> {
 	Page<Payments> findByUser(Users users, Pageable pageable);
 
 
-	List<Payments> findPaymentsByPaymentdateBetweenAndPlantypeEquals(Date startDate, Date endDate, PlanTypes planTypes);
+	List<Payments> findPaymentsByPaymentdateBetweenAndPlantypeEquals(LocalDate startDate, LocalDate endDate, PlanTypes planTypes);
 
 	List<Payments> findPaymentsByPlantypeEquals(PlanTypes planTypes);
 

@@ -183,12 +183,14 @@ public class GamesService {
 
         if (usersService.IsUserActive(UserID)) {
             long planTypeID = 0l;
-            if (UserID != 1) {
-                Users user = usersRepository.findById(UserID).get();
+            Users user = usersRepository.findById(UserID).get();
+            if (user.getUsertypes().getName().equals("Member")) {
                 Plans plan = plansRepository.findPlansByUser(user);
                 planTypeID = plan.getPlantype().getId();
-            } else {
+            } else if (user.getUsertypes().getName().equals("Admin")){
                 usersService.ValidateAllUsersPaymentDueDate();
+            } else if (user.getUsertypes().getName().equals("SubAdmin")){
+                UserID = 1;
             }
             Status status = statusRepository.findByName("Won").get();
             if (planTypeID == 1 || UserID == 1) {

@@ -56,7 +56,7 @@ public class CommentsService {
 		List<Comments> comments = commentsRepository.findCommentsByGameOrderByTime(game.get());
 		if (!comments.isEmpty()) {
 			response.setData(comments);
-			response.setDescription("Comments found succesfully.");
+			response.setDescription("Comments found successfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
 			response.setDescription("No result found.");

@@ -42,7 +42,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsersService {
@@ -310,7 +312,7 @@ public class UsersService {
         Optional<Users> users = usersRepository.findById(userid);
         if (users != null) {
 
-            if(users.get().getUsertypes().getName().equals("Member")){
+            if (users.get().getUsertypes().getName().equals("Member")) {
                 Plans plans = plansRepository.findPlansByUser(users.get());
                 userData.put("planData", plans);
             }
@@ -441,19 +443,33 @@ public class UsersService {
         List<Users> allUser = usersRepository.findUsersByUsertypesEquals(userTypes.get());
         result.put("totalusers", allUser.size());
 
-        List<Users> allActiveUsers = usersRepository.findUsersByStatusEqualsAndUsertypesEquals("Active", userTypes.get());
+        Status activeStatus = statusRepository.findByName("Active").get();
+        Status inactiveStatus = statusRepository.findByName("Inactive").get();
+
+        List<Users> allActiveUsers = usersRepository.findByStatusEqualsAndUsertypesEquals(activeStatus, userTypes.get());
         result.put("totalactiveusers", allActiveUsers.size());
 
-        List<Users> allInActiveUsers = usersRepository.findUsersByStatusEqualsAndUsertypesEquals("Inactive", userTypes.get());
+        List<Users> allInActiveUsers = usersRepository.findByStatusEqualsAndUsertypesEquals(inactiveStatus, userTypes.get());
         result.put("totalinactiveusers", allInActiveUsers.size());
 
         Optional<PlanTypes> planTypes = planTypesRepository.findById(1l);
-        List<Payments> planTypes1Users = paymentsRepository.findPaymentsByPlantypeEquals(planTypes.get());
-        result.put("totalvvipusers", planTypes1Users.size());
+        List<Plans> plansUser1 = plansRepository.findByPlantype(planTypes.get());
+        result.put("totalvvipusers", plansUser1.size());
 
         Optional<PlanTypes> planTypes2 = planTypesRepository.findById(2l);
-        List<Payments> allPlanTypes2Users = paymentsRepository.findPaymentsByPlantypeEquals(planTypes2.get());
-        result.put("totalvipusers", allPlanTypes2Users.size());
+        List<Plans> plansUser2 = plansRepository.findByPlantype(planTypes2.get());
+        result.put("totalvipusers", plansUser2.size());
+
+
+
+        Optional<PlanTypes> plantypes1 = planTypesRepository.findById(1l);
+        List<Payments> planTypes1Users = paymentsRepository.findPaymentsByPlantypeEquals(plantypes1.get());
+        result.put("totalvvippay", planTypes1Users.size());
+
+        Optional<PlanTypes> plantypes2 = planTypesRepository.findById(2l);
+        List<Payments> planTypes2Users = paymentsRepository.findPaymentsByPlantypeEquals(plantypes2.get());
+        result.put("totalvippay", planTypes2Users.size());
+
 
         BigDecimal planType1Income = BigDecimal.ZERO;
         planType1Income = planTypes.get().getAmount().multiply(new BigDecimal(planTypes1Users.size()));
@@ -461,7 +477,7 @@ public class UsersService {
 
 
         BigDecimal planType2Income = BigDecimal.ZERO;
-        planType2Income = planTypes2.get().getAmount().multiply(new BigDecimal(allPlanTypes2Users.size()));
+        planType2Income = planTypes2.get().getAmount().multiply(new BigDecimal(planTypes2Users.size()));
         result.put("totalvipincome", planType2Income);
 
         BigDecimal totalincome = planType1Income.add(planType2Income);
@@ -469,7 +485,7 @@ public class UsersService {
 
         if (result != null) {
             response.setData(result);
-            response.setDescription("report found successfully.");
+            response.setDescription("Report found successfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
             response.setDescription("No results found.");
@@ -489,39 +505,49 @@ public class UsersService {
     }
 
 
-    public BaseResponse GetMonthlyReports(Date startDate) {
+    public BaseResponse GetMonthlyReports(LocalDate startDate) {
         BaseResponse response = new BaseResponse();
         HashMap<String, Object> result = new HashMap<String, Object>();
 
-        LocalDate convertedDate = appHelper.convertToLocalDateViaInstant(startDate);
-        convertedDate = convertedDate.withDayOfMonth(convertedDate.getMonth().length(convertedDate.isLeapYear()));
+        LocalDate endDate = startDate.withDayOfMonth(startDate.getMonth().length(startDate.isLeapYear()));
 
-        Date endDate = appHelper.convertToDateViaInstant(convertedDate);
+
         Optional<UserTypes> userTypes = userTypesRepository.findById(2l);
         List<Users> allUser = usersRepository.findUsersByDatejoinedBetweenAndUsertypesEquals(startDate, endDate, userTypes.get());
         result.put("totalusers", allUser.size());
 
-        List<Users> allActiveUsers = usersRepository.findUsersByDatejoinedBetweenAndStatusEqualsAndUsertypesEquals(startDate, endDate, "Active", userTypes.get());
+        Status activeStatus = statusRepository.findByName("Active").get();
+        List<Users> allActiveUsers = usersRepository.findUsersByDatejoinedBetweenAndStatusEqualsAndUsertypesEquals(startDate, endDate, activeStatus, userTypes.get());
         result.put("totalactiveusers", allActiveUsers.size());
 
-        List<Users> allInActiveUsers = usersRepository.findUsersByDatejoinedBetweenAndStatusEqualsAndUsertypesEquals(startDate, endDate, "Inactive", userTypes.get());
+        Status inactiveStatus = statusRepository.findByName("Inactive").get();
+        List<Users> allInActiveUsers = usersRepository.findUsersByDatejoinedBetweenAndStatusEqualsAndUsertypesEquals(startDate, endDate,  inactiveStatus, userTypes.get());
         result.put("totalinactiveusers", allInActiveUsers.size());
 
         Optional<PlanTypes> planTypes = planTypesRepository.findById(1l);
-        List<Payments> planTypes1Users = paymentsRepository.findPaymentsByPaymentdateBetweenAndPlantypeEquals(startDate, endDate, planTypes.get());
-        result.put("totalvvipusers", planTypes1Users.size());
+        List<Plans> plansUser1 = plansRepository.findByStartDateBetweenAndPlantypeEquals(startDate, endDate,planTypes.get());
+        result.put("totalvvipusers", plansUser1.size());
 
         Optional<PlanTypes> planTypes2 = planTypesRepository.findById(2l);
-        List<Payments> allPlanTypes2Users = paymentsRepository.findPaymentsByPaymentdateBetweenAndPlantypeEquals(startDate, endDate, planTypes2.get());
-        result.put("totalvipusers", allPlanTypes2Users.size());
+        List<Plans> plansUser2 = plansRepository.findByStartDateBetweenAndPlantypeEquals(startDate, endDate, planTypes2.get());
+        result.put("totalvipusers", plansUser2.size());
+
+
+        Optional<PlanTypes> plantypes1 = planTypesRepository.findById(1l);
+        List<Payments> planTypes1Users = paymentsRepository.findPaymentsByPaymentdateBetweenAndPlantypeEquals(startDate, endDate, planTypes.get());
+        result.put("totalvvippay", planTypes1Users.size());
+
+        Optional<PlanTypes> plantypes2 = planTypesRepository.findById(2l);
+        List<Payments> PlanTypes2Users = paymentsRepository.findPaymentsByPaymentdateBetweenAndPlantypeEquals(startDate, endDate, planTypes2.get());
+        result.put("totalvippay", PlanTypes2Users.size());
 
         BigDecimal planType1Income = BigDecimal.ZERO;
-        planType1Income = planTypes.get().getAmount().multiply(new BigDecimal(planTypes1Users.size()));
+        planType1Income = plantypes1.get().getAmount().multiply(new BigDecimal(planTypes1Users.size()));
         result.put("totalvvipincome", planType1Income);
 
 
         BigDecimal planType2Income = BigDecimal.ZERO;
-        planType2Income = planTypes2.get().getAmount().multiply(new BigDecimal(allPlanTypes2Users.size()));
+        planType2Income = plantypes2.get().getAmount().multiply(new BigDecimal(PlanTypes2Users.size()));
         result.put("totalvipincome", planType2Income);
 
         BigDecimal totalincome = planType1Income.add(planType2Income);
@@ -529,10 +555,10 @@ public class UsersService {
 
         if (result != null) {
             response.setData(result);
-            response.setDescription("report found succesfully.");
+            response.setDescription("report found successfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
-            response.setDescription("No result found.");
+            response.setDescription("No results found.");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
@@ -588,13 +614,11 @@ public class UsersService {
                 commentsRepository.deleteAll(comments);
             }
 
-            List<Predictions> predictions = predictionsRepository.findByUser(users.get());
-            if (!predictions.isEmpty()) {
-                predictionsRepository.deleteAll(predictions);
-            }
+
+
 
             usersRepository.deleteById(userId);
-            response.setDescription("SubAdmin has been deleted successfully.");
+            response.setDescription("Member has been deleted successfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
             response.setDescription("No records found");

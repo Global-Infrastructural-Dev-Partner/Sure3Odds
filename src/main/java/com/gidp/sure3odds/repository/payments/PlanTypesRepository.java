@@ -8,4 +8,5 @@ import com.gidp.sure3odds.entity.payments.PlanTypes;
 @Repository
 public interface PlanTypesRepository extends JpaRepository<PlanTypes, Long> {
 
+
 }

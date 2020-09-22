@@ -14,6 +14,10 @@ import com.gidp.sure3odds.repository.payments.PlansRepository;
 import com.gidp.sure3odds.repository.users.UsersRepository;
 import com.gidp.sure3odds.service.users.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -115,6 +119,20 @@ public class PlansService {
 
 	}
 
+	public BaseResponse GetAllPlans(int pageNo, int pageSize) {
+		BaseResponse response = new BaseResponse();
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("id").ascending());
+		Page<Plans> plans = plansRepository.findAll(paging);
+		if (!plans.isEmpty()) {
+			response.setData(plans);
+			response.setDescription("Plans found successfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No results found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
 
 
 }

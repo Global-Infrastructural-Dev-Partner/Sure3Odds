@@ -23,7 +23,7 @@ public class ParametersService {
 		if(saved_parameters != null) {
 			response.setData(saved_parameters);
 			response.setDescription("New Parameter created successfully");
-			response.setStatusCode(HttpServletResponse.SC_CREATED);
+			response.setStatusCode(HttpServletResponse.SC_OK);
 		}else {
 			response.setDescription("New plan type was not created.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
@@ -39,7 +39,7 @@ public class ParametersService {
 		if(parameters.isPresent()) {
 			parametersRepository.deleteById(id);
 			response.setDescription("Parameter deleted successfully");
-			response.setStatusCode(HttpServletResponse.SC_CREATED);
+			response.setStatusCode(HttpServletResponse.SC_OK);
 		}else {
 			response.setDescription("No Plan type found");
 			response.setStatusCode(HttpServletResponse.SC_NOT_FOUND);
@@ -54,8 +54,8 @@ public class ParametersService {
 		Parameters updated_parameter = parametersRepository.save(parameters);
 		if (updated_parameter != null) {
 			response.setData(updated_parameter);
-			response.setDescription("Parameter has been updated succesfully.");
-			response.setStatusCode(HttpServletResponse.SC_CREATED);
+			response.setDescription("Parameter has been updated successfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
 			response.setDescription("Parameter was not updated.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
@@ -69,28 +69,29 @@ public class ParametersService {
 		List<Parameters> parameters = parametersRepository.findAll();
 		if (!parameters.isEmpty()) {
 			response.setData(parameters);
-			response.setDescription("plan types found succesfully.");
+			response.setDescription("plan types found successfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_NOT_FOUND);
 		}
 		return response;
 
 	}
 
-	public BaseResponse GetParameterByID(Long id) {
+	public BaseResponse GetParameterByID(long id) {
 		BaseResponse response = new BaseResponse();
-		Optional<Parameters> parameters = parametersRepository.findById(id);
-		if (parameters.isPresent()) {
+		if (parametersRepository.existsById(id)) {
+			Optional<Parameters> parameters = parametersRepository.findById(id);
 			response.setData(parameters);
-			response.setDescription("Parameter found succesfully.");
+			response.setDescription("plan types found successfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_NOT_FOUND);
 		}
 		return response;
 
 	}
+
 }

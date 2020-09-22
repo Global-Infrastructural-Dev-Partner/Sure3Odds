@@ -4,7 +4,9 @@ import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.entity.users.NewUser;
 import com.gidp.sure3odds.entity.users.UserTypes;
 import com.gidp.sure3odds.entity.users.Users;
-import com.gidp.sure3odds.service.users.*;
+import com.gidp.sure3odds.service.users.AuthenticationService;
+import com.gidp.sure3odds.service.users.UserTypesService;
+import com.gidp.sure3odds.service.users.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -12,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.LocalDate;
 
 @RequestMapping("/sure3odds")
 @RestController
@@ -167,7 +169,7 @@ public class UsersController {
     }
 
 
-    @GetMapping(value = "users/app/get_app_reports")
+    @GetMapping(value = "users/report/general/get")
     ResponseEntity<?> getAppReports() {
         BaseResponse response = usersService.GetAppReports();
         if (response.getStatusCode() == 200) {
@@ -181,8 +183,8 @@ public class UsersController {
      * @param selectedDate
      * @return
      */
-    @GetMapping(value = "users/app/get_monthly_reports")
-    ResponseEntity<?> getMonthlyReports(@RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) Date selectedDate) {
+    @GetMapping(value = "users/report/monthly/get")
+    ResponseEntity<?> getMonthlyReports(@RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) LocalDate selectedDate) {
         BaseResponse response = usersService.GetMonthlyReports(selectedDate);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);

@@ -89,7 +89,7 @@ public class TeamsService {
 		Teams updated_team = teamsRepository.save(teams);
 		if (updated_team != null) {
 			response.setData(updated_team);
-			response.setDescription("Team has been updated succesfully.");
+			response.setDescription("Team has been updated successfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
 			response.setDescription("Team was not updated.");

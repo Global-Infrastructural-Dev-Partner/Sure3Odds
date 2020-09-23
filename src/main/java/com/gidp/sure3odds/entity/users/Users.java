@@ -35,6 +35,9 @@ public class Users {
 
 	private String lastname;
 
+	@Column(unique = true)
+	private String uniqueid;
+
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
 	private LocalDate datejoined;
@@ -131,6 +134,13 @@ public class Users {
 		this.datejoined = datejoined;
 	}
 
+	public String getUniqueid() {
+		return uniqueid;
+	}
+
+	public void setUniqueid(String uniqueid) {
+		this.uniqueid = uniqueid;
+	}
 
 	/**
 	 * @return the device_token
@@ -163,25 +173,14 @@ public class Users {
 		this.lastname = lastname;
 	}
 
-	public Users(Long id, String email, String phone, String password, String firstname, String lastname,
-				  String device_token) {
-		super();
-		this.id = id;
+	public Users(String email, String phone, String password, String firstname, String lastname, String uniqueid, LocalDate datejoined, String device_token) {
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.device_token = device_token;
-	}
-
-	public Users(String email, String phone, String password, String firstname, String lastname, String device_token) {
-		super();
-		this.email = email;
-		this.phone = phone;
-		this.password = password;
-		this.firstname = firstname;
-		this.lastname = lastname;
+		this.uniqueid = uniqueid;
+		this.datejoined = datejoined;
 		this.device_token = device_token;
 	}
 

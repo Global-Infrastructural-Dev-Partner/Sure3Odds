@@ -79,18 +79,5 @@ public class SetsService {
 
 	}
 
-	public BaseResponse GetSetByID(Long id) {
-		BaseResponse response = new BaseResponse();
-		Optional<Sets> set = setsRepository.findById(id);
-		if (set.isPresent()) {
-			response.setData(set);
-			response.setDescription("Set found succesfully.");
-			response.setStatusCode(HttpServletResponse.SC_OK);
-		} else {
-			response.setDescription("No result found.");
-			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-		}
-		return response;
 
-	}
 }

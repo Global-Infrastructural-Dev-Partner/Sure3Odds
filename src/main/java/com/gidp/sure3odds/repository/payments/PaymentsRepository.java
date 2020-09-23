@@ -18,7 +18,6 @@ public interface PaymentsRepository extends JpaRepository<Payments, Long> {
 
 	Page<Payments> findByUser(Users users, Pageable pageable);
 
-
 	List<Payments> findPaymentsByPaymentdateBetweenAndPlantypeEquals(LocalDate startDate, LocalDate endDate, PlanTypes planTypes);
 
 	List<Payments> findPaymentsByPlantypeEquals(PlanTypes planTypes);

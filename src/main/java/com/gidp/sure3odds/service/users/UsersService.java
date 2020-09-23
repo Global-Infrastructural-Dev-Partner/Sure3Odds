@@ -125,7 +125,9 @@ public class UsersService {
                     Optional<Status> status = statusRepository.findByName("Active");
                     String password = passwordEncoder.encode(newUser.getPassword());
                     LocalDate CurrentDate = LocalDate.now();
-                    Users user = new Users(newUser.getEmail(), newUser.getPhone(), password, newUser.getFirstname(), newUser.getLastname(),
+                    String unique_id = newUser.getEmail().split("@")[0];
+                    Users user = new Users(newUser.getEmail(), newUser.getPhone(), password,
+                            newUser.getFirstname(), newUser.getLastname(), unique_id, CurrentDate,
                             "Pending");
                     user.setUsertypes(usertype.get());
                     user.setStatus(status.get());
@@ -175,7 +177,7 @@ public class UsersService {
             response.setDescription("Users by user type found successfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
-            response.setDescription("No results found.");
+            response.setDescription("No records found.");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
@@ -282,12 +284,12 @@ public class UsersService {
             Optional<Status> status = statusRepository.findByName("Active");
             String password = passwordEncoder.encode(newUser.getPassword());
             newUser.setStatus(status.get());
+            LocalDate CurrentDate = LocalDate.now();
+            String unique_id = newUser.getEmail().split("@")[0];
             newUser.setDevice_token("Pending");
             Users user = new Users(newUser.getEmail(), newUser.getPhone(), password,
-                    newUser.getFirstname(), newUser.getLastname(),
+                    newUser.getFirstname(), newUser.getLastname(), unique_id, CurrentDate,
                     newUser.getDevice_token());
-            LocalDate CurrentDate = LocalDate.now();
-            user.setDatejoined(CurrentDate);
             user.setUsertypes(usertype.get());
             user.setStatus(status.get());
             Users saved_user = usersRepository.save(user);
@@ -461,7 +463,6 @@ public class UsersService {
         result.put("totalvipusers", plansUser2.size());
 
 
-
         Optional<PlanTypes> plantypes1 = planTypesRepository.findById(1l);
         List<Payments> planTypes1Users = paymentsRepository.findPaymentsByPlantypeEquals(plantypes1.get());
         result.put("totalvvippay", planTypes1Users.size());
@@ -521,11 +522,11 @@ public class UsersService {
         result.put("totalactiveusers", allActiveUsers.size());
 
         Status inactiveStatus = statusRepository.findByName("Inactive").get();
-        List<Users> allInActiveUsers = usersRepository.findUsersByDatejoinedBetweenAndStatusEqualsAndUsertypesEquals(startDate, endDate,  inactiveStatus, userTypes.get());
+        List<Users> allInActiveUsers = usersRepository.findUsersByDatejoinedBetweenAndStatusEqualsAndUsertypesEquals(startDate, endDate, inactiveStatus, userTypes.get());
         result.put("totalinactiveusers", allInActiveUsers.size());
 
         Optional<PlanTypes> planTypes = planTypesRepository.findById(1l);
-        List<Plans> plansUser1 = plansRepository.findByStartDateBetweenAndPlantypeEquals(startDate, endDate,planTypes.get());
+        List<Plans> plansUser1 = plansRepository.findByStartDateBetweenAndPlantypeEquals(startDate, endDate, planTypes.get());
         result.put("totalvvipusers", plansUser1.size());
 
         Optional<PlanTypes> planTypes2 = planTypesRepository.findById(2l);
@@ -613,8 +614,6 @@ public class UsersService {
             if (!comments.isEmpty()) {
                 commentsRepository.deleteAll(comments);
             }
-
-
 
 
             usersRepository.deleteById(userId);

@@ -187,19 +187,24 @@ public class GamesService {
             if (user.getUsertypes().getName().equals("Member")) {
                 Plans plan = plansRepository.findPlansByUser(user);
                 planTypeID = plan.getPlantype().getId();
-            } else if (user.getUsertypes().getName().equals("Admin")){
+            } else if (user.getUsertypes().getName().equals("Admin")) {
                 usersService.ValidateAllUsersPaymentDueDate();
-            } else if (user.getUsertypes().getName().equals("SubAdmin")){
-                UserID = 1;
+            } else if (user.getUsertypes().getName().equals("SubAdmin")) {
+                UserID = 1l;
             }
             Status status = statusRepository.findByName("Won").get();
-            if (planTypeID == 1 || UserID == 1) {
+            if (planTypeID == 1l || UserID == 1l) {
                 //Get for VVIP (set 1, set 2, set 3)
                 Optional<Sets> set1 = setsRepository.findById(1l);
                 if (CurrentDate.equals(matchDate)) {
                     Set1Games = gamesRepository.findGamesByMatchdateAndSetsOrderByMatchtime(matchDate, set1.get());
                 } else {
-                    Set1Games = gamesRepository.findByMatchdateAndSetsAndStatusOrderByMatchtime(matchDate, set1.get(), status);
+                    if (user.getId() == 1l) {
+                        Set1Games = gamesRepository.findGamesByMatchdateAndSetsOrderByMatchtime(matchDate, set1.get());
+                    } else {
+                        Set1Games = gamesRepository.findByMatchdateAndSetsAndStatusOrderByMatchtime(matchDate, set1.get(), status);
+
+                    }
                 }
                 HashMap<String, Object> userGames1 = new HashMap<>();
                 if (!Set1Games.isEmpty()) {
@@ -223,7 +228,11 @@ public class GamesService {
                 if (CurrentDate.equals(matchDate)) {
                     Set2Games = gamesRepository.findGamesByMatchdateAndSetsOrderByMatchtime(matchDate, set2.get());
                 } else {
-                    Set2Games = gamesRepository.findByMatchdateAndSetsAndStatusOrderByMatchtime(matchDate, set2.get(), status);
+                    if (user.getId() == 1l) {
+                        Set2Games = gamesRepository.findGamesByMatchdateAndSetsOrderByMatchtime(matchDate, set2.get());
+                    } else {
+                        Set2Games = gamesRepository.findByMatchdateAndSetsAndStatusOrderByMatchtime(matchDate, set2.get(), status);
+                    }
                 }
                 HashMap<String, Object> userGames2 = new HashMap<>();
                 if (!Set2Games.isEmpty()) {
@@ -246,7 +255,11 @@ public class GamesService {
                 if (CurrentDate.equals(matchDate)) {
                     Set3Games = gamesRepository.findGamesByMatchdateAndSetsOrderByMatchtime(matchDate, set3.get());
                 } else {
-                    Set3Games = gamesRepository.findByMatchdateAndSetsAndStatusOrderByMatchtime(matchDate, set3.get(), status);
+                    if (user.getId() == 1l) {
+                        Set3Games = gamesRepository.findGamesByMatchdateAndSetsOrderByMatchtime(matchDate, set3.get());
+                    } else {
+                        Set3Games = gamesRepository.findByMatchdateAndSetsAndStatusOrderByMatchtime(matchDate, set3.get(), status);
+                    }
                 }
                 HashMap<String, Object> userGames3 = new HashMap<>();
                 if (!Set3Games.isEmpty()) {
@@ -269,7 +282,12 @@ public class GamesService {
                 if (CurrentDate.equals(matchDate)) {
                     Set1Games = gamesRepository.findGamesByMatchdateAndSetsOrderByMatchtime(matchDate, set1.get());
                 } else {
-                    Set1Games = gamesRepository.findByMatchdateAndSetsAndStatusOrderByMatchtime(matchDate, set1.get(), status);
+                    if (user.getId() == 1l) {
+                        Set1Games = gamesRepository.findGamesByMatchdateAndSetsOrderByMatchtime(matchDate, set1.get());
+                    } else {
+                        Set1Games = gamesRepository.findByMatchdateAndSetsAndStatusOrderByMatchtime(matchDate, set1.get(), status);
+
+                    }
                 }
                 HashMap<String, Object> userGames1 = new HashMap<>();
                 if (!Set1Games.isEmpty()) {
@@ -293,7 +311,11 @@ public class GamesService {
                 if (CurrentDate.equals(matchDate)) {
                     Set2Games = gamesRepository.findGamesByMatchdateAndSetsOrderByMatchtime(matchDate, set2.get());
                 } else {
-                    Set2Games = gamesRepository.findByMatchdateAndSetsAndStatusOrderByMatchtime(matchDate, set2.get(), status);
+                    if (user.getId() == 1l) {
+                        Set2Games = gamesRepository.findGamesByMatchdateAndSetsOrderByMatchtime(matchDate, set2.get());
+                    } else {
+                        Set2Games = gamesRepository.findByMatchdateAndSetsAndStatusOrderByMatchtime(matchDate, set2.get(), status);
+                    }
                 }
                 HashMap<String, Object> userGames2 = new HashMap<>();
                 if (!Set2Games.isEmpty()) {

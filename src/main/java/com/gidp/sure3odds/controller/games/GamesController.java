@@ -394,15 +394,6 @@ public class GamesController {
         }
     }
 
-    @GetMapping(value = "/games/set/get_by_id/{id}")
-    ResponseEntity<?> getSetByID(@RequestParam Long id) {
-        BaseResponse response = setsService.GetSetByID(id);
-        if (response.getStatusCode() == 200) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }
 
     @DeleteMapping(value = "/games/set/delete/{id}")
     ResponseEntity<?> deleteSet(@RequestParam Long id) {
@@ -506,6 +497,16 @@ public class GamesController {
     @GetMapping(value = "/games/game/user/get")
     ResponseEntity<?> getUserGames(@RequestAttribute("UserID") Long UserID, @RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) LocalDate matchDate) {
         BaseResponse response = gamesService.GetUserGames(UserID, matchDate);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/games/game/free/get")
+    ResponseEntity<?> getFreeUserGames(@RequestParam long id, @RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) LocalDate matchDate) {
+        BaseResponse response = gamesService.GetUserGames(id, matchDate);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {

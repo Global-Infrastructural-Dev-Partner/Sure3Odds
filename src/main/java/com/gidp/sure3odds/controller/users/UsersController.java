@@ -52,7 +52,7 @@ public class UsersController {
         }
     }
 
-    @DeleteMapping(value = "users/usertype/delete/{id}")
+    @DeleteMapping(value = "/users/usertype/delete/{id}")
     ResponseEntity<?> deleteUserType(@PathVariable Long id) {
         BaseResponse response = userTypesService.DeleteUserType(id);
         if (response.getStatusCode() == 200) {
@@ -122,7 +122,7 @@ public class UsersController {
         }
     }
 
-    @DeleteMapping(value = "users/member/delete/{id}")
+    @DeleteMapping(value = "/users/member/delete/{id}")
     ResponseEntity<?> deleteMember(@PathVariable Long id) {
         BaseResponse response = usersService.DeleteMember(id);
         if (response.getStatusCode() == 200) {
@@ -139,7 +139,7 @@ public class UsersController {
     }
 
 
-    @PostMapping(value = "users/subadmin/create")
+    @PostMapping(value = "/users/subadmin/create")
     ResponseEntity<?> CreateSubAdmin(@RequestBody Users user) {
         BaseResponse response = usersService.CreateSubAdmin(user);
         if (response.getStatusCode() == 200) {
@@ -148,7 +148,7 @@ public class UsersController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
-    @DeleteMapping(value = "users/subadmin/delete/{id}")
+    @DeleteMapping(value = "/users/subadmin/delete/{id}")
     ResponseEntity<?> deleteSubAdmin(@PathVariable Long id) {
         BaseResponse response = usersService.DeleteSubAdmin(id);
         if (response.getStatusCode() == 200) {
@@ -169,7 +169,7 @@ public class UsersController {
     }
 
 
-    @GetMapping(value = "users/report/general/get")
+    @GetMapping(value = "/users/report/general/get")
     ResponseEntity<?> getAppReports() {
         BaseResponse response = usersService.GetAppReports();
         if (response.getStatusCode() == 200) {
@@ -183,7 +183,7 @@ public class UsersController {
      * @param selectedDate
      * @return
      */
-    @GetMapping(value = "users/report/monthly/get")
+    @GetMapping(value = "/users/report/monthly/get")
     ResponseEntity<?> getMonthlyReports(@RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) LocalDate selectedDate) {
         BaseResponse response = usersService.GetMonthlyReports(selectedDate);
         if (response.getStatusCode() == 200) {

@@ -21,4 +21,6 @@ public interface LeaguesRepository extends JpaRepository<Leagues, Long> {
 
 
     List<Leagues> findByNameContainingAndCountryOrderByName(String name, Countries countries, Sort sort);
+
+    List<Leagues> findByCountry(Countries countries);
 }

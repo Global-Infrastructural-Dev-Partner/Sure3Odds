@@ -2,9 +2,11 @@ package com.gidp.sure3odds.service.games;
 
 import com.gidp.sure3odds.entity.games.Countries;
 import com.gidp.sure3odds.entity.games.Leagues;
+import com.gidp.sure3odds.entity.games.Teams;
 import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.repository.games.CountriesRepository;
 import com.gidp.sure3odds.repository.games.LeaguesRepository;
+import com.gidp.sure3odds.repository.games.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +28,9 @@ public class LeaguesService {
 
 	@Autowired
 	CountriesRepository countriesRepository;
+
+	@Autowired
+	TeamsRepository teamsRepository;
 
 	public BaseResponse CreateAllLeagues(List<Leagues> listLeagues) {
 		BaseResponse response = new BaseResponse();
@@ -71,6 +76,11 @@ public class LeaguesService {
 		BaseResponse response = new BaseResponse();
 		Optional<Leagues> leagues = leaguesRepository.findById(leagueID);
 		if(leagues.isPresent()) {
+			List<Teams> teams = teamsRepository.findByLeague(leagues.get());
+			if(!teams.isEmpty()){
+				teamsRepository.deleteAll(teams);
+			}
+
 			leaguesRepository.deleteById(leagueID);
 			response.setDescription("League deleted successfully");
 			response.setStatusCode(HttpServletResponse.SC_OK);

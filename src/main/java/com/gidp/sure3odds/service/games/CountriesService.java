@@ -1,8 +1,12 @@
 package com.gidp.sure3odds.service.games;
 
 import com.gidp.sure3odds.entity.games.Countries;
+import com.gidp.sure3odds.entity.games.Leagues;
+import com.gidp.sure3odds.entity.games.Teams;
 import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.repository.games.CountriesRepository;
+import com.gidp.sure3odds.repository.games.LeaguesRepository;
+import com.gidp.sure3odds.repository.games.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +25,12 @@ public class CountriesService {
 
     @Autowired
     CountriesRepository countriesRepository;
+
+    @Autowired
+    TeamsRepository teamsRepository;
+
+    @Autowired
+    LeaguesRepository leaguesRepository;
 
 
     public BaseResponse CreateAllCountry(List<Countries> listContries) {
@@ -66,6 +76,15 @@ public class CountriesService {
         BaseResponse response = new BaseResponse();
         Optional<Countries> countries = countriesRepository.findById(countryID);
         if (countries.isPresent()) {
+            List<Teams> teams = teamsRepository.findByCountry(countries.get());
+            if(!teams.isEmpty()){
+                teamsRepository.deleteAll(teams);
+            }
+
+            List<Leagues> leagues = leaguesRepository.findByCountry(countries.get());
+            if(!leagues.isEmpty()){
+                leaguesRepository.deleteAll(leagues);
+            }
             countriesRepository.deleteById(countryID);
             response.setDescription("Country deleted successfully");
             response.setStatusCode(HttpServletResponse.SC_OK);

@@ -4,6 +4,10 @@ import com.gidp.sure3odds.entity.games.Selections;
 import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.repository.games.SelectionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,10 +25,10 @@ public class SelectionsService {
 		Selections saved_selections = selectionsRepository.save(selections);
 		if(saved_selections != null) {
 			response.setData(saved_selections);
-			response.setDescription("New Selections created successfully");
+			response.setDescription("New Selection created successfully");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		}else {
-			response.setDescription("New Selections was not created.");
+			response.setDescription("New Selection was not created.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
@@ -40,7 +44,7 @@ public class SelectionsService {
 			response.setDescription("Selection deleted successfully");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		}else {
-			response.setDescription("No Set found");
+			response.setDescription("No Selections found");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
@@ -50,28 +54,59 @@ public class SelectionsService {
 
 	public BaseResponse UpdateSelection(Selections selections) {
 		BaseResponse response = new BaseResponse();
-		Selections updated_selection = selectionsRepository.save(selections);
-		if (updated_selection != null) {
+		if (selectionsRepository.existsById(selections.getId())) {
+			Selections updated_selection = selectionsRepository.save(selections);
 			response.setData(updated_selection);
-			response.setDescription("Selections has been updated succesfully.");
+			response.setDescription("Selection has been updated succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("Selections was not updated.");
+			response.setDescription("Selection was not updated.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
 	}
 
 
-	public BaseResponse GetAllSelections() {
+	public BaseResponse GetAllSelections(int pageNo, int pageSize) {
+		BaseResponse response = new BaseResponse();
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());
+		Page<Selections> selections = selectionsRepository.findAll(paging);
+		if (!selections.isEmpty()) {
+			response.setData(selections);
+			response.setDescription("Selections found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No results found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+
+	public BaseResponse SearchSelectionsByName(String name, int pageNo, int pageSize ) {
+		BaseResponse response = new BaseResponse();
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name"));
+		Page<Selections> selections = selectionsRepository.findSelectionsByNameContainingOrderByName(name, paging);
+		if (!selections.isEmpty()) {
+			response.setData(selections);
+			response.setDescription("Selections found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No results found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+
+
+	public BaseResponse getAllSelections() {
 		BaseResponse response = new BaseResponse();
 		List<Selections> selections = selectionsRepository.findAll();
 		if (!selections.isEmpty()) {
 			response.setData(selections);
-			response.setDescription("Sets found succesfully.");
+			response.setDescription("Selections found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;

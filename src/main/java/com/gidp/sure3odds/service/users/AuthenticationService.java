@@ -77,13 +77,19 @@ public class AuthenticationService {
             statusCode = HttpStatus.BAD_REQUEST.value();
             if (!isUser.isPresent()) {
                 baseResponse.setStatusCode(statusCode);
-                baseResponse.setDescription("user does not exist");
+                baseResponse.setDescription("Invalid Email");
                 return baseResponse;
             }
             Users user = isUser.get();
             if (!passwordEncoder.matches(password, user.getPassword())) {
                 baseResponse.setStatusCode(statusCode);
-                baseResponse.setDescription("invalid password");
+                baseResponse.setDescription("Invalid password");
+                return baseResponse;
+            }
+            if (user.getUsertypes().getName().equals("SubAdmin") && user.getStatus().getName().equals("Inactive")) {
+                String desc = usersService.GetUserName(user.getId()) + ", your account has been suspended by the Admin. Please, contact the Admin";
+                baseResponse.setStatusCode(statusCode);
+                baseResponse.setDescription(desc);
                 return baseResponse;
             }
             return generateToken(user);
@@ -117,11 +123,11 @@ public class AuthenticationService {
     }
 
 
-    public String getUserID(String token){
+    public String getUserID(String token) {
         DecodedJWT decodedJwt = jwtHelper.getUserId(token);
         String userid = "none";
-        if(decodedJwt != null){
-            userid =   decodedJwt.getId();
+        if (decodedJwt != null) {
+            userid = decodedJwt.getId();
         }
         return userid;
     }

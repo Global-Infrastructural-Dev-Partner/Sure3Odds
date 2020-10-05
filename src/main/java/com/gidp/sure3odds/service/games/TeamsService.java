@@ -1,10 +1,15 @@
 package com.gidp.sure3odds.service.games;
 
-import com.gidp.sure3odds.entity.response.BaseResponse;
+import com.gidp.sure3odds.entity.games.Leagues;
 import com.gidp.sure3odds.entity.games.Teams;
+import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.repository.games.LeaguesRepository;
 import com.gidp.sure3odds.repository.games.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,15 +26,6 @@ public class TeamsService {
 	@Autowired
 	LeaguesRepository leaguesRepository;
 
-
-	public boolean checkTeamExist(long leagueID, String teamName) {
-		boolean result = false;
-		Optional<Teams> teams = teamsRepository.findByLeagueIDAndTeamName(leagueID, teamName);
-		if (teams.isPresent()) {
-			result = true;
-		}
-		return result;
-	}
 
 	public BaseResponse CreateAllTeams(List<Teams> listTeams) {
 		BaseResponse response = new BaseResponse();
@@ -76,11 +72,11 @@ public class TeamsService {
 		BaseResponse response = new BaseResponse();
 		Optional<Teams> team = teamsRepository.findById(teamID);
 		if(team.isPresent()) {
-			leaguesRepository.deleteById(teamID);
+			teamsRepository.deleteById(teamID);
 			response.setDescription("Team deleted successfully");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		}else {
-			response.setDescription("No Team found");
+			response.setDescription("No results found");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
@@ -93,7 +89,7 @@ public class TeamsService {
 		Teams updated_team = teamsRepository.save(teams);
 		if (updated_team != null) {
 			response.setData(updated_team);
-			response.setDescription("Team has been updated succesfully.");
+			response.setDescription("Team has been updated successfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
 			response.setDescription("Team was not updated.");
@@ -103,75 +99,82 @@ public class TeamsService {
 	}
 
 
-	public BaseResponse GetAllTeams() {
+	public BaseResponse GetAllTeams(int pageNo, int pageSize) {
 		BaseResponse response = new BaseResponse();
-		List<Teams> teams = teamsRepository.findAll();
+		Pageable paging = PageRequest.of(pageNo, pageSize);
+		Page<Teams> teams = teamsRepository.findAll(paging);
 		if (!teams.isEmpty()) {
 			response.setData(teams);
 			response.setDescription("Team found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
 
 	}
 
-	public BaseResponse GetTeamByID(Long id) {
+	public BaseResponse SearchTeamsByName(String name, int pageNo, int pageSize ) {
 		BaseResponse response = new BaseResponse();
-		Optional<Teams> team = teamsRepository.findById(id);
-		if (team.isPresent()) {
-			response.setData(team);
-			response.setDescription("Team found succesfully.");
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name"));
+		Page<Teams> teams = teamsRepository.findTeamsByNameContainingOrderByName(name, paging);
+		if (!teams.isEmpty()) {
+			response.setData(teams);
+			response.setDescription("Teams found successfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+	}
+	public BaseResponse SearchTeamsByLeagueIdAndName(Long leagueId, String leagueName, int pageNo, int pageSize) {
+		BaseResponse response = new BaseResponse();
+		Leagues leagues = leaguesRepository.findById(leagueId).get();
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name") .ascending());
+		Page<Teams> teams = teamsRepository.findByNameContainingAndLeagueOrderByName(leagueName, leagues, paging);
+		if (!teams.isEmpty()) {
+			response.setData(teams);
+			response.setDescription("Teams found successfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
 
 	}
 
-	public BaseResponse GetTeamsByCountryID(Long countryid) {
+
+	public BaseResponse GetTeamsByLeagueID(Long leagueId, int pageNo, int pageSize) {
 		BaseResponse response = new BaseResponse();
-		List<Teams> teams = teamsRepository.findTeamsByCountryID(countryid);
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name"));
+		Leagues leagues = leaguesRepository.findById(leagueId).get();
+		Page<Teams> teams = teamsRepository.findByLeagueOrderByName(leagues, paging);
 		if (!teams.isEmpty()) {
 			response.setData(teams);
 			response.setDescription("Teams found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
 	}
 
 
-	public BaseResponse GetTeamsByLeagueID(Long leagueid) {
+
+	public BaseResponse getTeamsByLeagueID(Long leagueId) {
 		BaseResponse response = new BaseResponse();
-		List<Teams> teams = teamsRepository.findTeamsByLeagueID(leagueid);
+		Leagues leagues = leaguesRepository.findById(leagueId).get();
+		List<Teams> teams = teamsRepository.findByLeagueOrderByName(leagues);
 		if (!teams.isEmpty()) {
 			response.setData(teams);
 			response.setDescription("Teams found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
-			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-		}
-		return response;
-	}
-
-
-	public BaseResponse SearchTeamsByName(String name) {
-		BaseResponse response = new BaseResponse();
-		List<Teams> teams = teamsRepository.findTeamsByNameContainingOrderByName(name);
-		if (!teams.isEmpty()) {
-			response.setData(teams);
-			response.setDescription("Teams found succesfully.");
-			response.setStatusCode(HttpServletResponse.SC_OK);
-		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;

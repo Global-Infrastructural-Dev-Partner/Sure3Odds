@@ -1,15 +1,11 @@
 package com.gidp.sure3odds.entity.users;
 
 import com.gidp.sure3odds.entity.payments.PlanTypes;
-import com.gidp.sure3odds.entity.users.UserTypes;
-import com.gidp.sure3odds.entity.users.Users;
 
-import java.util.Date;
+import javax.persistence.ManyToOne;
 
 
 public class NewUser {
-
-    private UserTypes userTypeID;
 
     private String email;
 
@@ -21,27 +17,15 @@ public class NewUser {
 
     private String lastname;
 
-    private Date datejoined;
+    @ManyToOne
+    private UserTypes usertypes;
 
-    private PlanTypes planTypeID;
+    private PlanTypes plantype;
 
-    private Date startDate;
-
-    private Date paymentdate;
-
-    private String paymenttype;
+    private String referencecode;
 
     private String platform;
 
-    private String referenceCode;
-
-    public UserTypes getUserTypeID() {
-        return userTypeID;
-    }
-
-    public void setUserTypeID(UserTypes userTypeID) {
-        this.userTypeID = userTypeID;
-    }
 
     public String getEmail() {
         return email;
@@ -83,46 +67,6 @@ public class NewUser {
         this.lastname = lastname;
     }
 
-    public Date getDatejoined() {
-        return datejoined;
-    }
-
-    public void setDatejoined(Date datejoined) {
-        this.datejoined = datejoined;
-    }
-
-    public PlanTypes getPlanTypeID() {
-        return planTypeID;
-    }
-
-    public void setPlanTypeID(PlanTypes planTypeID) {
-        this.planTypeID = planTypeID;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getPaymentdate() {
-        return paymentdate;
-    }
-
-    public void setPaymentdate(Date paymentdate) {
-        this.paymentdate = paymentdate;
-    }
-
-    public String getPaymenttype() {
-        return paymenttype;
-    }
-
-    public void setPaymenttype(String paymenttype) {
-        this.paymenttype = paymenttype;
-    }
-
     public String getPlatform() {
         return platform;
     }
@@ -131,14 +75,29 @@ public class NewUser {
         this.platform = platform;
     }
 
-    public String getReferenceCode() {
-        return referenceCode;
+
+    public PlanTypes getPlantype() {
+        return plantype;
     }
 
-    public void setReferenceCode(String referenceCode) {
-        this.referenceCode = referenceCode;
+    public void setPlantype(PlanTypes plantype) {
+        this.plantype = plantype;
     }
 
+    public String getReferencecode() {
+        return referencecode;
+    }
 
+    public void setReferencecode(String referencecode) {
+        this.referencecode = referencecode;
+    }
 
+    public UserTypes getUsertypes() {
+        return usertypes;
+    }
+
+    public void setUsertypes(UserTypes usertypes) {
+        this.usertypes = usertypes;
+    }
 }
+

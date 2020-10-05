@@ -47,7 +47,8 @@ public class JWTHelper {
                     .withIssuedAt(Calendar.getInstance().getTime())
                     .withNotBefore(Calendar.getInstance().getTime())
                     .withJWTId(user.getId().toString())
-                    .withClaim("usertype", user.getUserTypeID().getName())
+                    .withClaim("user_type", user.getUsertypes().getName())
+                    .withClaim("name", user.getLastname())
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException | IllegalArgumentException exception) {

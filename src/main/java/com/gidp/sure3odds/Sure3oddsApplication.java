@@ -3,6 +3,8 @@ package com.gidp.sure3odds;
 import com.gidp.sure3odds.config.RequestFilterConfig;
 import com.gidp.sure3odds.filter.RequestFilter;
 import com.gidp.sure3odds.service.users.AuthenticationService;
+import com.gidp.sure3odds.service.users.EmailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +21,9 @@ public class Sure3oddsApplication {
     @Value("${cors.url}")
     String urls;
 
+    @Autowired
+    EmailService emailService;
+
     public static void main(String[] args) {
         SpringApplication.run(Sure3oddsApplication.class, args);
     }
@@ -31,6 +36,7 @@ public class Sure3oddsApplication {
         registrationBean.setAsyncSupported(false);
         return registrationBean;
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -49,5 +55,6 @@ public class Sure3oddsApplication {
             }
         };
     }
+
 
 }

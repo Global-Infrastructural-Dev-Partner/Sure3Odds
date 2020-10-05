@@ -1,9 +1,17 @@
 package com.gidp.sure3odds.service.games;
 
-import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.entity.games.Countries;
+import com.gidp.sure3odds.entity.games.Leagues;
+import com.gidp.sure3odds.entity.games.Teams;
+import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.repository.games.CountriesRepository;
+import com.gidp.sure3odds.repository.games.LeaguesRepository;
+import com.gidp.sure3odds.repository.games.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -18,13 +26,19 @@ public class CountriesService {
     @Autowired
     CountriesRepository countriesRepository;
 
+    @Autowired
+    TeamsRepository teamsRepository;
+
+    @Autowired
+    LeaguesRepository leaguesRepository;
+
 
     public BaseResponse CreateAllCountry(List<Countries> listContries) {
         BaseResponse response = new BaseResponse();
         ArrayList<Object> saved_countries = new ArrayList<>();
         try {
             for (Countries country : listContries) {
-               Countries saved_country = countriesRepository.save(country);
+                Countries saved_country = countriesRepository.save(country);
                 saved_countries.add(saved_country);
             }
         } catch (Exception e) {
@@ -43,7 +57,6 @@ public class CountriesService {
     }
 
 
-
     public BaseResponse CreateCountry(Countries countries) {
         BaseResponse response = new BaseResponse();
         Countries saved_country = countriesRepository.save(countries);
@@ -56,7 +69,6 @@ public class CountriesService {
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
-
     }
 
 
@@ -64,6 +76,15 @@ public class CountriesService {
         BaseResponse response = new BaseResponse();
         Optional<Countries> countries = countriesRepository.findById(countryID);
         if (countries.isPresent()) {
+            List<Teams> teams = teamsRepository.findByCountry(countries.get());
+            if(!teams.isEmpty()){
+                teamsRepository.deleteAll(teams);
+            }
+
+            List<Leagues> leagues = leaguesRepository.findByCountry(countries.get());
+            if(!leagues.isEmpty()){
+                leaguesRepository.deleteAll(leagues);
+            }
             countriesRepository.deleteById(countryID);
             response.setDescription("Country deleted successfully");
             response.setStatusCode(HttpServletResponse.SC_OK);
@@ -78,64 +99,70 @@ public class CountriesService {
 
     public BaseResponse UpdateCountry(Countries countries) {
         BaseResponse response = new BaseResponse();
-        Countries updated_league = countriesRepository.save(countries);
-        if (updated_league != null) {
-            response.setData(updated_league);
-            response.setDescription("Country has been updated succesfully.");
-            response.setStatusCode(HttpServletResponse.SC_OK);
-        } else {
-            response.setDescription("Country was not updated.");
-            response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+        try {
+            if (countriesRepository.existsById(countries.getId())) {
+                Countries updated_league = countriesRepository.save(countries);
+                response.setData(updated_league);
+                response.setDescription("Country has been updated successfully.");
+                response.setStatusCode(HttpServletResponse.SC_OK);
+            } else {
+                response.setDescription("Country was not updated.");
+                response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        } catch (Exception ex) {
+
         }
         return response;
     }
 
 
-    public BaseResponse GetAllCountries() {
+    public BaseResponse GetAllCountries(int pageNo, int pageSize) {
         BaseResponse response = new BaseResponse();
-        List<Countries> countries = countriesRepository.findAll();
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());
+        Page<Countries> countries = countriesRepository.findAll(paging);
         if (!countries.isEmpty()) {
             response.setData(countries);
-            response.setDescription("Countries found succesfully.");
+            response.setDescription("Countries found successfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
-            response.setDescription("No result found.");
+            response.setDescription("No results found.");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
-
-    }
-
-    public BaseResponse GetCountryByID(Long id) {
-        BaseResponse response = new BaseResponse();
-        Optional<Countries> countries = countriesRepository.findById(id);
-        if (countries.isPresent()) {
-            response.setData(countries);
-            response.setDescription("Country found succesfully.");
-            response.setStatusCode(HttpServletResponse.SC_OK);
-        } else {
-            response.setDescription("No result found.");
-            response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        return response;
-
     }
 
 
-
-    public BaseResponse SearchCountries(String name) {
+    public BaseResponse SearchCountries(String name, int pageNo, int pageSize) {
         BaseResponse response = new BaseResponse();
-        List<Countries> countries = countriesRepository.findCountriesByNameContainingOrderByName(name);
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        Page<Countries> countries = countriesRepository.findCountriesByNameContainingOrderByName(name, paging);
         if (!countries.isEmpty()) {
             response.setData(countries);
-            response.setDescription("Countries found succesfully.");
+            response.setDescription("Countries found successfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
-            response.setDescription("No result found.");
+            response.setDescription("No results found.");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
 
     }
+
+    public BaseResponse GetCountries() {
+        BaseResponse response = new BaseResponse();
+        Sort sortOrder = Sort.by("name").ascending();
+        List<Countries> countries = countriesRepository.findAll(sortOrder);
+        if (!countries.isEmpty()) {
+            response.setData(countries);
+            response.setDescription("Countries found successfully.");
+            response.setStatusCode(HttpServletResponse.SC_OK);
+        } else {
+            response.setDescription("No results found.");
+            response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        return response;
+    }
+
+
 
 }

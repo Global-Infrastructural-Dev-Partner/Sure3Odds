@@ -1,22 +1,12 @@
 package com.gidp.sure3odds.entity.users;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.gidp.sure3odds.entity.games.Status;
+
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "sure_users")
@@ -30,8 +20,7 @@ public class Users {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name ="usertypeid")
-	private UserTypes userTypeID;
+	private UserTypes usertypes;
 	
 	@Column(unique = true)
 	private String email;
@@ -46,16 +35,18 @@ public class Users {
 
 	private String lastname;
 
+	@Column(unique = true)
+	private String uniqueid;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date datejoined;
 
-	private String status;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
+	private LocalDate datejoined;
+
+	@ManyToOne
+	private Status status;
 
 	@Lob
 	private String device_token;
-
-	private String assigned = "Pending";
 
 	/**
 	 *
@@ -79,18 +70,12 @@ public class Users {
 		this.id = id;
 	}
 
-	/**
-	 * @return the userTypeID
-	 */
-	public UserTypes getUserTypeID() {
-		return userTypeID;
+	public UserTypes getUsertypes() {
+		return usertypes;
 	}
 
-	/**
-	 * @param userTypeID the userTypeID to set
-	 */
-	public void setUserTypeID(UserTypes userTypeID) {
-		this.userTypeID = userTypeID;
+	public void setUsertypes(UserTypes usertypes) {
+		this.usertypes = usertypes;
 	}
 
 	/**
@@ -138,29 +123,23 @@ public class Users {
 	/**
 	 * @return the datejoined
 	 */
-	public Date getDatejoined() {
+	public LocalDate getDatejoined() {
 		return datejoined;
 	}
 
 	/**
 	 * @param datejoined the datejoined to set
 	 */
-	public void setDatejoined(Date datejoined) {
+	public void setDatejoined(LocalDate datejoined) {
 		this.datejoined = datejoined;
 	}
 
-	/**
-	 * @return the status
-	 */
-	public String getStatus() {
-		return status;
+	public String getUniqueid() {
+		return uniqueid;
 	}
 
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(String status) {
-		this.status = status;
+	public void setUniqueid(String uniqueid) {
+		this.uniqueid = uniqueid;
 	}
 
 	/**
@@ -177,19 +156,6 @@ public class Users {
 		this.device_token = device_token;
 	}
 
-	/**
-	 * @return the assigned
-	 */
-	public String getAssigned() {
-		return assigned;
-	}
-
-	/**
-	 * @param assigned the assigned to set
-	 */
-	public void setAssigned(String assigned) {
-		this.assigned = assigned;
-	}
 
 	public String getFirstname() {
 		return firstname;
@@ -207,35 +173,22 @@ public class Users {
 		this.lastname = lastname;
 	}
 
-	public Users(Long id, String email, String phone, String password, String firstname, String lastname,
-			Date datejoined, String status, String device_token, String assigned) {
-		super();
-		this.id = id;
+	public Users(String email, String phone, String password, String firstname, String lastname, String uniqueid, LocalDate datejoined, String device_token) {
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
 		this.firstname = firstname;
 		this.lastname = lastname;
+		this.uniqueid = uniqueid;
 		this.datejoined = datejoined;
-		this.status = status;
 		this.device_token = device_token;
-		this.assigned = assigned;
 	}
 
-	public Users(String email, String phone, String password, String firstname, String lastname, Date datejoined,
-			String status, String device_token, String assigned) {
-		super();
-		this.email = email;
-		this.phone = phone;
-		this.password = password;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.datejoined = datejoined;
-		this.status = status;
-		this.device_token = device_token;
-		this.assigned = assigned;
+	public Status getStatus() {
+		return status;
 	}
 
-
-
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 }

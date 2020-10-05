@@ -1,16 +1,14 @@
 package com.gidp.sure3odds.service.payments;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletResponse;
-
+import com.gidp.sure3odds.entity.payments.PlanTypes;
+import com.gidp.sure3odds.entity.response.BaseResponse;
+import com.gidp.sure3odds.repository.payments.PlanTypesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gidp.sure3odds.entity.response.BaseResponse;
-import com.gidp.sure3odds.entity.payments.PlanTypes;
-import com.gidp.sure3odds.repository.payments.PlanTypesRepository;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlanTypesService {
@@ -25,7 +23,7 @@ public class PlanTypesService {
 		if(plantype != null) {
 			response.setData(plantypes);
 			response.setDescription("New Plan type created successfully");
-			response.setStatusCode(HttpServletResponse.SC_CREATED);
+			response.setStatusCode(HttpServletResponse.SC_OK);
 		}else {
 			response.setDescription("New plan type was not created.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
@@ -41,7 +39,7 @@ public class PlanTypesService {
 		if(plantype.isPresent()) {
 			planTypesRepository.deleteById(plantypeid);
 			response.setDescription("Plan type deleted successfully");
-			response.setStatusCode(HttpServletResponse.SC_CREATED);
+			response.setStatusCode(HttpServletResponse.SC_OK);
 		}else {
 			response.setDescription("No Plan type found");
 			response.setStatusCode(HttpServletResponse.SC_NOT_FOUND);
@@ -53,11 +51,11 @@ public class PlanTypesService {
 	
 	public BaseResponse UpdatePlantype(PlanTypes plantype) {
 		BaseResponse response = new BaseResponse();
-		PlanTypes plantypes = planTypesRepository.save(plantype);
-		if (plantypes != null) {
+		if (planTypesRepository.existsById(plantype.getId())) {
+			PlanTypes plantypes = planTypesRepository.save(plantype);
 			response.setData(plantypes);
-			response.setDescription("Plan type has been updated succesfully.");
-			response.setStatusCode(HttpServletResponse.SC_CREATED);
+			response.setDescription("Plan type has been updated successfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
 			response.setDescription("Plan type was not updated.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
@@ -71,7 +69,7 @@ public class PlanTypesService {
 		List<PlanTypes> plantypes = planTypesRepository.findAll();
 		if (!plantypes.isEmpty()) {
 			response.setData(plantypes);
-			response.setDescription("plan types found succesfully.");
+			response.setDescription("plan types found successfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
 			response.setDescription("No result found.");

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gidp.sure3odds.entity.users.Users;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "sure_payments")
@@ -17,15 +17,13 @@ public class Payments {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name ="userid")
-	private Users userID;
+	private Users user;
 
 	@ManyToOne
-	@JoinColumn(name ="plantypeid")
-	private PlanTypes planTypeID;
+	private PlanTypes plantype;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
-	private Date paymentdate;
+	private LocalDate paymentdate;
 
 	private String paymenttype;
 
@@ -50,27 +48,11 @@ public class Payments {
 		this.id = id;
 	}
 
-	public Users getUserID() {
-		return userID;
-	}
-
-	public void setUserID(Users userID) {
-		this.userID = userID;
-	}
-
-	public PlanTypes getPlanTypeID() {
-		return planTypeID;
-	}
-
-	public void setPlanTypeID(PlanTypes planTypeID) {
-		this.planTypeID = planTypeID;
-	}
-
-	public Date getPaymentdate() {
+	public LocalDate getPaymentdate() {
 		return paymentdate;
 	}
 
-	public void setPaymentdate(Date paymentdate) {
+	public void setPaymentdate(LocalDate paymentdate) {
 		this.paymentdate = paymentdate;
 	}
 
@@ -98,7 +80,7 @@ public class Payments {
 		this.referenceCode = referenceCode;
 	}
 
-	public Payments(Date paymentdate, String paymenttype, String platform, String referenceCode) {
+	public Payments(LocalDate paymentdate, String paymenttype, String platform, String referenceCode) {
 		super();
 		this.paymentdate = paymentdate;
 		this.paymenttype = paymenttype;
@@ -106,7 +88,7 @@ public class Payments {
 		this.referenceCode = referenceCode;
 	}
 
-	public Payments(Long id, Date paymentdate, String paymenttype, String platform, String referenceCode) {
+	public Payments(Long id, LocalDate paymentdate, String paymenttype, String platform, String referenceCode) {
 		super();
 		this.id = id;
 		this.paymentdate = paymentdate;
@@ -115,6 +97,19 @@ public class Payments {
 		this.referenceCode = referenceCode;
 	}
 
+	public Users getUser() {
+		return user;
+	}
 
+	public void setUser(Users user) {
+		this.user = user;
+	}
 
+	public PlanTypes getPlantype() {
+		return plantype;
+	}
+
+	public void setPlantype(PlanTypes plantype) {
+		this.plantype = plantype;
+	}
 }

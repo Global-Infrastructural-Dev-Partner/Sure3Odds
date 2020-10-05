@@ -1,12 +1,21 @@
 package com.gidp.sure3odds.service.games;
 
-import com.gidp.sure3odds.entity.response.BaseResponse;
+import com.gidp.sure3odds.entity.games.Countries;
 import com.gidp.sure3odds.entity.games.Leagues;
+import com.gidp.sure3odds.entity.games.Teams;
+import com.gidp.sure3odds.entity.response.BaseResponse;
+import com.gidp.sure3odds.repository.games.CountriesRepository;
 import com.gidp.sure3odds.repository.games.LeaguesRepository;
+import com.gidp.sure3odds.repository.games.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +25,35 @@ public class LeaguesService {
 	
 	@Autowired
 	LeaguesRepository leaguesRepository;
+
+	@Autowired
+	CountriesRepository countriesRepository;
+
+	@Autowired
+	TeamsRepository teamsRepository;
+
+	public BaseResponse CreateAllLeagues(List<Leagues> listLeagues) {
+		BaseResponse response = new BaseResponse();
+		ArrayList<Object> saved_countries = new ArrayList<>();
+		try {
+			for (Leagues leagues : listLeagues) {
+				Leagues saved_country = leaguesRepository.save(leagues);
+				saved_countries.add(saved_country);
+			}
+		} catch (Exception e) {
+
+		}
+		if (saved_countries != null) {
+			response.setData(saved_countries);
+			response.setDescription("New Leagues created successfully");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("New Leagues was not created.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+
+	}
 
 
 	public BaseResponse CreateLeague(Leagues leagues) {
@@ -38,11 +76,16 @@ public class LeaguesService {
 		BaseResponse response = new BaseResponse();
 		Optional<Leagues> leagues = leaguesRepository.findById(leagueID);
 		if(leagues.isPresent()) {
+			List<Teams> teams = teamsRepository.findByLeague(leagues.get());
+			if(!teams.isEmpty()){
+				teamsRepository.deleteAll(teams);
+			}
+
 			leaguesRepository.deleteById(leagueID);
 			response.setDescription("League deleted successfully");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		}else {
-			response.setDescription("No League found");
+			response.setDescription("No Leagues found");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
@@ -55,7 +98,7 @@ public class LeaguesService {
 		Leagues updated_league = leaguesRepository.save(leagues);
 		if (updated_league != null) {
 			response.setData(updated_league);
-			response.setDescription("Leagues has been updated succesfully.");
+			response.setDescription("Leagues has been updated successfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
 			response.setDescription("Leagues was not updated.");
@@ -65,60 +108,72 @@ public class LeaguesService {
 	}
 
 
-	public BaseResponse GetAllLeagues() {
+
+	public BaseResponse GetAllLeagues(int pageNo, int pageSize) {
 		BaseResponse response = new BaseResponse();
-		List<Leagues> leagues = leaguesRepository.findAll();
+//		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());
+//		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("country_id").ascending());
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending().and(Sort.by("country_id").descending()));
+//		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name").descending());
+		Page<Leagues> leagues = leaguesRepository.findAll(paging);
 		if (!leagues.isEmpty()) {
 			response.setData(leagues);
-			response.setDescription("League found succesfully.");
+			response.setDescription("Leagues found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
 
 	}
 
-	public BaseResponse GetLeagueByID(Long id) {
-		BaseResponse response = new BaseResponse();
-		Optional<Leagues> leagues = leaguesRepository.findById(id);
-		if (leagues.isPresent()) {
-			response.setData(leagues);
-			response.setDescription("League found succesfully.");
-			response.setStatusCode(HttpServletResponse.SC_OK);
-		} else {
-			response.setDescription("No result found.");
-			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-		}
-		return response;
 
-	}
 
 	public BaseResponse GetLeagueByCountryID(Long countryid) {
 		BaseResponse response = new BaseResponse();
-		List<Leagues> leagues = leaguesRepository.findLeaguesByCountryID(countryid);
+		Countries countries = countriesRepository.findById(countryid).get();
+		Sort sortOrder = Sort.by("name").ascending();
+		List<Leagues> leagues = leaguesRepository.findByCountryOrderByName(countries, sortOrder);
 		if (!leagues.isEmpty()) {
 			response.setData(leagues);
-			response.setDescription("League found succesfully.");
+			response.setDescription("Leagues found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;
 
 	}
 
-	public BaseResponse SearchLeaguesByName(String name) {
+	public BaseResponse SearchLeagueByCountryIDAndName(Long countryId, String countryName) {
 		BaseResponse response = new BaseResponse();
-		List<Leagues> leagues = leaguesRepository.findLeaguesByNameContainingOrderByName(name);
+		Countries countries = countriesRepository.findById(countryId).get();
+		Sort sortOrder = Sort.by("name").ascending();
+		List<Leagues> leagues = leaguesRepository.findByNameContainingAndCountryOrderByName(countryName, countries, sortOrder);
+		if (!leagues.isEmpty()) {
+			response.setData(leagues);
+			response.setDescription("Leagues found succesfully.");
+			response.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			response.setDescription("No results found.");
+			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		return response;
+
+	}
+
+	public BaseResponse SearchLeaguesByName(String name, int pageNo, int pageSize) {
+		BaseResponse response = new BaseResponse();
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name"));
+		Page<Leagues> leagues = leaguesRepository.findLeaguesByNameContainingOrderByName(name, paging);
 		if (!leagues.isEmpty()) {
 			response.setData(leagues);
 			response.setDescription("Teams found succesfully.");
 			response.setStatusCode(HttpServletResponse.SC_OK);
 		} else {
-			response.setDescription("No result found.");
+			response.setDescription("No results found.");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
 		return response;

@@ -3,19 +3,8 @@ package com.gidp.sure3odds.entity.payments;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gidp.sure3odds.entity.users.Users;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "sure_plans")
@@ -28,18 +17,16 @@ public class Plans {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name ="userid")
-	private Users userID;
+	private Users user;
 
 	@ManyToOne
-	@JoinColumn(name ="plantypeid")
-	private PlanTypes planTypeID;
+	private PlanTypes plantype;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
-	private Date startDate;
+	private LocalDate startDate;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
-	private Date endDate;
+	private LocalDate endDate;
 
 	/**
 	 *
@@ -62,73 +49,56 @@ public class Plans {
 		this.id = id;
 	}
 
-	/**
-	 * @return the userID
-	 */
-	public Users getUserID() {
-		return userID;
+	public Users getUser() {
+		return user;
 	}
 
-	/**
-	 * @param userID the userID to set
-	 */
-	public void setUserID(Users userID) {
-		this.userID = userID;
+	public void setUser(Users user) {
+		this.user = user;
 	}
 
-	/**
-	 * @return the planTypeID
-	 */
-	public PlanTypes getPlanTypeID() {
-		return planTypeID;
+	public PlanTypes getPlantype() {
+		return plantype;
 	}
 
-	/**
-	 * @param planTypeID the planTypeID to set
-	 */
-	public void setPlanTypeID(PlanTypes planTypeID) {
-		this.planTypeID = planTypeID;
+	public void setPlantype(PlanTypes plantype) {
+		this.plantype = plantype;
 	}
 
 	/**
 	 * @return the startDate
 	 */
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
 	/**
 	 * @param startDate the startDate to set
 	 */
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
 	/**
 	 * @return the endDate
 	 */
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
 	/**
 	 * @param endDate the endDate to set
 	 */
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
-	@Override
-	public String toString() {
-		return "Plans [id=" + id + ", userID=" + userID + ", planTypeID=" + planTypeID + ", startDate=" + startDate
-				+ ", endDate=" + endDate + "]";
-	}
 
 	/**
 	 * @param startDate
 	 * @param endDate
 	 */
-	public Plans(Date startDate, Date endDate) {
+	public Plans(LocalDate startDate, LocalDate endDate) {
 		super();
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -139,7 +109,7 @@ public class Plans {
 	 * @param startDate
 	 * @param endDate
 	 */
-	public Plans(Long id, Date startDate, Date endDate) {
+	public Plans(Long id, LocalDate startDate, LocalDate endDate) {
 		super();
 		this.id = id;
 		this.startDate = startDate;

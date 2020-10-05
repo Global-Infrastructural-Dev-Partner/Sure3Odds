@@ -1,8 +1,10 @@
 package com.gidp.sure3odds.service.games;
 
+import com.gidp.sure3odds.entity.games.Games;
 import com.gidp.sure3odds.entity.games.Votes;
 import com.gidp.sure3odds.entity.response.BaseResponse;
 import com.gidp.sure3odds.entity.users.Users;
+import com.gidp.sure3odds.repository.games.GamesRepository;
 import com.gidp.sure3odds.repository.games.VotesRepository;
 import com.gidp.sure3odds.repository.users.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class VotesService {
     @Autowired
     UsersRepository usersRepository;
 
+    @Autowired
+    GamesRepository gamesRepository;
+
     /**
      * @param votes
      * @return
@@ -29,7 +34,7 @@ public class VotesService {
     public BaseResponse CreateVotes(Votes votes, long userid) {
         BaseResponse response = new BaseResponse();
         Optional<Users> user = usersRepository.findById(userid);
-        votes.setUserID(user.get());
+        votes.setUser(user.get());
         Votes saved_votes = votesRepository.save(votes);
         if (saved_votes != null) {
             response.setData(saved_votes);
@@ -51,25 +56,20 @@ public class VotesService {
         BaseResponse response = new BaseResponse();
         HashMap<String, Object> Votes = new HashMap<>();
 
-        Optional<Votes> UserVote = votesRepository.findByGameIDAndUserID(gameID, userID);
-        if(UserVote.isPresent()){
-            Votes.put("UserVote", UserVote);
-        }
+        Games games = gamesRepository.findById(gameID).get();
+        Users users = usersRepository.findById(userID).get();
 
-        List<Votes> AwayVotes = votesRepository.findVotesByAwayVoteAndGameID(1l, gameID);
-        if(!AwayVotes.isEmpty()){
-            Votes.put("AwayVotes", AwayVotes.size());
-        }
+        Optional<Votes> UserVote = votesRepository.findByGameAndUser(games, users);
+        Votes.put("UserVote", UserVote);
 
-        List<Votes> HomeVotes = votesRepository.findVotesByHomeVoteAndGameID(1l, gameID);
-        if(!HomeVotes.isEmpty()){
-            Votes.put("HomeVotes", HomeVotes.size());
-        }
+        List<Votes> AwayVotes = votesRepository.findVotesByAwayVoteAndGame(1l, games);
+        Votes.put("AwayVotes", AwayVotes.size());
 
-        List<Votes> DrawVotes = votesRepository.findVotesByDrawVoteAndGameID(1l, gameID);
-        if(!DrawVotes.isEmpty()){
-            Votes.put("DrawVotes", DrawVotes.size());
-        }
+        List<Votes> HomeVotes = votesRepository.findVotesByHomeVoteAndGame(1l, games);
+        Votes.put("HomeVotes", HomeVotes.size());
+
+        List<Votes> DrawVotes = votesRepository.findVotesByDrawVoteAndGame(1l, games);
+        Votes.put("DrawVotes", DrawVotes.size());
 
 
         if (!Votes.isEmpty()) {

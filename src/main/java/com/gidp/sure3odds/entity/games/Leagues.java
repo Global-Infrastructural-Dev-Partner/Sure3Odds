@@ -14,11 +14,11 @@ public class Leagues {
 
 	private String name;
 
+	@Lob
 	private String imageurl;
 
 	@ManyToOne
-	@JoinColumn(name ="countryid")
-	private Countries countryID;
+	private Countries country;
 
 	/**
 	 *
@@ -49,12 +49,12 @@ public class Leagues {
 		this.name = name;
 	}
 
-	public Countries getCountryID() {
-		return countryID;
+	public Countries getCountry() {
+		return country;
 	}
 
-	public void setCountryID(Countries countryID) {
-		this.countryID = countryID;
+	public void setCountry(Countries country) {
+		this.country = country;
 	}
 
 	public String getImageurl() {

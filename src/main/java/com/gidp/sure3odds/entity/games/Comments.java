@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gidp.sure3odds.entity.users.Users;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -20,18 +21,16 @@ public class Comments {
 	private String comments;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
-	private Date date;
+	private LocalDate date;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING,  pattern="HH:mm:ss", timezone = "Africa/Lagos")
+	@JsonFormat(shape = JsonFormat.Shape.STRING,  pattern="HH:mm", timezone = "Africa/Lagos")
 	private Date time;
 
 	@ManyToOne
-	@JoinColumn(name ="userid")
-	private Users userID;
+	private Users user;
 
 	@ManyToOne
-	@JoinColumn(name ="gameid")
-	private Games gameID;
+	private Games game;
 
 	/**
 	 * @return the id
@@ -64,14 +63,14 @@ public class Comments {
 	/**
 	 * @return the date
 	 */
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
 	/**
 	 * @param date the date to set
 	 */
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
@@ -89,38 +88,20 @@ public class Comments {
 		this.time = time;
 	}
 
-	/**
-	 * @return the userID
-	 */
-	public Users getUserID() {
-		return userID;
+	public Users getUser() {
+		return user;
 	}
 
-	/**
-	 * @param userID the userID to set
-	 */
-	public void setUserID(Users userID) {
-		this.userID = userID;
+	public void setUser(Users user) {
+		this.user = user;
 	}
 
-	/**
-	 * @return the gameID
-	 */
-	public Games getGameID() {
-		return gameID;
+	public Games getGame() {
+		return game;
 	}
 
-	/**
-	 * @param gameID the gameID to set
-	 */
-	public void setGameID(Games gameID) {
-		this.gameID = gameID;
-	}
-
-	@Override
-	public String toString() {
-		return "Comments [id=" + id + ", comments=" + comments + ", date=" + date + ", time=" + time + ", userID="
-				+ userID + ", gameID=" + gameID + "]";
+	public void setGame(Games game) {
+		this.game = game;
 	}
 
 	/**
@@ -136,7 +117,7 @@ public class Comments {
 	 * @param date
 	 * @param time
 	 */
-	public Comments(Long id, String comments, Date date, Date time) {
+	public Comments(Long id, String comments, LocalDate date, Date time) {
 		super();
 		this.id = id;
 		this.comments = comments;
@@ -149,7 +130,7 @@ public class Comments {
 	 * @param date
 	 * @param time
 	 */
-	public Comments(String comments, Date date, Date time) {
+	public Comments(String comments, LocalDate date, Date time) {
 		super();
 		this.comments = comments;
 		this.date = date;

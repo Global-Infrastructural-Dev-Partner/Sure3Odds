@@ -15,12 +15,10 @@ public class Votes {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name ="gameid")
-	private Games gameID;
+	private Games game;
 
 	@ManyToOne
-	@JoinColumn(name ="userid")
-	private Users userID;
+	private Users user;
 
 	private long userVote;
 
@@ -50,22 +48,6 @@ public class Votes {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Games getGameID() {
-		return gameID;
-	}
-
-	public void setGameID(Games gameID) {
-		this.gameID = gameID;
-	}
-
-	public Users getUserID() {
-		return userID;
-	}
-
-	public void setUserID(Users userID) {
-		this.userID = userID;
 	}
 
 	public long getUserVote() {
@@ -100,16 +82,19 @@ public class Votes {
 		this.drawVote = drawVote;
 	}
 
-	@Override
-	public String toString() {
-		return "Votes{" +
-				"id=" + id +
-				", gameID=" + gameID +
-				", userID=" + userID +
-				", userVote=" + userVote +
-				", homeVote=" + homeVote +
-				", awayVote=" + awayVote +
-				", drawVote=" + drawVote +
-				'}';
+	public Games getGame() {
+		return game;
+	}
+
+	public void setGame(Games game) {
+		this.game = game;
+	}
+
+	public Users getUser() {
+		return user;
+	}
+
+	public void setUser(Users user) {
+		this.user = user;
 	}
 }

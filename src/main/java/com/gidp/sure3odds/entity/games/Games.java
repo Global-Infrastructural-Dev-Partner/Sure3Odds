@@ -3,268 +3,189 @@ package com.gidp.sure3odds.entity.games;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Table(name = "sure_games")
 public class Games {
 
-	@Id
-	@Column(name = "id", nullable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_games_seq")
-	@SequenceGenerator(name = "sure_games_seq", sequenceName = "sure_games_seq", initialValue = 1, allocationSize = 1)
-	private Long id;
+    @Id
+    @Column(name = "id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sure_games_seq")
+    @SequenceGenerator(name = "sure_games_seq", sequenceName = "sure_games_seq", initialValue = 1, allocationSize = 1)
+    private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "countryid")
-	private Countries countryID;
+    @ManyToOne
+    private Countries country;
 
-	@ManyToOne
-	@JoinColumn(name ="leagueid")
-	private Leagues leagueID;
+    @ManyToOne
+    private Leagues league;
 
-	@ManyToOne
-	@JoinColumn(name ="hometeamid")
-	private Teams homeTeamID;
+    @ManyToOne
+    private Teams hometeam;
 
-	@ManyToOne
-	@JoinColumn(name ="awayteamid")
-	private Teams awayTeamID;
+    @ManyToOne
+    private Teams awayteam;
 
-	@ManyToOne
-	@JoinColumn(name ="setid")
-	private Sets setID;
+    @ManyToOne
+    private Sets sets;
 
-	private int homeTeamScore;
+    private int hometeamscore;
 
-	private int awayTeamScore;
+    private int awayteamscore;
 
-	@ManyToOne
-	@JoinColumn(name ="selectionid")
-	private Selections selectionID;
+    @ManyToOne
+    private Selections selections;
 
-	private double odds;
+    private double odds;
+    @ManyToOne
+    private Status status;
 
-	private int confidenceLevel;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
+    private LocalDate matchdate;
 
-	private String status;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Africa/Lagos")
+    private Date matchtime;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Africa/Lagos")
-	private Date matchDate;
+    /**
+     *
+     */
+    public Games() {
+        super();
+    }
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING,  pattern="HH:mm:ss", timezone = "Africa/Lagos")
-	private Date matchTime;
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
 
-	/**
-	 *
-	 */
-	public Games() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	/**
-	 * @return the id
-	 */
-	public Long getId() {
-		return id;
-	}
+    public int getHometeamscore() {
+        return hometeamscore;
+    }
 
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setHometeamscore(int hometeamscore) {
+        this.hometeamscore = hometeamscore;
+    }
 
-	/**
-	 * @return the leagueID
-	 */
-	public Leagues getLeagueID() {
-		return leagueID;
-	}
+    public int getAwayteamscore() {
+        return awayteamscore;
+    }
 
-	/**
-	 * @param leagueID the leagueID to set
-	 */
-	public void setLeagueID(Leagues leagueID) {
-		this.leagueID = leagueID;
-	}
+    public void setAwayteamscore(int awayteamscore) {
+        this.awayteamscore = awayteamscore;
+    }
 
-	/**
-	 * @return the homeTeamID
-	 */
-	public Teams getHomeTeamID() {
-		return homeTeamID;
-	}
+    /**
+     * @return the odds
+     */
+    public double getOdds() {
+        return odds;
+    }
 
-	/**
-	 * @param homeTeamID the homeTeamID to set
-	 */
-	public void setHomeTeamID(Teams homeTeamID) {
-		this.homeTeamID = homeTeamID;
-	}
+    /**
+     * @param odds the odds to set
+     */
+    public void setOdds(double odds) {
+        this.odds = odds;
+    }
 
-	/**
-	 * @return the awayTeamID
-	 */
-	public Teams getAwayTeamID() {
-		return awayTeamID;
-	}
+    public LocalDate getMatchdate() {
+        return matchdate;
+    }
 
-	/**
-	 * @param awayTeamID the awayTeamID to set
-	 */
-	public void setAwayTeamID(Teams awayTeamID) {
-		this.awayTeamID = awayTeamID;
-	}
+    public void setMatchdate(LocalDate matchdate) {
+        this.matchdate = matchdate;
+    }
 
-	/**
-	 * @return the setID
-	 */
-	public Sets getSetID() {
-		return setID;
-	}
+    public Date getMatchtime() {
+        return matchtime;
+    }
 
-	/**
-	 * @param setID the setID to set
-	 */
-	public void setSetID(Sets setID) {
-		this.setID = setID;
-	}
+    public void setMatchtime(Date matchtime) {
+        this.matchtime = matchtime;
+    }
 
-	/**
-	 * @return the homeTeamScore
-	 */
-	public int getHomeTeamScore() {
-		return homeTeamScore;
-	}
+    public Games(int hometeamscore, int awayteamscore, double odds, LocalDate matchdate, Date matchtime) {
+        this.hometeamscore = hometeamscore;
+        this.awayteamscore = awayteamscore;
+        this.odds = odds;
+        this.matchdate = matchdate;
+        this.matchtime = matchtime;
+    }
 
-	/**
-	 * @param homeTeamScore the homeTeamScore to set
-	 */
-	public void setHomeTeamScore(int homeTeamScore) {
-		this.homeTeamScore = homeTeamScore;
-	}
 
-	/**
-	 * @return the awayTeamScore
-	 */
-	public int getAwayTeamScore() {
-		return awayTeamScore;
-	}
+    public Games(Long id, int hometeamscore, int awayteamscore, double odds, LocalDate matchdate, Date matchtime) {
+        this.id = id;
+        this.hometeamscore = hometeamscore;
+        this.awayteamscore = awayteamscore;
+        this.odds = odds;
+        this.matchdate = matchdate;
+        this.matchtime = matchtime;
+    }
 
-	/**
-	 * @param awayTeamScore the awayTeamScore to set
-	 */
-	public void setAwayTeamScore(int awayTeamScore) {
-		this.awayTeamScore = awayTeamScore;
-	}
+    public Countries getCountry() {
+        return country;
+    }
 
-	/**
-	 * @return the odds
-	 */
-	public double getOdds() {
-		return odds;
-	}
+    public void setCountry(Countries country) {
+        this.country = country;
+    }
 
-	/**
-	 * @param odds the odds to set
-	 */
-	public void setOdds(double odds) {
-		this.odds = odds;
-	}
+    public Leagues getLeague() {
+        return league;
+    }
 
-	/**
-	 * @return the confidenceLevel
-	 */
-	public int getConfidenceLevel() {
-		return confidenceLevel;
-	}
+    public void setLeague(Leagues league) {
+        this.league = league;
+    }
 
-	/**
-	 * @param confidenceLevel the confidenceLevel to set
-	 */
-	public void setConfidenceLevel(int confidenceLevel) {
-		this.confidenceLevel = confidenceLevel;
-	}
+    public Teams getHometeam() {
+        return hometeam;
+    }
 
-	/**
-	 * @return the status
-	 */
-	public String getStatus() {
-		return status;
-	}
+    public void setHometeam(Teams hometeam) {
+        this.hometeam = hometeam;
+    }
 
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public Teams getAwayteam() {
+        return awayteam;
+    }
 
-	/**
-	 * @return the matchDate
-	 */
-	public Date getMatchDate() {
-		return matchDate;
-	}
+    public void setAwayteam(Teams awayteam) {
+        this.awayteam = awayteam;
+    }
 
-	/**
-	 * @param matchDate the matchDate to set
-	 */
-	public void setMatchDate(Date matchDate) {
-		this.matchDate = matchDate;
-	}
+    public Sets getSets() {
+        return sets;
+    }
 
-	/**
-	 * @return the matchTime
-	 */
-	public Date getMatchTime() {
-		return matchTime;
-	}
+    public void setSets(Sets sets) {
+        this.sets = sets;
+    }
 
-	/**
-	 * @param matchTime the matchTime to set
-	 */
-	public void setMatchTime(Date matchTime) {
-		this.matchTime = matchTime;
-	}
+    public Selections getSelections() {
+        return selections;
+    }
 
-	public Games(int homeTeamScore, int awayTeamScore, double odds, int confidenceLevel, String status, Date matchDate, Date matchTime) {
-		this.homeTeamScore = homeTeamScore;
-		this.awayTeamScore = awayTeamScore;
-		this.odds = odds;
-		this.confidenceLevel = confidenceLevel;
-		this.status = status;
-		this.matchDate = matchDate;
-		this.matchTime = matchTime;
-	}
+    public void setSelections(Selections selections) {
+        this.selections = selections;
+    }
 
-	public Countries getCountryID() {
-		return countryID;
-	}
+    public Status getStatus() {
+        return status;
+    }
 
-	public void setCountryID(Countries countryID) {
-		this.countryID = countryID;
-	}
-
-	public Games(Long id, int homeTeamScore, int awayTeamScore, double odds, int confidenceLevel, String status, Date matchDate, Date matchTime) {
-		this.id = id;
-		this.homeTeamScore = homeTeamScore;
-		this.awayTeamScore = awayTeamScore;
-		this.odds = odds;
-		this.confidenceLevel = confidenceLevel;
-		this.status = status;
-		this.matchDate = matchDate;
-		this.matchTime = matchTime;
-	}
-
-	public Selections getSelectionID() {
-		return selectionID;
-	}
-
-	public void setSelectionID(Selections selectionID) {
-		this.selectionID = selectionID;
-	}
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }

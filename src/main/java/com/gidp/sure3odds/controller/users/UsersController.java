@@ -1,12 +1,10 @@
 package com.gidp.sure3odds.controller.users;
 
 import com.gidp.sure3odds.entity.response.BaseResponse;
-import com.gidp.sure3odds.entity.users.MemberAdvisers;
 import com.gidp.sure3odds.entity.users.NewUser;
 import com.gidp.sure3odds.entity.users.UserTypes;
 import com.gidp.sure3odds.entity.users.Users;
 import com.gidp.sure3odds.service.users.AuthenticationService;
-import com.gidp.sure3odds.service.users.MemberAdvisersService;
 import com.gidp.sure3odds.service.users.UserTypesService;
 import com.gidp.sure3odds.service.users.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.LocalDate;
 
 @RequestMapping("/sure3odds")
 @RestController
@@ -28,11 +26,11 @@ public class UsersController {
     @Autowired
     UserTypesService userTypesService;
 
-    @Autowired
-    MemberAdvisersService memberAdvisersService;
 
     @Autowired
     AuthenticationService authenticationService;
+
+
 
     @PostMapping(value = "/users/usertype/create")
     ResponseEntity<?> createUserTypes(@RequestBody UserTypes userType) {
@@ -54,7 +52,7 @@ public class UsersController {
         }
     }
 
-    @DeleteMapping(value = "users/usertype/delete/{id}")
+    @DeleteMapping(value = "/users/usertype/delete/{id}")
     ResponseEntity<?> deleteUserType(@PathVariable Long id) {
         BaseResponse response = userTypesService.DeleteUserType(id);
         if (response.getStatusCode() == 200) {
@@ -64,9 +62,9 @@ public class UsersController {
         }
     }
 
-    @GetMapping(value = "/users/get_by_usertypeid/{id}")
-    ResponseEntity<?> getUsersByUserTypeID(@RequestParam Long id) {
-        BaseResponse response = usersService.GetUsersByUserTypID(id);
+    @GetMapping(value = "/users/user/type/get")
+    ResponseEntity<?> getUsersByUserTypeID(@RequestParam Long usertypeId, @RequestParam int pageNo, @RequestParam int pageSize) {
+        BaseResponse response = usersService.GetUsersByUserTypID(usertypeId, pageNo, pageSize);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -74,9 +72,29 @@ public class UsersController {
         }
     }
 
-    @GetMapping(value = "/users/user/get_by_userid")
+    @GetMapping(value = "/users/user/type/search")
+    ResponseEntity<?> searchUsersByUserTypeID(@RequestParam String searchValue, @RequestParam long usertypeId, @RequestParam int pageNo, @RequestParam int pageSize) {
+        BaseResponse response = usersService.SearchUsersByUserTypID(usertypeId, searchValue, pageNo, pageSize);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/users/user/get")
     ResponseEntity<?> getUserDetails(@RequestAttribute("UserID") Long UserID) {
         BaseResponse response = usersService.GetUserDetailsByID(UserID);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/users/user/find/{id}")
+    ResponseEntity<?> findUserDetails(@PathVariable long id) {
+        BaseResponse response = usersService.GetUserDetailsByID(id);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -94,9 +112,9 @@ public class UsersController {
         }
     }
 
-    @GetMapping(value = "users/user/search")
-    ResponseEntity<?> searchUser(@RequestParam String searchvalue, @RequestParam Long usertypeid) {
-        BaseResponse response = usersService.searchByFirstNameOrLastName(usertypeid, searchvalue);
+    @PostMapping(value = "/users/member/create")
+    ResponseEntity<?> createMember(@RequestBody NewUser user) throws IOException {
+        BaseResponse response = usersService.CreateNewUser(user);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -104,10 +122,9 @@ public class UsersController {
         }
     }
 
-
-    @PostMapping(value = "/users/members/create")
-    ResponseEntity<?> createMember(@RequestBody NewUser user) throws IOException {
-        BaseResponse response = usersService.CreateNewUser(user);
+    @DeleteMapping(value = "/users/member/delete/{id}")
+    ResponseEntity<?> deleteMember(@PathVariable Long id) {
+        BaseResponse response = usersService.DeleteMember(id);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -122,9 +139,18 @@ public class UsersController {
     }
 
 
-    @PostMapping(value = "users/advisers/create")
-    ResponseEntity<?> createAdviser(@RequestBody Users user) {
-        BaseResponse response = usersService.CreateAdviser(user);
+    @PostMapping(value = "/users/subadmin/create")
+    ResponseEntity<?> CreateSubAdmin(@RequestBody Users user) {
+        BaseResponse response = usersService.CreateSubAdmin(user);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+    @DeleteMapping(value = "/users/subadmin/delete/{id}")
+    ResponseEntity<?> deleteSubAdmin(@PathVariable Long id) {
+        BaseResponse response = usersService.DeleteSubAdmin(id);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -132,9 +158,9 @@ public class UsersController {
         }
     }
 
-    @PostMapping(value = "/users/member_advisers/assign")
-    ResponseEntity<?> assignMemberAdviser(@RequestBody MemberAdvisers memberAdvisers) {
-        BaseResponse response = memberAdvisersService.AssignMemberAdviser(memberAdvisers);
+    @PostMapping(value = "/users/user/forgot_password")
+    ResponseEntity<?> ForgotPassword(@RequestParam String Email, @RequestParam String Phone, @RequestParam String NewPassword) {
+        BaseResponse response = null;
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -142,80 +168,30 @@ public class UsersController {
         }
     }
 
-    @DeleteMapping(value = "/users/member_advisers/delete/{id}")
-    ResponseEntity<?> deleteMemberAdviser(@PathVariable Long id) {
-        BaseResponse response = memberAdvisersService.DeleteMemberAdviser(id);
+
+    @GetMapping(value = "/users/report/general/get")
+    ResponseEntity<?> getAppReports() {
+        BaseResponse response = usersService.GetAppReports();
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
-
-    @PutMapping(value = "/users/member_advisers/update")
-    ResponseEntity<?> updateMemberAdviser(@RequestBody MemberAdvisers memberAdvisers) {
-        BaseResponse response = memberAdvisersService.UpdateMemberAdviser(memberAdvisers);
-        if (response.getStatusCode() == 200) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @GetMapping(value = "/users/members/adviserdetails_by_memeruserid")
-    ResponseEntity<?> getAdviserDetailsByMemberUserID(@RequestAttribute("UserID") Long UserID) {
-        BaseResponse response = memberAdvisersService.GetAdviserDetailsByMemberID(UserID);
-        if (response.getStatusCode() == 200) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @GetMapping(value = "/users/advisers/members/getall")
-    ResponseEntity<?> getMembersByAdviserUserID(@RequestAttribute("UserID") Long UserID) {
-        BaseResponse response = memberAdvisersService.GetMembersByAdviserUserID(UserID);
-        if (response.getStatusCode() == 200) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }
-	@PostMapping(value = "/users/user/forgot_password")
-	ResponseEntity<?> ForgotPassword(@RequestParam String Email, @RequestParam String Phone, @RequestParam String NewPassword) {
-		BaseResponse response = null;
-		if (response.getStatusCode() == 200) {
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-		}
-	}
-
-
-	@GetMapping(value = "users/app/get_app_reports")
-	ResponseEntity<?> getAppReports() {
-		BaseResponse response = usersService.GetAppReports();
-		if (response.getStatusCode() == 200) {
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-		}
-	}
 
     /**
      * @param selectedDate
      * @return
      */
-	@GetMapping(value = "users/app/get_monthly_reports")
-	ResponseEntity<?> getMonthlyReports(@RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) Date selectedDate) {
-		BaseResponse response = usersService.GetMonthlyReports(selectedDate);
-		if (response.getStatusCode() == 200) {
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-		}
-	}
-//
+    @GetMapping(value = "/users/report/monthly/get")
+    ResponseEntity<?> getMonthlyReports(@RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) LocalDate selectedDate) {
+        BaseResponse response = usersService.GetMonthlyReports(selectedDate);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
 
 
 }

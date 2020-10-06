@@ -132,8 +132,8 @@ public class UsersController {
         }
     }
 
-    @PostMapping(value = "/users/member/authenticate")
-    ResponseEntity<?> authenticate(@RequestParam String email, @RequestParam String password) {
+    @GetMapping(value = "/users/member/authenticateuser")
+    ResponseEntity<?> authenticateUser(@RequestParam() String email, @RequestParam() String password) {
         BaseResponse response = authenticationService.userLogin(email, password);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

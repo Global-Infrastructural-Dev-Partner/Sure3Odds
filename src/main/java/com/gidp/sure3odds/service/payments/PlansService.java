@@ -120,7 +120,7 @@ public class PlansService {
 
 	public BaseResponse GetAllPlans(int pageNo, int pageSize) {
 		BaseResponse response = new BaseResponse();
-		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("id").descending());
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("startDate").descending());
 		Page<Plans> plans = plansRepository.findAll(paging);
 		if (!plans.isEmpty()) {
 			response.setData(plans);

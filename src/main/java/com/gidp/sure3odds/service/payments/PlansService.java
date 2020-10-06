@@ -114,14 +114,13 @@ public class PlansService {
 			response.setDescription("Please, no records found for the selected User");
 			response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 		}
-
 		return response;
 
 	}
 
 	public BaseResponse GetAllPlans(int pageNo, int pageSize) {
 		BaseResponse response = new BaseResponse();
-		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("id").ascending());
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("id").descending());
 		Page<Plans> plans = plansRepository.findAll(paging);
 		if (!plans.isEmpty()) {
 			response.setData(plans);

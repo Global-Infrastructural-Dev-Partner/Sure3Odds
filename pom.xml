@@ -39,7 +39,9 @@
             <properties>
                 <activatedProperties>staging</activatedProperties>
             </properties>
-
+             <activation>
+                 <activeByDefault>true</activeByDefault>
+             </activation>
         </profile>
 
         <profile>

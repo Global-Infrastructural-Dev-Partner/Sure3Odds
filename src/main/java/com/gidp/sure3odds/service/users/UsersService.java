@@ -24,9 +24,10 @@ import com.gidp.sure3odds.repository.users.ParametersRepository;
 import com.gidp.sure3odds.repository.users.UserTypesRepository;
 import com.gidp.sure3odds.repository.users.UsersRepository;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,8 @@ import java.util.Optional;
 
 @Service
 public class UsersService {
-    CloseableHttpClient httpClient = HttpClients.createDefault();
-
+    HttpClient httpClient = HttpClients.createDefault();
+    HttpClient client = HttpClients.createDefault();
     @Autowired
     UsersRepository usersRepository;
 
@@ -160,7 +161,7 @@ public class UsersService {
                 response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
             }
         } else {
-            response.setDescription("Payment validation was not successful. ");
+            response.setDescription("Payment validation was not successful.Please, send proof of payment to Sure3Odds Support on 08188888320 / send an email to support@sure3odds.com");
             response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
         }
         return response;
@@ -254,24 +255,23 @@ public class UsersService {
             newRequest.addHeader("Content-type", "application/json");
             newRequest.addHeader("Authorization", "Bearer " + SecretKey);
             newRequest.addHeader("Cache-Control", "no-cache");
-            CloseableHttpResponse response = httpClient.execute(newRequest);
+            HttpResponse response = this.client.execute((HttpUriRequest) newRequest);
             try {
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     // return it as a String
                     String responseBody = EntityUtils.toString(entity);
-                    System.out.println(responseBody);
-                    if (response.getStatusLine().getReasonPhrase().toString() == "OK") {
+                    if (response.getStatusLine().getStatusCode() == 200) {
                         return result = "success";
+                    }else{
+                        return result = "failed";
                     }
                 }
-            } finally {
-                response.close();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            httpClient.close();
+            System.out.println(e.getMessage());//RuntimeException(e);
         }
         return result;
     }
@@ -626,5 +626,21 @@ public class UsersService {
         return response;
     }
 
+    public BaseResponse GetAppVersion() {
+        BaseResponse response = new BaseResponse();
+        HashMap<String, String> result = new HashMap<String, String>();
+        result.put("android", "1.0.0");
+        result.put("ios", "1.0.0");
+        if (result != null) {
+            response.setData(result);
+            response.setDescription("server version found successfully.");
+            response.setStatusCode(HttpServletResponse.SC_OK);
+        } else {
+            response.setDescription("No results found.");
+            response.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        return response;
+
+    }
 
 }

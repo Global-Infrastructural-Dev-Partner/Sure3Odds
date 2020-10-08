@@ -24,7 +24,6 @@
             <properties>
                 <activatedProperties>development</activatedProperties>
             </properties>
-
         </profile>
         <profile>
             <id>testing</id>

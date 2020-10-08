@@ -179,10 +179,7 @@ public class UsersController {
         }
     }
 
-    /**
-     * @param selectedDate
-     * @return
-     */
+
     @GetMapping(value = "/users/report/monthly/get")
     ResponseEntity<?> getMonthlyReports(@RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) LocalDate selectedDate) {
         BaseResponse response = usersService.GetMonthlyReports(selectedDate);
@@ -193,5 +190,13 @@ public class UsersController {
         }
     }
 
-
+    @GetMapping(value = "/users/app/getversion")
+    ResponseEntity<?> getAppVersion() {
+        BaseResponse response = usersService.GetAppVersion();
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
 }

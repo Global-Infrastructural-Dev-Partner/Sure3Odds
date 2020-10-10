@@ -72,6 +72,7 @@ public class UsersController {
         }
     }
 
+    
     @GetMapping(value = "/users/user/type/search")
     ResponseEntity<?> searchUsersByUserTypeID(@RequestParam String searchValue, @RequestParam long usertypeId, @RequestParam int pageNo, @RequestParam int pageSize) {
         BaseResponse response = usersService.SearchUsersByUserTypID(usertypeId, searchValue, pageNo, pageSize);

@@ -133,6 +133,7 @@ public class UsersController {
         }
     }
 
+
     @DeleteMapping(value = "/users/member/delete/{id}")
     ResponseEntity<?> deleteMember(@PathVariable Long id) {
         BaseResponse response = usersService.DeleteMember(id);

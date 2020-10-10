@@ -122,6 +122,16 @@ public class UsersController {
         }
     }
 
+    @PostMapping(value = "/users/member/add")
+    ResponseEntity<?> addMember(@RequestBody NewUser user) throws IOException {
+        BaseResponse response = usersService.CreateNewUser(user);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping(value = "/users/member/delete/{id}")
     ResponseEntity<?> deleteMember(@PathVariable Long id) {
         BaseResponse response = usersService.DeleteMember(id);

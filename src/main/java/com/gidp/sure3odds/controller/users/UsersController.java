@@ -72,6 +72,7 @@ public class UsersController {
         }
     }
 
+    
     @GetMapping(value = "/users/user/type/search")
     ResponseEntity<?> searchUsersByUserTypeID(@RequestParam String searchValue, @RequestParam long usertypeId, @RequestParam int pageNo, @RequestParam int pageSize) {
         BaseResponse response = usersService.SearchUsersByUserTypID(usertypeId, searchValue, pageNo, pageSize);
@@ -114,6 +115,16 @@ public class UsersController {
 
     @PostMapping(value = "/users/member/create")
     ResponseEntity<?> createMember(@RequestBody NewUser user) throws IOException {
+        BaseResponse response = usersService.CreateNewUser(user);
+        if (response.getStatusCode() == 200) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value = "/users/member/add")
+    ResponseEntity<?> addMember(@RequestBody NewUser user) throws IOException {
         BaseResponse response = usersService.CreateNewUser(user);
         if (response.getStatusCode() == 200) {
             return new ResponseEntity<>(response, HttpStatus.OK);

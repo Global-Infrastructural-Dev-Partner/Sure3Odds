@@ -24,4 +24,6 @@ public interface PaymentsRepository extends JpaRepository<Payments, Long> {
 
 	Page<Payments> findByPaymenttypeContainingOrPlatformContainingOrderByPaymentdate(String searchvalue, String searchValue, Pageable pageable);
 
+	List<Payments> findByUser(Users users);
+
 }

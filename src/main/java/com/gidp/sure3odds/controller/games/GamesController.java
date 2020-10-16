@@ -428,7 +428,7 @@ public class GamesController {
         }
     }
 
-    @GetMapping(value = "/games/prediction/get")
+        @GetMapping(value = "/games/prediction/get")
     ResponseEntity<?> getAllPredictionByDate(@RequestAttribute("UserID") Long UserID, @RequestParam() @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) LocalDate matchDate) {
         BaseResponse response = predictionsService.GetPredictionByDateAndUserID(matchDate, UserID);
         if (response.getStatusCode() == 200) {

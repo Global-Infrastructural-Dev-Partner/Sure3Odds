@@ -30,8 +30,6 @@ public class UsersController {
     @Autowired
     AuthenticationService authenticationService;
 
-
-
     @PostMapping(value = "/users/usertype/create")
     ResponseEntity<?> createUserTypes(@RequestBody UserTypes userType) {
         BaseResponse response = userTypesService.CreateUserType(userType);

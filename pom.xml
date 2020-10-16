@@ -18,7 +18,6 @@
         <java.version>1.8</java.version>
     </properties>
     <profiles>
-
         <profile>
             <id>development</id>
             <properties>
@@ -34,6 +33,7 @@
                 <activatedProperties>testing</activatedProperties>
             </properties>
         </profile>
+
          <profile>
             <id>staging</id>
             <properties>

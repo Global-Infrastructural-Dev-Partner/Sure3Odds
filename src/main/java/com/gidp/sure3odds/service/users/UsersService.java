@@ -263,7 +263,7 @@ public class UsersService {
                     String responseBody = EntityUtils.toString(entity);
                     if (response.getStatusLine().getStatusCode() == 200) {
                         return result = "success";
-                    }else{
+                    } else {
                         return result = "failed";
                     }
                 }
@@ -608,11 +608,19 @@ public class UsersService {
             if (!votes.isEmpty()) {
                 votesRepository.deleteAll(votes);
             }
-
-
             List<Comments> comments = commentsRepository.findByUser(users.get());
             if (!comments.isEmpty()) {
                 commentsRepository.deleteAll(comments);
+            }
+
+            Plans plans = plansRepository.findPlansByUser(users.get());
+            if (plans.getId() != -1) {
+                plansRepository.deleteById(plans.getId());
+            }
+
+            List<Payments> payments = paymentsRepository.findByUser(users.get());
+            if (!payments.isEmpty()) {
+                paymentsRepository.deleteAll(payments);
             }
 
 
@@ -629,7 +637,7 @@ public class UsersService {
     public BaseResponse GetAppVersion() {
         BaseResponse response = new BaseResponse();
         HashMap<String, String> result = new HashMap<String, String>();
-        result.put("android", "1.0.0");
+        result.put("android", "1.0.1");
         result.put("ios", "1.0.0");
         if (result != null) {
             response.setData(result);

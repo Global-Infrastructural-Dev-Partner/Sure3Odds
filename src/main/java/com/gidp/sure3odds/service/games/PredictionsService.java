@@ -2,7 +2,6 @@ package com.gidp.sure3odds.service.games;
 
 import com.gidp.sure3odds.entity.games.*;
 import com.gidp.sure3odds.entity.response.BaseResponse;
-import com.gidp.sure3odds.entity.games.NewGameAndPrediction;
 import com.gidp.sure3odds.entity.users.Users;
 import com.gidp.sure3odds.repository.games.*;
 import com.gidp.sure3odds.repository.users.UsersRepository;
@@ -105,7 +104,7 @@ public class PredictionsService {
         Predictions updated_prediction = predictionsRepository.save(predictions);
         if (updated_prediction != null) {
             response.setData(updated_prediction);
-            response.setDescription("Prediction has been updated succesfully.");
+            response.setDescription("Prediction has been updated successfully.");
             response.setStatusCode(HttpServletResponse.SC_OK);
         } else {
             response.setDescription("Prediction was not updated.");
@@ -123,7 +122,6 @@ public class PredictionsService {
         }else{
             predictions = predictionsRepository.findPredictionsByMatchdateAndUserOrderByMatchtime(matchDate, users);
         }
-
         if (!predictions.isEmpty()) {
             response.setData(predictions);
             response.setDescription("Predictions found successfully.");

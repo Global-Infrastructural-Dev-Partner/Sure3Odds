@@ -15,8 +15,6 @@ public interface GamesRepository extends JpaRepository<Games, Long> {
 
     List<Games> findGamesByMatchdateAndSetsOrderByMatchtime(LocalDate matchDate, Sets set);
 
-
-
     List<Games> findByMatchdateAndSetsAndStatusOrderByMatchtime(LocalDate matchDate, Sets set, Status status);
 
 }

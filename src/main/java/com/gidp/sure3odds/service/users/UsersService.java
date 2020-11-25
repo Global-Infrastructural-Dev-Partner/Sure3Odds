@@ -261,17 +261,21 @@ public class UsersService {
                 if (entity != null) {
                     // return it as a String
                     String responseBody = EntityUtils.toString(entity);
-                    if (response.getStatusLine().getStatusCode() == 200) {
-                        return result = "success";
-                    } else {
-                        return result = "failed";
-                    }
+                    response.getStatusLine().getStatusCode();
+//                    if (response.getStatusLine().getStatusCode() == 200) {
+//                        return result = "success";
+//                    } else {
+//                        return result = "failed";
+//                    }
+                    return result = "success";
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+                return result = "failed";
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());//RuntimeException(e);
+            return result = "failed";
         }
         return result;
     }
